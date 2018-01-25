@@ -59,6 +59,8 @@
     "eslint": "^4.10.0",
     "eslint-config-fullstack": "^3.0.0",
     "eslint-plugin-react": "^7.4.0",
+    "firebase": "^4.9.0",
+    "firebase-admin": "^5.8.1",
     "mocha": "^3.3.0",
     "nodemon": "^1.12.1",
     "react-test-renderer": "^16.0.0",
