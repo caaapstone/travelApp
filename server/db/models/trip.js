@@ -16,7 +16,14 @@ const Trip = db.define('trip', {
   },
   departureDate: {
     type: Sequelize.DATEONLY
+  },
+  duration: {
+    type: Sequelize.INTEGER
   }
+})
+
+Trip.hook('beforeValidate', (trip) => {
+  trip.duration = Number(trip.departureDate.slice(-2)) - Number(trip.arrivalDate.slice(-2))
 })
 
 module.exports = Trip
