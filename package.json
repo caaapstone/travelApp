@@ -21,7 +21,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.15.3",
     "body-parser": "^1.16.1",
     "compression": "^1.7.1",
     "connect-session-sequelize": "^4.1.0",
@@ -45,6 +44,7 @@
     "socket.io": "^2.0.3"
   },
   "devDependencies": {
+    "axios": "^0.15.3",
     "axios-mock-adapter": "^1.9.0",
     "babel-core": "^6.22.1",
     "babel-eslint": "^8.0.1",
@@ -59,6 +59,7 @@
     "eslint": "^4.10.0",
     "eslint-config-fullstack": "^3.0.0",
     "eslint-plugin-react": "^7.4.0",
+    "express-async-handler": "^1.0.3",
     "firebase": "^4.9.0",
     "firebase-admin": "^5.8.1",
     "mocha": "^3.3.0",
@@ -66,6 +67,8 @@
     "react-test-renderer": "^16.0.0",
     "redux-devtools-extension": "^2.13.2",
     "redux-mock-store": "^1.2.3",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
     "supertest": "^3.0.0",
     "webpack": "^2.2.1",
     "webpack-livereload-plugin": "^1.0.0"
