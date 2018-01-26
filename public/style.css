@@ -19,3 +19,29 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.capitalized-header{
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  letter-spacing: .2rem;
+}
+
+#flight-search-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+#flight-page-members{
+  display: flex;
+  justify-content: space-around;
+}
+
+.flight-page-member-icon{
+  padding: .5rem 1rem;
+  margin-left: .5rem;
+  border: 1px solid black;
+  border-radius: 100px;
+}

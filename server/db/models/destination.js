@@ -13,6 +13,9 @@ const Destination = db.define('destination', {
   },
   upVote: {
     type: Sequelize.INTEGER
+  },
+  possible: {
+    type: Sequelize.BOOLEAN
   }
 })
 

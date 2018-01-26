@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Flight} = require('../db/models')
+const {Flight, Trip, Membership, User} = require('../db/models')
 const firebaseDb = require('../firebase')
 const request = require('request-promise')
 
@@ -8,11 +8,11 @@ module.exports = router
 router.get('/', (req, res, next) => {
   Flight.findAll({
     where: {
+      tripId: req.query.tripId,
       userId: req.query.userId
     }
   })
   .then(flights => {
-    console.log(flights)
     res.json(flights)
   })
 })
@@ -52,10 +52,24 @@ router.get('/trip', (req, res, next) => {
           airline: destination.airline,
           cost: Math.trunc(Number(destination.price)),
           userId: req.query.userId,
-          tripId: req.query.tripId
+          tripId: req.query.tripId,
+          city: destination.destination
         })
       })
     })
     .then(() => {res.sendStatus(200)})
   })
+})
+
+router.get('/tripinfo', (req, res, next) => {
+  Trip.findOne({
+    where: {
+      id: req.query.tripId
+    },
+    include: [{
+      model: Membership,
+      include: [User]
+    }]
+  })
+  .then((result) => res.json(result))
 })
