@@ -14,6 +14,7 @@ export default class App extends React.Component {
 
   componentDidMount(){
     this.state.drake.on('drop', (el, target, source, sibling) => {
+      // PER COLLIN: Can probably derive order based on sibling...
       console.log('dropped for now')
       console.log('target.key: ', target.key)
       // update state, dispatch put here
