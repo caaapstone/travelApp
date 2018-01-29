@@ -21,8 +21,11 @@ async function seed () {
   const trips = await Trip.create({name: 'Capstone Reunion', arrivalDate: '2018-03-02', departureDate: '2018-03-05'})
   .then((result) => {
     Trip.create({name: 'Summer Break 2018', arrivalDate: '2018-07-01', departureDate: '2018-07-06'})
-  }
-)
+    }
+  )
+  .then(() => {
+    Trip.create({name: 'College Reunion', arrivalDate: '2018-10-02', departureDate: '2018-10-05'})
+  })
 
   let userIds
 
@@ -42,7 +45,9 @@ async function seed () {
     Membership.create({userCity: 'CHI', userState: 'IL', flightBudget: 300, hotelBudget: 75, userId: userIds[2].id, tripId: 1}),
     Membership.create({userCity: 'PHL', userState: 'PA', flightBudget: 300, hotelBudget: 75, userId: userIds[3].id, tripId: 1}),
     Membership.create({userCity: 'NYC', userState: 'NY', flightBudget: 300, hotelBudget: 75, userId: userIds[4].id, tripId: 1}),
-    Membership.create({userCity: 'OMA', userState: 'NE', flightBudget: 300, hotelBudget: 75, userId: userIds[5].id, tripId: 1})
+    Membership.create({userCity: 'OMA', userState: 'NE', flightBudget: 300, hotelBudget: 75, userId: userIds[5].id, tripId: 1}),
+    Membership.create({userCity: 'CHI', userState: 'IL', flightBudget: 200, hotelBudget: 50, userId: userIds[0].id, tripId: 2}),
+    Membership.create({userCity: 'ATL', userState: 'GA', flightBudget: 250, hotelBudget: 75, userId: userIds[1].id, tripId: 2})
   ])
 
   console.log(`seeded successfully`)

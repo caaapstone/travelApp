@@ -129,7 +129,8 @@ class Flights extends Component {
 
   componentDidMount() {
     const {user} = this.props
-    this.setState({tripId: this.props.match.params.tripId})
+    console.log(user)
+    this.setState({tripId: this.props.match.params.tripId, activeUser: user})
 
     axios.get('/api/flights/tripinfo', {
       params: {tripId: this.props.match.params.tripId}
@@ -173,7 +174,7 @@ class Flights extends Component {
     axios.get('/api/flights/activeusercities', {
       params: {
         tripId: this.props.match.params.tripId,
-        userId: 1
+        userId: 3
       }
     })
     .then(results => {
