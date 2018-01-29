@@ -21,6 +21,8 @@ export class JoinTrip extends Component {
     this.props.createMembership(membership)
   }
 
+  // REVIEW: indentation
+  // REVIEW: log messages left in place
 render(){
 console.log(this.props)
   return (

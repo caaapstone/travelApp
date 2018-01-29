@@ -11,6 +11,8 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', function (req, res, next) {
+  // REVIEW: danger danger
+  // is there a unique constraint here? user_id/trip_id
   Membership.create(req.body)
   .then(membership => res.json(membership))
   .catch(next);

@@ -11,6 +11,8 @@ import history from '../history'
 export class CreateTrip extends Component {
   constructor(props){
     super()
+    // REVIEW: consistency in application of class features
+    //  arrow method `submitTrip` vs these handlers
     this.handleDayClick = this.handleDayClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.addFriend = this.addFriend.bind(this);
@@ -20,6 +22,8 @@ export class CreateTrip extends Component {
       friendEmails: []
     }
   }
+  // REVIEW:
+  //  lots of messy indentation in this file
     handleDayClick(day) {
     this.setState({ selectedDay: day });
   }
