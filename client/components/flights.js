@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import axios from 'axios'
 import bluebird from 'bluebird'
+import { setTimeout } from 'timers';
 
 /**
  * COMPONENT
@@ -15,18 +16,22 @@ class Flights extends Component {
     this.state = {
       tripId: '',
       tripName: '',
-      departure: '2018-03-02',
-      duration: 4,
+      departure: '',
+      duration: 0,
       usersOnTrip: [],
-      possibleCities: []
+      possibleCities: [],
+      lastUpdate: ''
     }
 
     this.findFlights = this.findFlights.bind(this)
     this.filterFlights = this.filterFlights.bind(this)
+    this.getDestinationCities = this.getDestinationCities.bind(this)
+    this.averagePrice = this.averagePrice.bind(this)
   }
 
   componentDidMount() {
     this.setState({tripId: this.props.match.params.tripId})
+
     axios.get('/api/flights/tripinfo', {
       params: {tripId: this.props.match.params.tripId}
     })
@@ -50,6 +55,21 @@ class Flights extends Component {
         tripName: tripInfo.name
       })
     })
+
+    axios.get('/api/destinations/possiblecities', {
+      params: {tripId: this.props.match.params.tripId}
+    })
+    .then((response) => {
+      let destinations = []
+      response.data.forEach(destination => (
+        destinations.push(destination)
+      ))
+      this.setState({
+        possibleCities: destinations,
+        lastUpdate: destinations[0].updatedAt
+      })
+      console.log(this.state.lastUpdate)
+    })
   }
 
   findFlights() {
@@ -58,11 +78,11 @@ class Flights extends Component {
       let userId = this.state.usersOnTrip[i].userId
       let params = {
         origin: this.state.usersOnTrip[i].origin,
-        departure_date: '2018-03-02',
-        duration: 4,
+        departure_date: this.state.departure,
+        duration: this.state.duration,
         max_price: this.state.usersOnTrip[i].budget,
         userId: userId,
-        tripId: 1
+        tripId: this.state.tripId
       }
 
       axios.get('/api/flights/trip', {
@@ -71,7 +91,7 @@ class Flights extends Component {
       .then(() => {
         axios.get('/api/flights', {
           params: {
-            tripId: 1,
+            tripId: this.state.tripId,
             userId: userId
           }
         })
@@ -103,13 +123,28 @@ class Flights extends Component {
         destinations.push(destination)
       }
     }
-    console.log('State Updated: ', destinations)
     axios.post('/api/destinations', {
       possibleCities: destinations,
       possible: true,
-      tripId: 1
+      tripId: this.state.tripId
     })
-    this.setState({possibleCities: destinations})
+    .then((response) => {
+      setTimeout(this.getDestinationCities, 2000)
+    })
+  }
+
+  getDestinationCities() {
+    axios.get('/api/destinations/possiblecities', {
+      params: {tripId: this.state.tripId}
+    })
+    .then(results => {
+      console.log(results)
+      this.setState({possibleCities: results.data})
+    })
+  }
+
+  averagePrice(airport) {
+    console.log('wut')
   }
 
 
@@ -128,12 +163,34 @@ class Flights extends Component {
             }
           </div>
         </div>
-        <button onClick={this.findFlights}>Where Can We Go?</button>
         {
           this.state.possibleCities.length
-            ? this.state.possibleCities.map(city => (
-              <p key={city}>{city}</p>
-            ))
+            ? <button onClick={this.findFlights}>Update Flight Data</button>
+            : <button onClick={this.findFlights}>Where Can We Go?</button>
+        }
+        {
+          this.state.possibleCities.length
+            ? <div>
+              {this.state.possibleCities.map(city => (
+                <div key={city.airport} className="possible-city-container">
+                  <div>
+                    <img src="/airplane.jpg" className="possible-city-image"/>
+                    <p className="possible-city-code">{city.airport}</p>
+                  </div>
+                  <div className="possible-city-info">
+                    <div className="flex">
+                      <div>
+                        <h3>{city.city + ', ' + city.state}</h3>
+                        <p>Group's Average Price: $150</p>
+                      </div>
+                      <div className="center-vertically">
+                        <button>Select This Destination</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
             : ''
         }
       </div>

@@ -45,3 +45,46 @@ form div {
   border: 1px solid black;
   border-radius: 100px;
 }
+
+.possible-city-container{
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  border: 1px solid lightgray;
+  margin: auto;
+  overflow: hidden;
+  height: 200px;
+  margin-bottom: 1rem;
+}
+
+.possible-city-image{
+  width: 400px;
+  position: relative;
+  transform: translate(0, -200px);
+}
+
+.possible-city-code{
+  position: relative;
+  transform: translate(0, -525px);
+  color: white;
+  margin: auto;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 100;
+  letter-spacing: .8rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.possible-city-info{
+  width: 100%;
+}
+
+.flex{
+  display: flex;
+  justify-content: space-around;
+  padding-right: 1rem;
+}
+
+.center-vertically{
+  align-self: center;
+}

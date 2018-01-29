@@ -73,3 +73,4 @@ router.get('/tripinfo', (req, res, next) => {
   })
   .then((result) => res.json(result))
 })
+
