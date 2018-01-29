@@ -23,7 +23,10 @@ const Trip = db.define('trip', {
 })
 
 Trip.hook('beforeValidate', (trip) => {
-  trip.duration = Number(trip.departureDate.slice(-2)) - Number(trip.arrivalDate.slice(-2))
+  let arrival = new Date(trip.arrivalDate)
+  let departure = new Date(trip.departureDate)
+
+  trip.duration = (((departure-arrival)/86400000)+1)
 })
 
 module.exports = Trip

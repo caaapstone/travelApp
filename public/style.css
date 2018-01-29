@@ -76,15 +76,21 @@ form div {
 }
 
 .possible-city-info{
-  width: 100%;
+  width: 85%;
 }
 
 .flex{
   display: flex;
-  justify-content: space-around;
-  padding-right: 1rem;
+  justify-content: space-between;
+  margin: auto;
+  width: 85%;
 }
 
 .center-vertically{
   align-self: center;
+}
+
+.flight-options{
+  width: 85%;
+  margin: auto;
 }
