@@ -23,6 +23,23 @@ const Trip = db.define('trip', {
   duration: {
     type: Sequelize.INTEGER
   }
+}, {
+    getterMethods: {
+    allDates () {
+        let dates = []
+        let currentDate = this.arrivalDate
+        let addDays = function(days) {
+          let date = new Date(this.valueOf())
+          date.setDate(date.getDate() + days)
+          return date
+        }
+        for (var i = 0; i <= this.duration; i++){
+          dates.push(currentDate)
+          currentDate = addDays.call(currentDate, 1)
+        }
+        return dates
+    }
+  }
 })
 
 Trip.hook('beforeValidate', (trip) => {
@@ -33,3 +50,4 @@ Trip.hook('beforeValidate', (trip) => {
 })
 
 module.exports = Trip
+
