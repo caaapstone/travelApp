@@ -11,8 +11,8 @@ class UserDashboard extends Component {
 
   render(){
     const { user, userTrips } = this.props
-    console.log('user: ', user)
-    console.log('userTrips: ', userTrips)
+    // console.log('user: ', user)
+    // console.log('userTrips: ', userTrips)
     if (userTrips){
       return (
         <div>
