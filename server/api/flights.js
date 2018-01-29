@@ -73,3 +73,15 @@ router.get('/tripinfo', (req, res, next) => {
   })
   .then((result) => res.json(result))
 })
+
+router.get('/activeusercities', (req, res, next) => {
+  console.log('tripId: ', req.query.tripId)
+  console.log('userId: ', req.query.userId)
+  Flight.findAll({
+    where: {
+      tripId: req.query.tripId,
+      userId: req.query.userId
+    }
+  })
+  .then(results => res.json(results))
+})
