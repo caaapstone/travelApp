@@ -98,12 +98,17 @@ class Flights extends Component {
         }
       })
     })
+    // REVIEW: for/in not best practice in JS
+    //    Object.keys/Object.values/Object.entries
     for(var destination in cityOptions) {
       if (cityOptions[destination] === this.state.usersOnTrip.length) {
         destinations.push(destination)
       }
     }
     console.log('State Updated: ', destinations)
+    // REVIEW: this method name is a bit confusing: command vs query
+    // REVIEW: does this stuff really fit IN the component?
+    //  would it be better suited as thunk, or somewhere else entirely?
     axios.post('/api/destinations', {
       possibleCities: destinations,
       possible: true,

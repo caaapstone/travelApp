@@ -24,6 +24,7 @@ router.get('/trip', (req, res, next) => {
     method: 'GET',
     url: 'https://api.sandbox.amadeus.com/v1.2/flights/inspiration-search',
     qs: {
+      // REVIEW: warning API key in code, DANGER!!!
       apikey: 'oVskbtEyd75zVOEaxQ0qR5ZvpOejXExA',
       origin: req.query.origin,
       departure_date: req.query.departure,

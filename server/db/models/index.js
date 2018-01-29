@@ -12,14 +12,21 @@ Lodging.belongsTo(User)
 User.hasMany(Flight)
 Flight.belongsTo(User)
 
-User.hasMany(Membership)
 Membership.belongsTo(User)
 
-User.belongsToMany(Trip, {through: 'user_trip'})
-Trip.belongsToMany(User, {through: 'user_trip'})
+User.belongsToMany(Trip, {through: 'membership'})
+Trip.belongsToMany(User, {through: 'membership'})
+aUser.getTrips({
+  departureDate: { : someDate }
+})
+
+User.prototype.getTrips = function (where) {
+  // Query the through_table with the user instance id
+}
+
+req.user.getTrips()
 
 Membership.belongsTo(Trip)
-Trip.hasMany(Membership)
 
 Flight.belongsTo(Trip)
 Trip.hasMany(Flight)
