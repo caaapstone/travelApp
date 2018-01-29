@@ -5,6 +5,9 @@ const Trip = db.define('trip', {
   name: {
     type: Sequelize.STRING
   },
+  defaultBudget: {
+    type: Sequelize.INTEGER
+  },
   destinationCity: {
     type: Sequelize.STRING
   },
