@@ -10,8 +10,8 @@ import { setTimeout } from 'timers';
  */
 
 class Flights extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
       tripId: '',
@@ -20,7 +20,6 @@ class Flights extends Component {
       duration: 0,
       usersOnTrip: [],
       possibleCities: [],
-      activeUser: {},
       activeUserPossibleCities: [],
       airPortCodes: {
         '6A':	'AVIACSA',
@@ -124,13 +123,13 @@ class Flights extends Component {
     this.findFlights = this.findFlights.bind(this)
     this.filterFlights = this.filterFlights.bind(this)
     this.getDestinationCities = this.getDestinationCities.bind(this)
+    this.upVote = this.upVote.bind(this)
 
   }
 
   componentDidMount() {
-    const {user} = this.props
-    console.log(user)
-    this.setState({tripId: this.props.match.params.tripId, activeUser: user})
+
+    this.setState({tripId: this.props.match.params.tripId})
 
     axios.get('/api/flights/tripinfo', {
       params: {tripId: this.props.match.params.tripId}
@@ -139,12 +138,17 @@ class Flights extends Component {
       let tripInfo = response.data
       let usersOnTrip = []
       tripInfo.memberships.forEach(member => {
+        console.log(member.upVotes)
         usersOnTrip.push({
           name: member.user.firstName + ' ' + member.user.lastName,
           origin: member.userCity,
           budget: member.flightBudget,
           ready: false,
-          userId: member.userId
+          userId: member.userId,
+          organizer: member.organizer,
+          joined: member.joined,
+          flightBooked: member.flightBooked,
+          upVotes: member.upVotes
         })
       })
 
@@ -164,17 +168,13 @@ class Flights extends Component {
       response.data.forEach(destination => (
         destinations.push(destination)
       ))
-      this.setState({
-        possibleCities: destinations,
-        lastUpdate: destinations[0].updatedAt
-      })
+      setTimeout(this.getDestinationCities, 1000)
     })
 
-    //need to map userId to active user
     axios.get('/api/flights/activeusercities', {
       params: {
         tripId: this.props.match.params.tripId,
-        userId: 3
+        userId: this.props.match.params.userId
       }
     })
     .then(results => {
@@ -249,11 +249,29 @@ class Flights extends Component {
     })
     .then(results => {
       console.log(results)
-      this.setState({possibleCities: results.data})
+      let updatedCities = results.data
+      let sortedCities = updatedCities.sort(function(a, b) {
+        return Number(b.upVote) - Number(a.upVote)
+      })
+      this.setState({possibleCities: sortedCities})
+    })
+  }
+
+  upVote(e) {
+    axios.post('/api/destinations/upvote', {
+      airport: e.target.value,
+      userId: this.props.match.params.userId,
+      tripId: this.props.match.params.tripId
+    })
+    .then(result => {
+      setTimeout(this.getDestinationCities, 1000)
+      console.log(result)
     })
   }
 
   render() {
+    let organizer = this.state.usersOnTrip.filter(user => user.userId === Number(this.props.match.params.userId))
+
     return (
       <div>
         <div id="flight-search-header">
@@ -263,6 +281,30 @@ class Flights extends Component {
               this.state.usersOnTrip.map(user => (
                 <div className="flight-page-member-icon" key={user.name}>
                   {user.name}
+                  <span className="member-info-text">
+                    <p><span className="bold">Origin: </span>{user.origin}</p>
+                    <p><span className="bold">Joined Group: </span>
+                      {
+                        user.joined
+                          ? <span className="green bold">&#10004;</span>
+                          : <span className="red bold">&#10007;</span>
+                      }
+                    </p>
+                    <p><span className="bold">Votes In: </span>
+                      {
+                        user.upVotes < 3
+                          ? <span className="green bold">&#10004;</span>
+                          : <span className="red bold">&#10007;</span>
+                      }
+                    </p>
+                    <p><span className="bold">Flight Booked: </span>
+                      {
+                        user.flightBooked
+                          ? <span className="green bold">&#10004;</span>
+                          : <span className="red bold">&#10007;</span>
+                      }
+                    </p>
+                </span>
                 </div>
               ))
             }
@@ -288,7 +330,14 @@ class Flights extends Component {
                         <h3>{city.city + ', ' + city.state}</h3>
                       </div>
                       <div className="center-vertically">
-                        <button>Select This Destination</button>
+                        {
+                          (organizer.length && organizer[0].organizer)
+                            ? <div>
+                                <button>Select This Destination</button>
+                                <button onClick={this.upVote} value={city.airport}>Vote For This Destination</button>
+                              </div>
+                            : <button onClick={this.upVote} value={city.airport}>Vote For This Destination</button>
+                        }
                       </div>
                     </div>
                     <div className="flight-options">
@@ -299,6 +348,15 @@ class Flights extends Component {
                         ))
                         : 'Flight Details Loading'
                     }
+                    </div>
+                    <div className = "flight-options">
+                      {
+                        this.state.possibleCities.filter(possibleCity => possibleCity.airport === city.airport).length
+                          ? this.state.possibleCities.filter(possibleCity => possibleCity.airport === city.airport)[0].upVote === null
+                            ? <p>Upvotes: 0</p>
+                            : <p>Upvotes: {this.state.possibleCities.filter(possibleCity => possibleCity.airport === city.airport)[0].upVote}</p>
+                          : <p>Upvotes: 0</p>
+                      }
                     </div>
                   </div>
                 </div>

@@ -44,6 +44,52 @@ form div {
   margin-left: .5rem;
   border: 1px solid black;
   border-radius: 100px;
+  position: relative;
+  display: inline-block;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+.green{
+  color: green
+}
+
+.red{
+  color: red
+}
+
+.flight-page-member-icon .member-info-text{
+  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 150%;
+  left: 50%;
+  margin-left: -80px;
+  border: 1px solid black;
+  padding-left: 8px;
+}
+
+.flight-page-member-icon .member-info-text:after{
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
+.flight-page-member-icon:hover .member-info-text{
+  visibility: visible;
 }
 
 .possible-city-container{
