@@ -9,7 +9,7 @@ router.use('/trips', require('./trips'))
 router.use('/memberships', require('./memberships'))
 router.use('/flights', require('./flights'))
 router.use('/destinations', require('./destination'))
-
+router.use('/yelp', require('./yelp'))
 
 router.post('/seed', (req, res, next) => {
   firebaseDb.ref('trips').child('T1').set(seedData.trip1)

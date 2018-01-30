@@ -1,31 +1,35 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import users from '../store'
-import {postTrip} from '../store'
+import {getAllUsers, postTrip} from '../store'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import { Link } from 'react-router-dom';
 import history from '../history'
 /**
  * COMPONENT
  */
-export class CreateTrip extends Component {
+ export class CreateTrip extends Component {
   constructor(props){
     super()
-    this.handleDayClick = this.handleDayClick.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.addFriend = this.addFriend.bind(this);
 
     this.state = {
       selectedDay: undefined,
-      friendEmails: []
+      friendEmails: [],
+      friendSearch: ''
     }
   }
-    handleDayClick(day) {
+
+  componentDidMount(){
+    this.props.getUsers()
+  }
+
+  handleDayClick = day => {
     this.setState({ selectedDay: day });
   }
 
-    handleChange(event) {
-    console.log(event.target.value)
+  handleChange = event => {
+    const search = event.target.value
+    this.setState({friendSearch: search})
+    console.log("handlechange state", this.state)
   }
 
   submitTrip = (event) =>{
@@ -38,50 +42,45 @@ export class CreateTrip extends Component {
     this.props.createTrip(trip)
   }
 
-  addFriend = (event) => {
+  addFriend = event => {
     event.preventDefault()
     this.setState({friendEmails: [...this.state.friendEmails, event.target.emails.value]})
   }
 
-render(){
-  const {friendEmails} = this.state
-  if (!this.state.friendEmails) return <div />
-  return (
-          <div>
-            <h1>Welcome</h1>
-            <form onSubmit={this.addFriend}>
-            <label htmlFor="emails">Invite your friends:</label>
-            <input
+  render(){
+    const {friendEmails} = this.state
+    // if (!this.state.friendSearch) return <div />
+      return (
+              <div>
+              <h1>Welcome</h1>
+              <form onSubmit={this.addFriend}>
+              <label htmlFor="emails">Invite your friends:</label>
+              <input
               id="emails"
               name="emails"
               onChange={this.handleChange}
-            />
-            <button type="submit">+</button>
-            </form>
-            <ul>
-            {
-              friendEmails.map(email =>{
-                return (
-                  <li key={email}>{email}</li>
-                        )
-              })
-            }
-            </ul>
-            <form onSubmit={this.submitTrip}>
-            <label>Pick your dates:</label>
-            <DayPickerInput name="startingDate" ref="arrival" onDayClick={this.handleDayClick} selectedDays={this.state.selectedDay} />
-            <DayPickerInput name="endingDate" ref="departure" onDayClick={this.handleDayClick} selectedDays={this.state.selectedDay} />
-            <label>Choose a budget:</label>
-            <input
+              />
+              {
+                //find friends here!!!
+              }
+              <button type="submit">+</button>
+              </form>
+
+              <form onSubmit={this.submitTrip}>
+              <label>Pick your dates:</label>
+              <DayPickerInput name="startingDate" ref="arrival" onDayClick={this.handleDayClick} selectedDays={this.state.selectedDay} />
+              <DayPickerInput name="endingDate" ref="departure" onDayClick={this.handleDayClick} selectedDays={this.state.selectedDay} />
+              <label>Choose a budget:</label>
+              <input
               id="defaultBudget"
               name="defaultBudget"
-            />
-            <p>(*your friends can adjust their budget once they join the trip!)</p>
-            <button>Create your trip!</button>
-            </form>
-          </div>
-          )
-        }
+              />
+              <p>(*your friends can adjust their budget once they join the trip!)</p>
+              <button>Create your trip!</button>
+              </form>
+              </div>
+              )
+  }
 }
 
         /**
@@ -97,8 +96,11 @@ render(){
         const mapDispatch = (dispatch) => {
           return {
             createTrip: (newTrip) => {
-                dispatch(postTrip(newTrip))
-                history.push('/jointrip')
+              dispatch(postTrip(newTrip))
+              history.push('/jointrip')
+            },
+            getUsers: () => {
+              dispatch(getAllUsers())
             }
           }
         }
