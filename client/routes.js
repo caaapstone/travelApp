@@ -4,7 +4,7 @@ import {Route, Switch, Router} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
 import {me} from './store'
-import {Main, Login, Signup, UserHome, Flights, CreateTrip, JoinTrip, MapBoard} from './components'
+import {Main, Login, Signup, UserHome, Flights, CreateTrip, JoinTrip, MapBoard, CalendarBoard} from './components'
 
 /**
  * COMPONENT
@@ -26,13 +26,14 @@ class Routes extends Component {
             <Route path="/jointrip" component={JoinTrip} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+            <Route exact path="/flights/:tripId/:userId" component={Flights} />
             <Route path="/map" component={MapBoard} />
-            <Route exact path="/flights/:tripId" component={Flights} />
             {
               isLoggedIn &&
                 <Switch>
                   {/* Routes placed here are only available after logging in */}
                   <Route path="/home" component={UserHome} />
+                  <Route exact path="/trip/calendar" component={CalendarBoard} />
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}

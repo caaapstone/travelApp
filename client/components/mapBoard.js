@@ -77,6 +77,7 @@ let activities = [{
   link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
 }]
 
+
 const Map = mapbox({accessToken: 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw'})
 
   //these will format the coords the right way for the api request
@@ -89,8 +90,8 @@ const Map = mapbox({accessToken: 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ
   console.log('coords', coords)
   //This and above
 
-let MapBoard = props => {
-  console.log('props', props)
+
+const MapBoard = props => {
   return (
     <Map
       zoom={[5]}

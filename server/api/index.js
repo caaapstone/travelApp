@@ -4,6 +4,7 @@ const firebaseDb = require('../firebase')
 const seedData = require('./mockActivitiesData')
 
 router.use('/users', require('./users'))
+router.use('/activities', require('./activities'))
 router.use('/trips', require('./trips'))
 router.use('/memberships', require('./memberships'))
 router.use('/flights', require('./flights'))
@@ -11,9 +12,9 @@ router.use('/destinations', require('./destination'))
 
 
 router.post('/seed', (req, res, next) => {
-  firebaseDb.ref('trips').push(seedData.trip1)
-  firebaseDb.ref('trips').push(seedData.trip2)
-  firebaseDb.ref('trips').push(seedData.trip3)
+  firebaseDb.ref('trips').child('T1').set(seedData.trip1)
+  firebaseDb.ref('trips').child('T2').set(seedData.trip2)
+  firebaseDb.ref('trips').child('T3').set(seedData.trip3)
   .then(res.sendStatus(200))
 })
 

@@ -1,3 +1,30 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+.isa_info, .isa_success, .isa_warning, .isa_error {
+  margin: 10px 0px;
+  padding:12px;
+}
+
+#isa_error {
+  color: #D8000C;
+  background-color: #FFD2D2;
+  text-align: center;
+  text-align: center;
+  position: fixed;
+  z-index: 2;
+  border: 1px solid red;
+  width: 150px;
+  opacity: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s, opacity 2s linear;
+  padding: .5rem 1rem;
+}
+
+#error-popup{
+
+}
+
 body {
   font-family: sans-serif;
 }
@@ -20,7 +47,31 @@ form div {
   display: inline-block;
 }
 
-/* DayPicker styles */
+/* Dragula styles */
+
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+}
+.gu-hide {
+  display: none !important;
+}
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+
+  /* DayPicker styles */
 
 .DayPicker {
   display: inline-block;
@@ -266,6 +317,52 @@ form div {
   margin-left: .5rem;
   border: 1px solid black;
   border-radius: 100px;
+  position: relative;
+  display: inline-block;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+.green{
+  color: green
+}
+
+.red{
+  color: red
+}
+
+.flight-page-member-icon .member-info-text{
+  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 150%;
+  left: 50%;
+  margin-left: -80px;
+  border: 1px solid black;
+  padding-left: 8px;
+}
+
+.flight-page-member-icon .member-info-text:after{
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
+.flight-page-member-icon:hover .member-info-text{
+  visibility: visible;
 }
 
 .possible-city-container{
@@ -315,4 +412,14 @@ form div {
 .flight-options{
   width: 85%;
   margin: auto;
+>>>>>>> ed97de1a826ae5cb17f42a0d50670ca56904a0af
+}
+
+.get-flights-div{
+  width: 70%;
+  margin: auto;
+  overflow: hidden;
+  align-content: center;
+  margin-bottom: 1rem;
+  text-align: center;
 }
