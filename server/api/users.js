@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
 const firebaseDb = require('../firebase')
+const mockActivitiesData = require('./mockActivitiesData')
 
 module.exports = router
 
