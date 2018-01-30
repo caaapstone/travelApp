@@ -4,9 +4,8 @@ import {Route, Switch, Router} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
 import {me} from './store'
-import {Main, Login, Signup, UserHome, Flights, CreateTrip, JoinTrip, MapBoard} from './components'
+import {Main, Login, Signup, UserHome, Flights, CreateTrip, JoinTrip, MapBoard, CalendarBoard} from './components'
 
-import {me} from './store'
 /**
  * COMPONENT
  */
@@ -34,6 +33,7 @@ class Routes extends Component {
                 <Switch>
                   {/* Routes placed here are only available after logging in */}
                   <Route path="/home" component={UserHome} />
+                  <Route exact path="/trip/calendar" component={CalendarBoard} />
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}

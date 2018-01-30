@@ -1,6 +1,4 @@
-let trip1 = {
-  tripId: 1,
-  activities: [{
+let trip1 = [{
     name: 'Alinea',
     lat: 41.8885,
     long: -87.6354,
@@ -66,11 +64,8 @@ let trip1 = {
     users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   }]
-}
 
-let trip2 = {
-  tripId: 2,
-  activities: [{
+let trip2 = [{
     name: 'Navy Pier',
     lat: 41.892654,
     long: -87.610168,
@@ -136,11 +131,9 @@ let trip2 = {
     users: [1, 2],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   }]
-}
 
-let trip3 = {
-  tripId: 3,
-  activities: [{
+
+let trip3 = [{
     name: 'piece brewery and pizzeria',
     lat: 41.9103,
     long: -87.6761,
@@ -176,7 +169,7 @@ let trip3 = {
     users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   }]
-}
+
 
 module.exports = {
   trip1,
