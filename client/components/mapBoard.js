@@ -1,23 +1,24 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import mapbox, {Layer, Feature, Popup, GeoJSONLayer} from 'react-mapbox-gl';
+import mapbox, {Layer, Feature, Popup, GeoJSONLayer} from 'react-mapbox-gl'
+import { getRoutes } from '../store'
 import { Marker } from 'mapbox-gl/dist/mapbox-gl';
+import firebase from '../firebase'
 
 //make an endpoint on server that hits the mapbox coord and responds with the route data
 //must be in longitude, latitude coordinate order. Long is a negative num
 //frontend => axios.get => mapbox
 //polyline coordinates
 
-const Map = mapbox({accessToken: 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2phOXN3Mng5MGE1OTJxcGV3d2E5bG80OCJ9.0FLVhhyTbMKWTeRtZGOSGA'})
-
-const mockActivities = [{
+let activities = [{
   name: 'Alinea',
   lat: 41.8885,
   long: -87.6354,
   date: '2017-2-14',
   tripId: 1,
   isActive: true,
-  time: 'evening',
+  time: 'dinner',
+  users: [1, 2],
   link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
 },
 {
@@ -27,7 +28,8 @@ const mockActivities = [{
   date: '2017-2-14',
   tripId: 1,
   isActive: true,
-  time: 'morning',
+  time: 'lunch',
+  users: [1],
   link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
 },
 {
@@ -37,7 +39,8 @@ const mockActivities = [{
   date: '2017-2-14',
   tripId: 1,
   isActive: true,
-  time: 'afternoon',
+  time: 'morning',
+  users: [1],
   link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
 },
 {
@@ -47,7 +50,8 @@ const mockActivities = [{
   date: '2017-2-14',
   tripId: 1,
   isActive: true,
-  time: 'morning',
+  time: 'afternoon',
+  users: [1, 4],
   link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
 },
 {
@@ -56,7 +60,9 @@ const mockActivities = [{
   long: -87.5831,
   date: '2017-2-15',
   tripId: 1,
+  time: 'evening',
   isActive: true,
+  users: [3, 4],
   link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
 },
 {
@@ -66,30 +72,64 @@ const mockActivities = [{
   date: '2017-2-15',
   tripId: 1,
   isActive: true,
-  time: 'afternoon',
-  link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
-},
-{
-  name: 'Sky Deck',
-  lat: 41.8787,
-  long: -87.6359,
-  date: '2017-2-15',
-  tripId: 1,
-  isActive: true,
-  time: 'morning',
+  time: 'breakfast',
+  users: [1],
   link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
 }]
 
-const
+const Map = mapbox({accessToken: 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw'})
 
-const MapBoard = props => {
+  //these will format the coords the right way for the api request
+  let coordsArr = activities.map(activity => {
+    return [activity.long, activity.lat]
+  })
+
+  let coords = coordsArr.join(';')
+
+  console.log('coords', coords)
+  //This and above
+
+let MapBoard = props => {
+  console.log('props', props)
   return (
     <Map
-    style= {"mapbox://styles/mapbox/streets-v9"}
-    >
+      zoom={[5]}
+      center={[-87.6359, 41.8787]}
+      style="mapbox://styles/mapbox/streets-v9"
+      containerStyle={{
+        height: "75vh",
+        width: "75vw"
+      }}>
+      <Layer
+        type="line"
+        id="marker"
+        layout={{ "line-join": "bevel" }}>
+        <Feature coordinates={coords}/>
+      </Layer>
+      <GeoJSONLayer
+        data={{
+          type: "FeatureCollection",
+          features: [{
+            type: "Feature",
+            geometry: {
+              type: "LineString",
+              coordinates: [
+                [coordsArr]
+              ]
+            }
+          }]
+        }} />
     </Map>
   )
 }
+
 //I'm thinking in the GeoJSON layer that there needs to be props that come from a dispatch call
 
-export default MapBoard
+let mapDispatch = dispatch => {
+  // pass getRoutes the coordinates and date
+  // return {
+  //   getRoutes: dispatch(getRoutes(coords))
+  // }
+}
+
+export default connect(mapDispatch)(MapBoard)
