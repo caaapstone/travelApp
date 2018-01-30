@@ -80,8 +80,6 @@ const mockActivities = [{
   link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
 }]
 
-const
-
 const MapBoard = props => {
   return (
     <Map

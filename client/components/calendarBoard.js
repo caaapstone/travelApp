@@ -1,18 +1,30 @@
-import React from "react";
+import React from 'react';
 import Dragula from 'react-dragula';
 // import Item from '../components'
+import firebase from '../firebase'
+import {connect} from 'react-redux'
 
-export default class App extends React.Component {
+
+export class CalendarBoard extends React.Component {
   constructor(){
     super();
     this.state = {
       drake: Dragula({
         // containers: []
-      })
+      }),
+      activities: []
     }
   }
 
   componentDidMount(){
+    // will need tripId variable... right now, "T1" is hard-coded for testing purposes
+    // const tripId = this.props.trip.id
+    const tripRef = firebase.database().ref(`/trips/T1`)
+    tripRef.on('value', (snapshot) => {
+      let tripActivities = snapshot.val();
+        this.setState({...this.state, activities: tripActivities})
+      }
+  )
     this.state.drake.on('drop', (el, target, source, sibling) => {
       // PER COLLIN: Can probably derive order based on sibling...
       console.log('dropped for now')
@@ -29,7 +41,6 @@ export default class App extends React.Component {
   }
 
   render () {
-    console.log('this.state.drake: ', this.state.drake)
     let breakfast = [
       {
         id: 2,
@@ -268,78 +279,16 @@ export default class App extends React.Component {
 
 }
 
+const mapState = (state) => {
+  return {
+    user: state.user,
+    trip: state.trip
+  }
+}
 
-// import React, {Component} from 'react'
-// // import PropTypes from 'prop-types'
-// import {connect} from 'react-redux'
-// // import { DragDropContextProvider } from 'react-dnd';
-// // import HTML5Backend from 'react-dnd-html5-backend'
-// // import { Target, Source } from '../components'
+const mapDispatch = (dispatch) => {
+  return {
+  }
+}
 
-// class CalendarBoard extends Component {
-//   constructor(props){
-//     super(props)
-//     this.state = {
-//       activities: [
-// 				{ id: 7, name: 'The Met', date: '', accepts: ['test'], lastDroppedItem: null },
-//         { id: 2, name: 'Garbage Can', accepts: ['test'], lastDroppedItem: null },
-//         { id: 4, name: 'Zoo', accepts: ['test'], lastDroppedItem: null }
-// 			],
-// 			sources: [
-// 				{ id: 6, name: 'Bottle', type: ['test'] },
-// 				{ id: 9, name: 'Old banana', type: ['test'] },
-//         { id: 1, name: 'Newspaper', type: ['test'] },
-//         { id: 3, name: 'Elephant', type: ['test'] },
-// 			],
-//     }
-//   }
-
-
-//   render(){
-//     const { targets, sources } = this.state
-
-//     return (
-//       <DragDropContextProvider backend={HTML5Backend}>
-//         <div>
-//           <div>
-//             {
-//               targets.map(target => (
-//                 <Target
-//                   name={target.name}
-//                   id={target.id}
-//                   onDrop={(item) => this.handleDrop(item, target.id)}
-//                   key={target.id}
-//                 />
-//               ))
-//             }
-//           </div>
-//           <div>
-//             {
-//               sources.map(source => (
-//                 <Source
-//                   name={source.name}
-//                   isDropped={this.isDropped(source.name)}
-//                   key={source.id}
-//                 />
-//               ))
-//             }
-//           </div>
-//         </div>
-//       </DragDropContextProvider>
-//     )
-//   }
-// }
-
-// const mapState = (state) => {
-//   return {
-
-//   }
-// }
-
-// const mapDispatch = (dispatch) => {
-//   return {
-
-//   }
-// }
-
-//  export default connect(mapState, mapDispatch)(CalendarBoard)
+export default connect(mapState, mapDispatch)(CalendarBoard)

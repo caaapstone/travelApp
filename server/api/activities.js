@@ -4,10 +4,7 @@ const firebaseDb = require('../firebase')
 
 module.exports = router
 
-router.get('/', (req, res, next) => {
-
-})
-
+// THIS WILL NEED TO BE UPDATED! (PER AD & AVB)
 router.put('/', (req, res, next) => {
   console.log(req.body)
   firebaseDb.ref('trips').push(req.body)
