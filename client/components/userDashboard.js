@@ -58,15 +58,15 @@ class UserDashboard extends Component {
 const mapState = (state) => {
   return {
     user: state.user,
-    userTrips: state.userTrips.trips
+    userTrips: state.userTrips
   }
 }
 
 const mapDispatch = (dispatch, ownProps) => {
+  let userId = ownProps.match.params.userId
   return {
     getUserTrips () {
-      console.log('userId: ', ownProps.match.params.userId)
-      dispatch(fetchUserTrips(ownProps.match.params.userId))
+      dispatch(fetchUserTrips(userId))
     }
   }
 }
