@@ -27,8 +27,8 @@ class Routes extends Component {
             <Route path="/jointrip" component={JoinTrip} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+            <Route exact path="/flights/:tripId/:userId" component={Flights} />
             <Route path="/map" component={MapBoard} />
-            <Route exact path="/flights/:tripId" component={Flights} />
             {
               isLoggedIn &&
                 <Switch>

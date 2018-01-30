@@ -13,6 +13,21 @@ const Membership = db.define('membership', {
   },
   hotelBudget: {
     type: Sequelize.INTEGER
+  },
+  organizer: {
+    type: Sequelize.BOOLEAN
+  },
+  joined: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
+  upVotes: {
+    type: Sequelize.INTEGER,
+    defaultValue: 3
+  },
+  flightBooked: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 
