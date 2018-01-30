@@ -6,3 +6,4 @@ secrets.js
 npm-debug.log
 yarn-error.log
 firebase-key.json
+client/mapboxToken.js
