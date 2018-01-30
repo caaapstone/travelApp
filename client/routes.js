@@ -6,7 +6,6 @@ import history from './history'
 import {me} from './store'
 import {Main, Login, Signup, UserHome, Flights, CreateTrip, JoinTrip, MapBoard, CalendarBoard} from './components'
 
-import {me} from './store'
 /**
  * COMPONENT
  */
