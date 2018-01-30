@@ -5,7 +5,7 @@ const Flight = db.define('flight', {
   airline: {
     type: Sequelize.STRING
   },
-  number: {
+  city: {
     type: Sequelize.STRING
   },
   cost: {
