@@ -71,7 +71,7 @@ router.post('/upvote', (req, res, next) => {
   })
   .then(result => {
     if (result.dataValues.upVotes === 0) {
-      res.sendStatus(500)
+      res.status(401).send('You\'ve reached your max votes!')
     } else {
       result.update({
         upVotes: result.dataValues.upVotes - 1

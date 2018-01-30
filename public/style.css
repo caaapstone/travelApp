@@ -1,3 +1,30 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+.isa_info, .isa_success, .isa_warning, .isa_error {
+  margin: 10px 0px;
+  padding:12px;
+}
+
+#isa_error {
+  color: #D8000C;
+  background-color: #FFD2D2;
+  text-align: center;
+  text-align: center;
+  position: fixed;
+  z-index: 2;
+  border: 1px solid red;
+  width: 150px;
+  opacity: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s, opacity 2s linear;
+  padding: .5rem 1rem;
+}
+
+#error-popup{
+
+}
+
 body {
   font-family: sans-serif;
 }
@@ -139,4 +166,13 @@ form div {
 .flight-options{
   width: 85%;
   margin: auto;
+}
+
+.get-flights-div{
+  width: 70%;
+  margin: auto;
+  overflow: hidden;
+  align-content: center;
+  margin-bottom: 1rem;
+  text-align: center;
 }
