@@ -6,7 +6,7 @@ import bluebird from 'bluebird'
 import { setTimeout } from 'timers';
 import history from '../history'
 import me from '../store/user'
-import {fetchTrip} from '../store/trip'
+import {fetchTripInfo} from '../store/trip'
 import { fetchUsersOnTrip } from '../store/users';
 import { fetchDestinationCities } from '../store/destinations';
 import { fetchActiveUserFlights } from '../store/flights';
@@ -439,7 +439,7 @@ const mapStateToProps = ({user, trip, users, destinations, userFlights}, ownProp
 const mapDispatch = (dispatch) => {
   return {
     getTripInfo(tripId){
-      dispatch(fetchTrip(tripId))
+      dispatch(fetchTripInfo(tripId))
     },
     getUsersOnTrip(tripId){
       dispatch(fetchUsersOnTrip(tripId))
