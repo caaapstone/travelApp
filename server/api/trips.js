@@ -10,11 +10,12 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
-// router.get('/:tripId', (req, res, next) => {
-//   Trip.findById({id: req.param.tripId})
-//     .then(trip => res.json(trip))
-//     .catch(next)
-// })
+// GET single trip
+router.get('/:tripId', (req, res, next) => {
+  Trip.findById(req.params.tripId)
+    .then(trip => res.json(trip))
+    .catch(next)
+})
 
 router.post('/', function (req, res, next) {
   Trip.create(req.body)

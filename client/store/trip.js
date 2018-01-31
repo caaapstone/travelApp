@@ -11,18 +11,18 @@ const CREATE_TRIP = 'CREATE_TRIP'
  */
 
 const addTrip = trip => ({type: CREATE_TRIP, trip})
-// const getTrip = trip => ({type: GET_TRIP, trip})
+const getTrip = trip => ({type: GET_TRIP, trip})
 
 /**
  * THUNK CREATORS
  */
 
-// export const fetchTrip = (id) =>
-//   dispatch =>
-//     axios.get(`/api/trips/${id}`)
-//       .then(res =>
-//         dispatch(getTrip(res.data)))
-//       .catch(err => console.log(err))
+export const fetchTrip = (tripId) =>
+  dispatch =>
+    axios.get(`/api/trips/${tripId}`)
+      .then(res =>
+        dispatch(getTrip(res.data)))
+      .catch(err => console.log(err))
 
 
 export function postTrip(newTrip) {
@@ -42,8 +42,11 @@ export function postTrip(newTrip) {
  */
 export default function (state = {}, action) {
   switch (action.type) {
+    // do we need this to be on state? (create trip)
     case CREATE_TRIP:
-    return action.trip;
+      return action.trip;
+    case GET_TRIP:
+      return action.trip;
     default:
       return state
   }
