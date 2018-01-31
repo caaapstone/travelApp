@@ -1,9 +1,8 @@
 import React from 'react';
 import Dragula from 'react-dragula';
-// import Item from '../components'
 import firebase from '../firebase'
 import {connect} from 'react-redux'
-
+import { subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, updateActivity } from '../store';
 
 export class CalendarBoard extends React.Component {
   constructor(){
@@ -11,237 +10,208 @@ export class CalendarBoard extends React.Component {
     this.state = {
       drake: Dragula({
         // containers: []
-      }),
-      activities: []
+      })
     }
   }
 
+  dragulaDecorator = (componentBackingInstance) => {
+    if (componentBackingInstance) {
+      let options = { };
+      // Dragula([componentBackingInstance], options);
+      this.state.drake.containers.push(componentBackingInstance)
+    }
+  }
+
+  componentWillMount(){
+    let tripId = this.props.match.params.tripId
+    this.props.subscribeToFirebase(this, tripId)
+  }
+
+  componentWillUnmount(){
+    let tripId = this.props.match.params.tripId
+    this.props.unsubscribeFromFirebase(this, tripId)
+  }
+
   componentDidMount(){
-    // will need tripId variable... right now, "T1" is hard-coded for testing purposes
-    // const tripId = this.props.trip.id
-    const tripRef = firebase.database().ref(`/trips/T1`)
-    tripRef.on('value', (snapshot) => {
-      let tripActivities = snapshot.val();
-        this.setState({...this.state, activities: tripActivities})
-      }
-  )
+    let tripId = this.props.match.params.tripId
+    if (!this.props.trip.name){
+      this.props.getTripInfo(tripId)
+    }
     this.state.drake.on('drop', (el, target, source, sibling) => {
       // PER COLLIN: Can probably derive order based on sibling...
-      console.log('dropped for now')
-      console.log('target.key: ', target.key)
-      console.log(target.id, target.title)
-      console.log("activity", el)
-      console.log("activity id", el.id)
-      console.log("source", source.id)
-      console.log("sibling", sibling)
-      // update state, dispatch put here
-      // el is the thing you're moving
-      // target is where you're putting it
+      console.log('dropped!')
+      if (target.id === 'ideas'){
+        let date = ''
+        let time = ''
+        let activityId = el.id
+        this.props.updateActivity(date, time, activityId, tripId)
+      } else {
+        this.props.updateActivity(target.title, target.id, el.id, tripId)
+      }
+      el.setAttribute('style', `${el.style.cssText};display: none;`);
+      this.state.drake.cancel(true)
     })
   }
 
   render () {
-    let breakfast = [
-      {
-        id: 2,
-        name: "IHOP",
-        location: "NYC",
-        day: 1,
-        time: "breakfast",
-        tripId: 1
-      },
-      {
-        id: 8,
-        name: "Denny's",
-        location: "NYC",
-        day: 2,
-        time: "breakfast",
-        tripId: 1
-      }
-    ]
+    if (!this.props.trip.allDates || !this.props.activities.length){
+      return <div />
+    } else {
+      // this cuts off unnecessary date data
+      let dates = this.props.trip.allDates.map(date => date.slice(0,10))
 
-    let morning = [
-      {
-        id: 1,
-        name: "MoMA",
-        location: "NYC",
-        day: 1,
-        time: "morning",
-        tripId: 1
-      },
-      {
-        id: 7,
-        name: "Met",
-        location: "NYC",
-        day: 2,
-        time: "morning",
-        tripId: 1
-      }
-    ]
+      let calendarActivities = this.props.activities.filter(activity => activity.isActive === true)
+      let ideaActivities = this.props.activities.filter(activity => activity.isActive === false)
 
-    let lunch = [
-      {
-        id: 3,
-        name: "Subway",
-        location: "NYC",
-        day: 1,
-        time: "lunch",
-        tripId: 1
-      },
-      {
-        id: 9,
-        name: "Potbelly's",
-        location: "NYC",
-        day: 2,
-        time: "lunch",
-        tripId: 1
-      },
-      {
-        id: 13,
-        name: "Lunching Place",
-        location: "NYC",
-        day: 2,
-        time: "lunch",
-        tripId: 1
-      }
-    ]
+      // separate all activities into arrays based on time of day
+      let breakfast = calendarActivities.filter(activity => activity.time === 'breakfast')
+      let morning = calendarActivities.filter(activity => activity.time === 'morning')
+      let lunch = calendarActivities.filter(activity => activity.time === 'lunch')
+      let afternoon = calendarActivities.filter(activity => activity.time === 'afternoon')
+      let dinner = calendarActivities.filter(activity => activity.time === 'dinner')
+      let evening = calendarActivities.filter(activity => activity.time === 'evening')
 
-    let afternoon = [
-      {
-        id: 4,
-        name: "UCB",
-        location: "NYC",
-        day: 1,
-        time: "afternoon",
-        tripId: 1
-      },
-      {
-        id: 10,
-        name: "Central Park",
-        location: "NYC",
-        day: 2,
-        time: "afternoon",
-        tripId: 1
-      }
-    ]
-
-      let dinner = [
-        {
-          id: 5,
-          name: "Daniel",
-          location: "NYC",
-          day: 1,
-          time: "dinner",
-          tripId: 1
-        },
-        {
-          id: 11,
-          name: "Caffe Storico",
-          location: "NYC",
-          day: 2,
-          time: "dinner",
-          tripId: 1
-        }
-      ]
-
-      let evening = [
-        {
-          id: 6,
-          name: "Whiskey Library",
-          location: "NYC",
-          day: 1,
-          time: "evening",
-          tripId: 1
-        },
-        {
-          id: 12,
-          name: "McSorley's",
-          location: "NYC",
-          day: 2,
-          time: "evening",
-          tripId: 1
-        }
-      ]
-
-      let days = [1, 2]
-
-    return (
-
-      days.map(day => {
-        return (
+      return (
+        <div>
+          CALENDAR BOARD:
           <div>
-          <h3>Breakfast</h3>
-            <div id="breakfast" ref={this.dragulaDecorator} title={day}>
-              {breakfast.filter(breakfastActivity => {
-                return breakfastActivity.day === day
-              }).map(activity => {
+            {
+              dates.map(day => {
                 return (
                   <div>
-                  <div id={activity.id} key={activity.id}>{activity.name}</div>
-                  <div></div>
+                  <h3>{day}</h3>
+                  <h3>Breakfast</h3>
+                  <div id="breakfast" ref={this.dragulaDecorator} title={day}>
+                    {
+                      breakfast.filter(breakfastActivity => {
+                        return breakfastActivity.date === day
+                      }).map(activity => {
+                        return (
+                          <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
+                        )
+                      })
+                    }
+                  </div>
+                    <br />
+                    <h3>Morning</h3>
+                    <div id="morning" ref={this.dragulaDecorator} title={day}>
+                      {
+                        morning.filter(morningActivity => {
+                          return morningActivity.date === day
+                        }).map(activity => {
+                          return (
+                            <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
+                          )
+                        })
+                      }
+                    </div>
+                    <br />
+                    <h3>Lunch</h3>
+                    <div id="lunch" ref={this.dragulaDecorator} title={day}>
+                      {
+                        lunch.filter(lunchActivity => {
+                          return lunchActivity.date === day
+                        }).map(activity => {
+                          return (
+                            <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
+                          )
+                        })
+                      }
+                    </div>
+                    <br />
+                    <h3>Afternoon</h3>
+                    <div id="afternoon" ref={this.dragulaDecorator} title={day}>
+                      {
+                        afternoon.filter(afternoonActivity => {
+                          return afternoonActivity.date === day
+                        }).map(activity => {
+                          return (
+                            <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
+                          )
+                        })
+                      }
+                    </div>
+                    <br />
+                    <h3>Dinner</h3>
+                    <div id="dinner" ref={this.dragulaDecorator} title={day}>
+                      {
+                        dinner.filter(dinnerActivity => {
+                          return dinnerActivity.date === day
+                        }).map(activity => {
+                          return (
+                            <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
+                          )
+                        })
+                      }
+                    </div>
+                    <br />
+                    <h3>Evening</h3>
+                    <div id="evening" ref={this.dragulaDecorator} title={day}>
+                      {
+                        evening.filter(eveningActivity => {
+                          return eveningActivity.date === day
+                        }).map(activity => {
+                          return (
+                            <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
+                          )
+                        })
+                      }
+                    </div>
+                    <br />
                   </div>
                 )
               })
-              }
-            </div>
-            <h3>Morning</h3>
-            <div id="morning" ref={this.dragulaDecorator} title={day}>
-              {morning.filter(morningActivity => {
-                return morningActivity.day === day
-              }).map(activity => {
-                return (
-                  <div id={activity.id} key={activity.id}>{activity.name}</div>
-                )
-              })
-              }
-            </div>
-            <h3>Lunch</h3>
-            <div id="lunch" ref={this.dragulaDecorator} title={day}>
-              {lunch.filter(lunchActivity => {
-                return lunchActivity.day === day
-              }).map(activity => {
-                return (
-                  <div id={activity.id} key={activity.id}>{activity.name}</div>
-                )
-              })
-              }
-            </div>
-            <h3>Afternoon</h3>
-            <div id="afternoon" ref={this.dragulaDecorator} title={day}>
-              {afternoon.filter(afternoonActivity => {
-                return afternoonActivity.day === day
-              }).map(activity => {
-                return (
-                  <div id={activity.id} key={activity.id}>{activity.name}</div>
-                )
-              })
-              }
-            </div>
-            <h3>Dinner</h3>
-            <div id="dinner" ref={this.dragulaDecorator} title={day}>
-              {dinner.filter(dinnerActivity => {
-                return dinnerActivity.day === day
-              }).map(activity => {
-                return (
-                  <div id={activity.id} key={activity.id}>{activity.name}</div>
-                )
-              })
-              }
-            </div>
-            <h3>Evening</h3>
-            <div id="evening" ref={this.dragulaDecorator} title={day}>
-              {evening.filter(eveningActivity => {
-                return eveningActivity.day === day
-              }).map(activity => {
-                return (
-                  <div id={activity.id} key={activity.id}>{activity.name}</div>
-                )
-              })
-              }
-            </div>
+            }
           </div>
-        )
-      })
+        IDEAS:
+        <div>
+          <div id="ideas" ref={this.dragulaDecorator}>
+            {
+              ideaActivities.length ?
+              ideaActivities.map(activity =>
+                <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
+              )
+              : <div>All out of ideas!</div>
+            }
+          </div>
+        </div>
+        </div>
+      )
+    }
+  }
+
+}
+
+const mapState = (state) => {
+  return {
+    user: state.user,
+    trip: state.trip,
+    activities: state.activities
+  }
+}
+
+const mapDispatch = (dispatch) => {
+  return {
+    subscribeToFirebase(component, tripId){
+      dispatch(subscribeToTripThunkCreator(component, tripId))
+    },
+    unsubscribeFromFirebase(component, tripId){
+      dispatch(unsubscribeToTripThunkCreator(component, tripId))
+    },
+    getTripInfo(tripId){
+      dispatch(fetchTrip(tripId))
+    },
+    updateActivity(date, time, activityId, tripId){
+      console.log('date: ', date)
+      console.log('time: ', time)
+      console.log('activityId: ', activityId)
+      console.log('tripId: ', tripId)
+      updateActivity(date, time, activityId, tripId)
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(CalendarBoard)
 
       //if day number equals day we're on
       // <div>
@@ -265,30 +235,3 @@ export class CalendarBoard extends React.Component {
       //   <div>Swap everything around</div>
       // </div>
       // </div>
-    )
-
-  }
-
-  dragulaDecorator = (componentBackingInstance) => {
-    if (componentBackingInstance) {
-      let options = { };
-      // Dragula([componentBackingInstance], options);
-      this.state.drake.containers.push(componentBackingInstance)
-    }
-  }
-
-}
-
-const mapState = (state) => {
-  return {
-    user: state.user,
-    trip: state.trip
-  }
-}
-
-const mapDispatch = (dispatch) => {
-  return {
-  }
-}
-
-export default connect(mapState, mapDispatch)(CalendarBoard)

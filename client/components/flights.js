@@ -6,6 +6,10 @@ import bluebird from 'bluebird'
 import { setTimeout } from 'timers';
 import history from '../history'
 import me from '../store/user'
+import {fetchTripInfo} from '../store/trip'
+import { fetchUsersOnTrip } from '../store/users';
+import { fetchDestinationCities } from '../store/destinations';
+import { fetchActiveUserFlights } from '../store/flights';
 
 /**
  * COMPONENT
@@ -16,13 +20,6 @@ class Flights extends Component {
     super(props)
 
     this.state = {
-      tripId: '',
-      tripName: '',
-      departure: '',
-      duration: 0,
-      usersOnTrip: [],
-      possibleCities: [],
-      activeUserPossibleCities: [],
       airPortCodes: {
         '6A':	'AVIACSA',
         '9K':	'Cape Air',
@@ -129,75 +126,36 @@ class Flights extends Component {
     this.upVoteError = this.upVoteError.bind(this)
     this.upVoteErrorClear = this.upVoteErrorClear.bind(this)
     this.selectCity = this.selectCity.bind(this)
+    this.updateFlights = this.updateFlights.bind(this)
 
   }
 
   componentDidMount() {
+    const {getTripInfo, getUsersOnTrip, getDestinationCities, getUserFlights} = this.props
+    getTripInfo(this.props.match.params.tripId)
+    getUsersOnTrip(this.props.match.params.tripId)
+    getDestinationCities(this.props.match.params.tripId)
+    getUserFlights(this.props.match.params.tripId, this.props.match.params.userId)
+  }
 
-    this.setState({tripId: this.props.match.params.tripId})
-
-    axios.get('/api/flights/tripinfo', {
-      params: {tripId: this.props.match.params.tripId}
-    })
-    .then(response => {
-      let tripInfo = response.data
-      let usersOnTrip = []
-      tripInfo.memberships.forEach(member => {
-        usersOnTrip.push({
-          name: member.user.firstName + ' ' + member.user.lastName,
-          origin: member.userCity,
-          budget: member.flightBudget,
-          ready: false,
-          userId: member.userId,
-          organizer: member.organizer,
-          joined: member.joined,
-          flightBooked: member.flightBooked,
-          upVotes: member.upVotes
-        })
-      })
-
-      this.setState({
-        departure: tripInfo.arrivalDate,
-        duration: tripInfo.duration,
-        usersOnTrip: usersOnTrip,
-        tripName: tripInfo.name
-      })
-    })
-
-    axios.get('/api/destinations/possiblecities', {
-      params: {tripId: this.props.match.params.tripId}
-    })
-    .then((response) => {
-      let destinations = []
-      response.data.forEach(destination => (
-        destinations.push(destination)
-      ))
-      setTimeout(this.getDestinationCities, 1000)
-    })
-
-    axios.get('/api/flights/activeusercities', {
-      params: {
-        tripId: this.props.match.params.tripId,
-        userId: this.props.match.params.userId
-      }
-    })
-    .then(results => {
-      this.setState({activeUserPossibleCities: results.data})
-    })
-
+  componentWillUnmount() {
+    const {getDestinationCities, getUserFlights} = this.props
+    getDestinationCities()
+    getUserFlights()
   }
 
   findFlights() {
     let allFlights = []
-    for (var i = 0; i < this.state.usersOnTrip.length; i++) {
-      let userId = this.state.usersOnTrip[i].userId
+    const {usersOnTrip} = this.props
+    for (var i = 0; i < usersOnTrip.length; i++) {
+      let userId = usersOnTrip[i].userId
       let params = {
-        origin: this.state.usersOnTrip[i].origin,
-        departure_date: this.state.departure,
-        duration: this.state.duration,
-        max_price: this.state.usersOnTrip[i].budget,
+        origin: usersOnTrip[i].origin,
+        departure_date: this.props.departure,
+        duration: this.props.duration,
+        max_price: usersOnTrip[i].budget,
         userId: userId,
-        tripId: this.state.tripId
+        tripId: this.props.match.params.tripId
       }
 
       axios.get('/api/flights/trip', {
@@ -206,14 +164,14 @@ class Flights extends Component {
       .then(() => {
         axios.get('/api/flights', {
           params: {
-            tripId: this.state.tripId,
+            tripId: this.props.match.params.tripId,
             userId: userId
           }
         })
         .then(results => {
           allFlights.push(results.data)
 
-          if (allFlights.length === this.state.usersOnTrip.length) {
+          if (allFlights.length === usersOnTrip.length) {
             this.filterFlights(allFlights)
           }
         })
@@ -221,9 +179,24 @@ class Flights extends Component {
     }
   }
 
+  updateFlights() {
+    const {getUsersOnTrip} = this.props
+    axios.post('/api/destinations/clearupvotes', {
+      tripId: this.props.match.params.tripId
+    })
+      .then(() => {
+        getUsersOnTrip(this.props.match.params.tripId)
+      })
+      .then(() => {
+        this.findFlights()
+      })
+  }
+
   filterFlights(flightArr) {
+    const {getUserFlights} = this.props
     let cityOptions = {}
     let destinations = []
+    const {usersOnTrip} = this.props
     flightArr.forEach(userFlights => {
       userFlights.forEach(flight => {
         if (cityOptions[flight.city] > 0) {
@@ -234,45 +207,30 @@ class Flights extends Component {
       })
     })
     for(var destination in cityOptions) {
-      if (cityOptions[destination] === this.state.usersOnTrip.length) {
+      if (cityOptions[destination] === usersOnTrip.length) {
         destinations.push(destination)
       }
     }
     axios.post('/api/destinations', {
       possibleCities: destinations,
       possible: true,
-      tripId: this.state.tripId
+      tripId: this.props.match.params.tripId
     })
     .then((response) => {
       setTimeout(this.getDestinationCities, 2000)
     })
     .then(() => {
-      axios.get('/api/flights/activeusercities', {
-        params: {
-          tripId: this.props.match.params.tripId,
-          userId: this.props.match.params.userId
-        }
-      })
-      .then(results => {
-        this.setState({activeUserPossibleCities: results.data})
-      })
+      getUserFlights(this.props.match.params.tripId, this.props.match.params.userId)
     })
   }
 
   getDestinationCities() {
-    axios.get('/api/destinations/possiblecities', {
-      params: {tripId: this.state.tripId}
-    })
-    .then(results => {
-      let updatedCities = results.data
-      let sortedCities = updatedCities.sort(function(a, b) {
-        return Number(b.upVote) - Number(a.upVote)
-      })
-      this.setState({possibleCities: sortedCities})
-    })
+    const {getDestinationCities} = this.props
+    getDestinationCities(this.props.match.params.tripId)
   }
 
   upVote(e) {
+    const {getUsersOnTrip} = this.props
     axios.post('/api/destinations/upvote', {
       airport: e.target.value,
       userId: this.props.match.params.userId,
@@ -286,30 +244,7 @@ class Flights extends Component {
       }
     })
     .then(() => {
-      axios.get('/api/flights/tripinfo', {
-        params: {tripId: this.props.match.params.tripId}
-      })
-      .then(response => {
-        let tripInfo = response.data
-        let usersOnTrip = []
-        tripInfo.memberships.forEach(member => {
-          usersOnTrip.push({
-            name: member.user.firstName + ' ' + member.user.lastName,
-            origin: member.userCity,
-            budget: member.flightBudget,
-            ready: false,
-            userId: member.userId,
-            organizer: member.organizer,
-            joined: member.joined,
-            flightBooked: member.flightBooked,
-            upVotes: member.upVotes
-          })
-        })
-
-        this.setState({
-          usersOnTrip: usersOnTrip
-        })
-      })
+      getUsersOnTrip(this.props.match.params.tripId)
     })
     .catch(err => {
       console.log(err)
@@ -334,6 +269,7 @@ class Flights extends Component {
   }
 
   selectCity(e){
+    const {getTripInfo} = this.props
     let destination = e.target.value.split('-')
     console.log(destination)
     axios.post('/api/flights/setcity', {
@@ -342,20 +278,21 @@ class Flights extends Component {
       state: destination[1]
     })
     .then(result => {
-      console.log(result)
-      // updateTripCity(result.data)
+      getTripInfo(this.props.match.params.tripId)
+      history.push('/home')
     })
   }
 
   render() {
-    let organizer = this.state.usersOnTrip.filter(user => user.userId === Number(this.props.match.params.userId))
+    const {tripName, usersOnTrip, possibleCities, userFlights, lastUpdated} = this.props
+    let organizer = usersOnTrip.filter(user => user.userId === Number(this.props.match.params.userId))
     return (
       <div>
         <div id="flight-search-header">
-          <h1 className="capitalized-header">{this.state.tripName.toUpperCase()}</h1>
+          <h1 className="capitalized-header">{tripName.toUpperCase()}</h1>
           <div id="flight-page-members">
             {
-              this.state.usersOnTrip.map(user => (
+              usersOnTrip.map(user => (
                 <div className="flight-page-member-icon" key={user.name}>
                   {user.name}
                   <span className="member-info-text">
@@ -392,18 +329,19 @@ class Flights extends Component {
            You've Already Voted 3 Times
         </div>
         {
-          this.state.possibleCities.length
+          possibleCities.length
             ? <div className="get-flights-div">
-              <button onClick={this.findFlights}>Update Flight Data</button>
+              <p>Flight information was last updated on: {lastUpdated}</p>
+              <button onClick={this.updateFlights}>Update Flight Data</button>
             </div>
             : <div className="get-flights-div">
               <button onClick={this.findFlights}>Where Can We Go?</button>
             </div>
         }
         {
-          this.state.possibleCities.length
+          possibleCities.length
             ? <div>
-              {this.state.possibleCities.map(city => (
+              {possibleCities.map(city => (
                 <div key={city.airport} className="possible-city-container">
                   <div>
                     <img src="/airplane.jpg" className="possible-city-image"/>
@@ -428,8 +366,8 @@ class Flights extends Component {
                     </div>
                     <div className="flight-options">
                     {
-                      this.state.activeUserPossibleCities.length
-                        ? this.state.activeUserPossibleCities.filter(flight => flight.city === city.airport).map(flight => (
+                      userFlights.length
+                        ? userFlights.filter(flight => flight.city === city.airport).map(flight => (
                           <p key={flight.id}>{`Fly ${this.state.airPortCodes[flight.airline]} from $${flight.cost}`}</p>
                         ))
                         : 'Flight Details Loading'
@@ -437,10 +375,10 @@ class Flights extends Component {
                     </div>
                     <div className = "flight-options">
                       {
-                        this.state.possibleCities.filter(possibleCity => possibleCity.airport === city.airport).length
-                          ? this.state.possibleCities.filter(possibleCity => possibleCity.airport === city.airport)[0].upVote === null
+                        possibleCities.filter(possibleCity => possibleCity.airport === city.airport).length
+                          ? possibleCities.filter(possibleCity => possibleCity.airport === city.airport)[0].upVote === null
                             ? <p>Upvotes: 0</p>
-                            : <p>Upvotes: {this.state.possibleCities.filter(possibleCity => possibleCity.airport === city.airport)[0].upVote}</p>
+                            : <p>Upvotes: {possibleCities.filter(possibleCity => possibleCity.airport === city.airport)[0].upVote}</p>
                           : <p>Upvotes: 0</p>
                       }
                     </div>
@@ -448,7 +386,9 @@ class Flights extends Component {
                 </div>
               ))}
             </div>
-            : ''
+            : <div id="search-for-flights">
+              <h1 className="two-rem-padding">Search for possible flights to see where your group can go!</h1>
+            </div>
         }
       </div>
     )
@@ -459,20 +399,58 @@ class Flights extends Component {
  * CONTAINER
  */
 
-const mapStateToProps = ({user}, ownProps) => {
+const mapStateToProps = ({user, trip, users, destinations, userFlights}, ownProps) => {
   const tripId = Number(ownProps.match.params.tripId)
+  let tripName = ''
+  let departure = ''
+  let duration = 0
+  let lastUpdated = ''
+
+  if (trip.length) {
+    tripName = trip[0].name
+    departure = trip[0].arrivalDate
+    duration = trip[0].duration
+  }
+
+  if (destinations.length) {
+    let updated = destinations[0].updatedAt.slice(0, 10).split('-')
+    lastUpdated = `${updated[1]}/${updated[2]}/${updated[0]}`
+  }
+
+  if (user.id) {
+    if (user.id !== Number(ownProps.match.params.userId)) {
+      history.push(`/flights/${tripId}/${user.id}`)
+    }
+  }
+
   return {
     tripId,
-    user
+    user,
+    tripName,
+    departure,
+    duration,
+    usersOnTrip: users,
+    possibleCities: destinations,
+    userFlights,
+    lastUpdated
   }
 }
 
-// const mapDispatch = (dispatch) => {
-//   return {
-//     updateTripCity(destination){
-//       dispatch(addDestination(destination))
-//     }
-//   }
-// }
+const mapDispatch = (dispatch) => {
+  return {
+    getTripInfo(tripId){
+      dispatch(fetchTripInfo(tripId))
+    },
+    getUsersOnTrip(tripId){
+      dispatch(fetchUsersOnTrip(tripId))
+    },
+    getDestinationCities(tripId){
+      dispatch(fetchDestinationCities(tripId))
+    },
+    getUserFlights(tripId, userId){
+      dispatch(fetchActiveUserFlights(tripId, userId))
+    }
+  }
+}
 
-export default withRouter(connect(mapStateToProps)(Flights))
+export default withRouter(connect(mapStateToProps, mapDispatch)(Flights))
