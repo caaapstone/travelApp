@@ -178,7 +178,31 @@ form div {
   display: inline-block;
 }
 
-/* DayPicker styles */
+/* Dragula styles */
+
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+}
+.gu-hide {
+  display: none !important;
+}
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+
+  /* DayPicker styles */
 
 .DayPicker {
   display: inline-block;
@@ -414,6 +438,35 @@ form div {
   text-align: center;
 }
 
+
 .two-rem-padding{
   padding: 2rem;
+
+.possible-city-info{
+  width: 85%;
+}
+
+.flex{
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  width: 85%;
+}
+
+.center-vertically{
+  align-self: center;
+}
+
+.flight-options{
+  width: 85%;
+  margin: auto;
+}
+
+.get-flights-div{
+  width: 70%;
+  margin: auto;
+  overflow: hidden;
+  align-content: center;
+  margin-bottom: 1rem;
+  text-align: center;
 }
