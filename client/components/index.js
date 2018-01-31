@@ -6,6 +6,7 @@
 export {default as Main} from './main'
 export {default as UserHome} from './user-home'
 export {Login, Signup} from './auth-form'
+export {default as UserDashboard} from './userDashboard'
 export {default as CalendarBoard} from './calendarBoard'
 export {default as MapBoard} from './mapBoard'
 export {default as CreateTrip} from './CreateTrip'
