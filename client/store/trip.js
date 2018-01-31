@@ -37,7 +37,7 @@ export function postTrip(newTrip) {
   }
 }
 
-export const fetchTrip = (tripId) => dispatch => {
+export const fetchTripInfo = (tripId) => dispatch => {
   axios.get('/api/trips')
     .then(res => {
       dispatch(getTrip(res.data.filter(trip => trip.id === Number(tripId))))
