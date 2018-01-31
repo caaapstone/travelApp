@@ -75,8 +75,6 @@ router.get('/tripinfo', (req, res, next) => {
 })
 
 router.get('/activeusercities', (req, res, next) => {
-  console.log('tripId: ', req.query.tripId)
-  console.log('userId: ', req.query.userId)
   Flight.findAll({
     where: {
       tripId: req.query.tripId,
@@ -84,4 +82,19 @@ router.get('/activeusercities', (req, res, next) => {
     }
   })
   .then(results => res.json(results))
+})
+
+router.post('/setcity', (req, res, next) => {
+  Trip.findOne({
+    where: {
+      id: req.body.tripId
+    }
+  })
+  .then(trip => {
+    trip.update({
+      destinationCity: req.body.city,
+      destinationState: req.body.state
+    })
+    .then(result => res.json(result))
+  })
 })

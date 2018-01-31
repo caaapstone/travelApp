@@ -1,95 +1,85 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import mapbox, {Layer, Feature, Popup, GeoJSONLayer} from 'react-mapbox-gl';
-import { Marker } from 'mapbox-gl/dist/mapbox-gl';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getRoutes } from '../store'
+import mapboxgl from 'mapbox-gl'
+import firebase from '../firebase'
 
-//make an endpoint on server that hits the mapbox coord and responds with the route data
-//must be in longitude, latitude coordinate order. Long is a negative num
-//frontend => axios.get => mapbox
-//polyline coordinates
+let token = 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw'
+class MapBoard extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      activities: [],
+      style: {
+        positon: 'absolute',
+        width: '200vh',
+        height: '100vh'
+      }
+    }
+  }
 
-const Map = mapbox({accessToken: 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2phOXN3Mng5MGE1OTJxcGV3d2E5bG80OCJ9.0FLVhhyTbMKWTeRtZGOSGA'})
+  componentDidMount(){
+    //get activities data from firebase
+    const tripRef = firebase.database().ref(`/trips/T1`)
 
-const mockActivities = [{
-  name: 'Alinea',
-  lat: 41.8885,
-  long: -87.6354,
-  date: '2017-2-14',
-  tripId: 1,
-  isActive: true,
-  time: 'evening',
-  link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
-},
-{
-  name: 'Hampton Social',
-  lat: 41.8898,
-  long: -87.6377,
-  date: '2017-2-14',
-  tripId: 1,
-  isActive: true,
-  time: 'morning',
-  link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
-},
-{
-  name: 'Millenium Park',
-  lat: 41.882702,
-  long: -87.619392,
-  date: '2017-2-14',
-  tripId: 1,
-  isActive: true,
-  time: 'afternoon',
-  link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
-},
-{
-  name: 'Art Institute',
-  lat: 41.8796,
-  long: -87.6237,
-  date: '2017-2-14',
-  tripId: 1,
-  isActive: true,
-  time: 'morning',
-  link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
-},
-{
-  name: 'Science & Industry',
-  lat: 41.7906,
-  long: -87.5831,
-  date: '2017-2-15',
-  tripId: 1,
-  isActive: true,
-  link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
-},
-{
-  name: 'Sky Deck',
-  lat: 41.8787,
-  long: -87.6359,
-  date: '2017-2-15',
-  tripId: 1,
-  isActive: true,
-  time: 'afternoon',
-  link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
-},
-{
-  name: 'Sky Deck',
-  lat: 41.8787,
-  long: -87.6359,
-  date: '2017-2-15',
-  tripId: 1,
-  isActive: true,
-  time: 'morning',
-  link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
-}]
+    tripRef.on('value', (snapshot) => {
+      let tripActivities = snapshot.val();
+      console.log(tripActivities)
+        this.setState({...this.state, activities: tripActivities})
+      }
+    )
+    //get map from mapbox
+    mapboxgl.accessToken = token;
+    //rendering specifications for mapbox
+    const mapConfig = {
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v9',
+      center: [-87.6354, 41.8885],
+      zoom: 5
+    };
 
-const
+    this.map = new mapboxgl.Map(mapConfig);
 
-const MapBoard = props => {
-  return (
-    <Map
-    style= {"mapbox://styles/mapbox/streets-v9"}
-    >
-    </Map>
-  )
+    this.map.on('load', () => {
+      // Get the map style and set it in the state tree
+      this.map.addSource('routes', {
+        type: 'geojson',
+        data: {getRoutes: this.props.getRoutes(coordinates)}
+        //The data needs to be from the getRoutes thunk; this.props.getRoutes(coordinates) ??
+      });
+      this.map.addLayer({
+        id: 'routes',
+        type: 'line',
+        source: 'routes'
+      })
+    })
+  }
+
+  componentWillUnmount(){
+    this.map.remove();
+  }
+
+  render() {
+    console.log('activities', this.state.activities)
+    return (
+      <div>
+        <h1>Map</h1>
+        <div style={this.state.style} id='map' />
+      </div>
+    )
+  }
 }
-//I'm thinking in the GeoJSON layer that there needs to be props that come from a dispatch call
 
-export default MapBoard
+function mapStateToProps(state) {
+  return {
+    coordinates: state.coordinates
+  };
+}
+
+let mapDispatchToProps = dispatch => {
+  return {
+    // getRoutes: dispatch(getRoutes(coordinates))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapBoard)

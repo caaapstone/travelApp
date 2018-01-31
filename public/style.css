@@ -1,9 +1,167 @@
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+.isa_info, .isa_success, .isa_warning, .isa_error {
+  margin: 10px 0px;
+  padding:12px;
+}
+
+#isa_error {
+  color: #D8000C;
+  background-color: #FFD2D2;
+  text-align: center;
+  text-align: center;
+  position: fixed;
+  z-index: 2;
+  border: 1px solid red;
+  width: 150px;
+  opacity: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s, opacity 2s linear;
+  padding: .5rem 1rem;
+}
+
 body {
   font-family: sans-serif;
 }
 
 a {
   text-decoration: none;
+}
+
+.capitalized-header{
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  letter-spacing: .2rem;
+}
+
+#flight-search-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+#flight-page-members{
+  display: flex;
+  justify-content: space-around;
+}
+
+.flight-page-member-icon{
+  padding: .5rem 1rem;
+  margin-left: .5rem;
+  border: 1px solid black;
+  border-radius: 100px;
+  position: relative;
+  display: inline-block;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+.green{
+  color: green
+}
+
+.red{
+  color: red
+}
+
+.flight-page-member-icon .member-info-text{
+  visibility: hidden;
+  width: 160px;
+  background-color: white;
+  color: black;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 150%;
+  left: 50%;
+  margin-left: -80px;
+  border: 1px solid black;
+  padding-left: 8px;
+}
+
+.flight-page-member-icon .member-info-text:after{
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
+.flight-page-member-icon:hover .member-info-text{
+  visibility: visible;
+}
+
+.possible-city-container{
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  border: 1px solid lightgray;
+  margin: auto;
+  overflow: hidden;
+  height: 200px;
+  margin-bottom: 1rem;
+}
+
+.possible-city-image{
+  width: 400px;
+  position: relative;
+  transform: translate(0, -200px);
+}
+
+.possible-city-code{
+  position: relative;
+  transform: translate(0, -525px);
+  color: white;
+  margin: auto;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 100;
+  letter-spacing: .8rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.possible-city-info{
+  width: 85%;
+}
+
+.flex{
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  width: 85%;
+}
+
+.center-vertically{
+  align-self: center;
+}
+
+.flight-options{
+  width: 85%;
+  margin: auto;
+}
+
+.get-flights-div{
+  width: 70%;
+  margin: auto;
+  overflow: hidden;
+  align-content: center;
+  margin-bottom: 1rem;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid lightgray;
+  padding: 1rem 0;
+  font-size: .75rem;
 }
 
 label {
@@ -20,7 +178,31 @@ form div {
   display: inline-block;
 }
 
-/* DayPicker styles */
+/* Dragula styles */
+
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+}
+.gu-hide {
+  display: none !important;
+}
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+
+  /* DayPicker styles */
 
 .DayPicker {
   display: inline-block;
@@ -241,34 +423,9 @@ form div {
   background: white;
   -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-
-.capitalized-header{
-  font-family: 'Montserrat', sans-serif;
-  font-style: normal;
-  font-weight: 100;
-  letter-spacing: .2rem;
 }
 
-#flight-search-header{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 1rem;
-}
-
-#flight-page-members{
-  display: flex;
-  justify-content: space-around;
-}
-
-.flight-page-member-icon{
-  padding: .5rem 1rem;
-  margin-left: .5rem;
-  border: 1px solid black;
-  border-radius: 100px;
-}
-
-.possible-city-container{
+#search-for-flights{
   display: flex;
   justify-content: space-between;
   width: 70%;
@@ -277,25 +434,13 @@ form div {
   overflow: hidden;
   height: 200px;
   margin-bottom: 1rem;
-}
-
-.possible-city-image{
-  width: 400px;
-  position: relative;
-  transform: translate(0, -200px);
-}
-
-.possible-city-code{
-  position: relative;
-  transform: translate(0, -525px);
-  color: white;
-  margin: auto;
-  text-align: center;
-  font-size: 3rem;
-  font-weight: 100;
-  letter-spacing: .8rem;
   font-family: 'Montserrat', sans-serif;
+  text-align: center;
 }
+
+
+.two-rem-padding{
+  padding: 2rem;
 
 .possible-city-info{
   width: 85%;
@@ -315,4 +460,13 @@ form div {
 .flight-options{
   width: 85%;
   margin: auto;
+}
+
+.get-flights-div{
+  width: 70%;
+  margin: auto;
+  overflow: hidden;
+  align-content: center;
+  margin-bottom: 1rem;
+  text-align: center;
 }

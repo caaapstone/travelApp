@@ -18,6 +18,7 @@ User.belongsToMany(Trip, {through: 'membership'})
 Trip.belongsToMany(User, {through: 'membership'})
 
 Membership.belongsTo(Trip)
+Trip.hasMany(Membership)
 
 Flight.belongsTo(Trip)
 Trip.hasMany(Flight)

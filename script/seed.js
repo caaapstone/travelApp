@@ -42,12 +42,12 @@ async function seed () {
   })
 
   const memberships = await Promise.all([
-    Membership.create({userCity: 'CHI', userState: 'IL', flightBudget: 300, hotelBudget: 75, userId: userIds[2].id, tripId: 1}),
-    Membership.create({userCity: 'PHL', userState: 'PA', flightBudget: 300, hotelBudget: 75, userId: userIds[3].id, tripId: 1}),
-    Membership.create({userCity: 'NYC', userState: 'NY', flightBudget: 300, hotelBudget: 75, userId: userIds[4].id, tripId: 1}),
-    Membership.create({userCity: 'OMA', userState: 'NE', flightBudget: 300, hotelBudget: 75, userId: userIds[5].id, tripId: 1}),
-    Membership.create({userCity: 'CHI', userState: 'IL', flightBudget: 200, hotelBudget: 50, userId: userIds[0].id, tripId: 2}),
-    Membership.create({userCity: 'ATL', userState: 'GA', flightBudget: 250, hotelBudget: 75, userId: userIds[1].id, tripId: 2})
+    Membership.create({userCity: 'CHI', userState: 'IL', flightBudget: 300, hotelBudget: 75, userId: userIds[2].id, tripId: 1, organizer: true, joined: true}),
+    Membership.create({userCity: 'PHL', userState: 'PA', flightBudget: 300, hotelBudget: 75, userId: userIds[3].id, tripId: 1, organizer: false, joined: true}),
+    Membership.create({userCity: 'NYC', userState: 'NY', flightBudget: 300, hotelBudget: 75, userId: userIds[4].id, tripId: 1, organizer: false, joined: true}),
+    Membership.create({userCity: 'OMA', userState: 'NE', flightBudget: 300, hotelBudget: 75, userId: userIds[5].id, tripId: 1, organizer: false, joined: true}),
+    Membership.create({userCity: 'CHI', userState: 'IL', flightBudget: 200, hotelBudget: 50, userId: userIds[0].id, tripId: 2, organizer: true, joined: true}),
+    Membership.create({userCity: 'ATL', userState: 'GA', flightBudget: 250, hotelBudget: 75, userId: userIds[1].id, tripId: 2, organizer: false, joined: true})
   ])
 
   console.log(`seeded successfully`)

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Destination} = require('../db/models')
+const {Destination, Membership} = require('../db/models')
 const firebaseDb = require('../firebase')
 const request = require('request-promise')
 
@@ -60,4 +60,62 @@ router.get('/possiblecities', (req, res, next) => {
     }
   })
   .then(result => res.json(result))
+})
+
+router.post('/upvote', (req, res, next) => {
+  Membership.findOne({
+    where: {
+      userId: req.body.userId,
+      tripId: req.body.tripId
+    }
+  })
+  .then(result => {
+    if (result.dataValues.upVotes === 0) {
+      res.status(401).send('You\'ve reached your max votes!')
+    } else {
+      result.update({
+        upVotes: result.dataValues.upVotes - 1
+      })
+      .then(() => {
+        Destination.findOne({
+          where: {
+            airport: req.body.airport,
+            tripId: req.body.tripId
+          }
+        })
+        .then(result => {
+          console.log(result.dataValues)
+          let newValue
+          if(result.dataValues.upVote === null) {
+            newValue = 1
+          } else {
+            newValue = result.dataValues.upVote +1
+          }
+
+          result.update({
+            upVote: newValue
+          })
+          .then(result => {
+            res.json(result)
+          })
+        })
+      })
+    }
+  })
+})
+
+router.post('/clearupvotes', (req, res, next) => {
+  Membership.findAll({
+    where: {
+      tripId: req.body.tripId
+    }
+  })
+    .then(results => {
+      results.forEach(result => {
+        result.update({
+          upVotes: 3
+        })
+      })
+    })
+    .then(() => res.sendStatus(200))
 })

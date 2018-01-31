@@ -1,21 +1,22 @@
-import axios from 'axios'
+import axios from 'axios';
+import firebase from '../firebase'
 
 //action types
-export const INIT_MAP = 'INIT_MAP'
+export const SET_COORDINATES = 'SET_COORDINATES'
 export const GET_DAILY_ROUTES = 'GET_DAILY_ROUTES'
 
 //default state
 export const defaultState = []
 
 //action creators
-export const initMapActionCreator = map => ({type: INIT_MAP, map})
-export const getDailyRoutes = routes => ({type: GET_DAILY_ROUTES, routes})
+export const setCoordinatesActionCreator = coordinates => ({type: SET_COORDINATES, coordinates})
+export const getDailyRoutesActionCreator = routes => ({type: GET_DAILY_ROUTES, routes})
 
 //reducer
 export default function reducer (state = defaultState, action) {
   switch (action) {
-    case INIT_MAP:
-      return action.map
+    case SET_COORDINATES:
+      return action.coordinates
 
     case GET_DAILY_ROUTES:
       return action.routes
@@ -26,9 +27,10 @@ export default function reducer (state = defaultState, action) {
 }
 
 //thunks
-export const initMap = coordinates => dispatch => {
-  axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${coordinates}?radiuses=40;;100&geometries=polyline&access_token=pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2phOXN3Mng5MGE1OTJxcGV3d2E5bG80OCJ9.0FLVhhyTbMKWTeRtZGOSGA`)
-  .then(res => dispatch(initMapActionCreator(res.data)))
+export const getRoutes = coords => dispatch => {
+  console.log('routes thunk', coords)
+  axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${coords}?radiuses=40;;100&geometries=polyline&access_token=pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw`)
+  .then(res => dispatch(getDailyRoutesActionCreator(res.data)))
   .catch(err => console.error(err))
 }
 
