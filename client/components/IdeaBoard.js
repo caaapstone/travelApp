@@ -1,31 +1,62 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Dragula from 'react-dragula'
-import {fetchIdeas, fetchTrip} from '../store'
+import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity } from '../store'
+import firebase from '../firebase'
+
 
 class IdeaBoard extends Component {
   constructor() {
     super()
     this.state = {
-      drake: Dragula({})
+      drake: Dragula({}),
+      selectedActivity: {}
     }
   }
 
+  componentWillMount(){
+  let tripId = this.props.match.params.tripId
+  this.props.subscribeToFirebase(this, tripId)
+  }
+
+  componentWillUnmount(){
+    let tripId = this.props.match.params.tripId
+    this.props.unsubscribeFromFirebase(this, tripId)
+  }
+
   componentDidMount() {
-    this.props.getTrips()
+    if (!this.props.trip.name) {
+      var tripId = this.props.match.params.tripId
+      this.props.getTrip(tripId)
+    }
 
     this.state.drake.on('drop', (el, target, source, sibling) => {
-      // PER COLLIN: Can probably derive order based on sibling...
-      console.log('dropped for now')
-      console.log('target.key: ', target.key)
-      console.log(target.id, target.title)
-      console.log("activity", el)
-      console.log("activity id", el.id)
-      console.log("source", source.id)
-      console.log("sibling", sibling)
-      // update state, dispatch put here
-      // el is the thing you're moving
-      // target is where you're putting it
+      console.log('dropped!')
+        console.log(el.id)
+        const id = el.id
+        var selectedActivity = this.props.ideas.find(idea =>{
+          return idea.id === id
+        })
+        console.log(selectedActivity)
+        var activity = {
+          name: selectedActivity.name,
+          lat: selectedActivity.coordinates.latitude,
+          long: selectedActivity.coordinates.longitude,
+          link: selectedActivity.url,
+          imageUrl: selectedActivity.image_url,
+          tripId: this.props.trip.id
+
+        }
+        //pass selected activity into post request thing
+        // console.log("this.idea", this.props.ideas)
+        // this.setState({
+        //   selectedActivity: this.props.ideas
+        // })
+      //   let activityId = el.id
+        this.props.createActivity(activity)
+
+      // el.setAttribute('style', `${el.style.cssText};display: none;`);
+      // this.state.drake.cancel(true)
     })
 
   }
@@ -69,7 +100,9 @@ class IdeaBoard extends Component {
                 return(
 
                        <div ref={this.dragulaDecorator}>
-                       <h3>{idea.name}</h3>
+                       <h3
+                          id={idea.id}
+                        >{idea.name}</h3>
                        </div>
 
                        )
@@ -83,7 +116,8 @@ class IdeaBoard extends Component {
 
     }
   }
-
+//drop here needs on drop firebase post
+//should render all unactive activities
   dragulaDecorator = (componentBackingInstance) => {
     if (componentBackingInstance) {
       let options = { };
@@ -100,7 +134,7 @@ class IdeaBoard extends Component {
 
   return {
     user: state.user,
-    trip: state.trip[3],
+    trip: state.trip,
     activities: state.tripActivities,
     ideas: state.ideas
   }
@@ -108,11 +142,20 @@ class IdeaBoard extends Component {
 
 const mapDispatch = (dispatch) => {
   return {
+    subscribeToFirebase(component, tripId){
+      dispatch(subscribeToTripThunkCreator(component, tripId))
+    },
+    unsubscribeFromFirebase(component, tripId){
+      dispatch(unsubscribeToTripThunkCreator(component, tripId))
+    },
     getIdeas: (tripId, searchQuery) => {
       dispatch(fetchIdeas(tripId, searchQuery))
     },
-    getTrips: () => {
-      dispatch(fetchTrip())
+    getTrip: (tripId) => {
+      dispatch(fetchTrip(tripId))
+    },
+    createActivity(activity) {
+      createActivity(activity)
     }
   }
 }
