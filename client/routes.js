@@ -33,7 +33,7 @@ class Routes extends Component {
                 <Switch>
                   {/* Routes placed here are only available after logging in */}
                   <Route path="/home" component={UserHome} />
-                  <Route exact path="/trip/calendar" component={CalendarBoard} />
+                  <Route exact path="/trip/:tripId/calendar" component={CalendarBoard} />
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}
