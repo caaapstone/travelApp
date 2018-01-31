@@ -12,39 +12,62 @@ class UserDashboard extends Component {
 
   render(){
     const { user, userTrips } = this.props
+    let invitations = userTrips.filter(trip => !trip.flightBudget && !trip.hotelBudget)
+    let trips = userTrips.filter(trip => trip.flightBudget && trip.hotelBudget)
+
     if (userTrips){
       return (
         <div>
           <h3>{user.firstName}'s Dashboard</h3>
+          {
+            !invitations.length ?
+            <div />
+            : <div>
+              <h4>Trip invitations</h4>
+              {
+                invitations.map(trip => {
+                  return (
+                    <div key={trip.id}>
+                      <Link to={`/trip/${trip.id}`}>{trip.trip.name}</Link><br />
+                      Destination:
+                      {
+                        trip.destinationCity ?
+                        <div>{trip.destinationCity}, {trip.destinationState}</div>
+                        : 'Not yet selected'
+                      }
+                      <br />
+                      Personal Flight Budget (total): {trip.flightBudget ? trip.flightBudget : 'Not yet submitted'}<br />
+                      Personal Hotel Budget (daily): {trip.hotelBudget ? trip.hotelBudget : 'Not yet submitted'}<br />
+                      Arrival Date: {trip.trip.arrivalDate}<br />
+                      Departure Date: {trip.trip.departureDate}<br />
+                    </div>)
+                })
+              }
+            </div>
+          }
+          <br />
           <div>
-            Past trips:
-            {
-              userTrips.filter(trip => !trip.isActive).map(singleTrip => {
-                return (
-                  <div key={singleTrip.id}>
-                    <Link to={`/trip/${singleTrip.id}`}>{singleTrip.name}</Link>
-                    {singleTrip.name}
-                    {singleTrip.destinationCity}, {singleTrip.destinationState}
-                    {singleTrip.budget}
-                    {singleTrip.arrivalDate} - {singleTrip.departureDate}
-                  </div>)
-              })
-            }
-          </div>
-          <div>
-            Upcoming trips:
-            {
-              userTrips.filter(trip => trip.isActive).map(singleTrip => {
-                return (
-                  <div key={singleTrip.id}>
-                    <Link to={`/trip/${singleTrip.id}`}>{singleTrip.name}</Link>
-                    {singleTrip.destinationCity}, {singleTrip.destinationState}
-                    {singleTrip.budget}
-                    {singleTrip.arrivalDate} - {singleTrip.departureDate}
-                  </div>)
-              })
-            }
-          </div>
+          <h4>Your Trips</h4>
+          {
+            trips.map(trip => {
+              return (
+                <div key={trip.id}>
+                  <Link to={`/trip/${trip.id}`}>{trip.trip.name}</Link><br />
+                  Destination:
+                  {
+                    trip.destinationCity ?
+                    <div>{trip.destinationCity}, {trip.destinationState}</div>
+                    : 'Not yet selected'
+                  }
+                  <br />
+                  Personal Flight Budget (total): {trip.flightBudget}<br />
+                  Personal Hotel Budget (daily): {trip.hotelBudget}<br />
+                  Arrival Date: {trip.trip.arrivalDate}<br />
+                  Departure Date: {trip.trip.departureDate}<br />
+                </div>)
+            })
+          }
+        </div>
         </div>
       )
     } else {

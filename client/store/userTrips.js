@@ -21,7 +21,7 @@ const getUserTrips = userAndTrips => ({type: GET_USER_TRIPS, userAndTrips})
  */
 export const fetchUserTrips = user =>
   dispatch =>
-    axios.get(`/api/trips/${user.id}`)
+    axios.get(`/api/trips/user/${user.id}`)
       .then(res =>
         dispatch(getUserTrips(res.data)))
       .catch(err => console.log(err))
