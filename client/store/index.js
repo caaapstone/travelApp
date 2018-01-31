@@ -8,8 +8,9 @@ import users from './users'
 import trip from './trip'
 import membership from './membership'
 import activities from './activities'
+import ideas from './ideas'
 
-const reducer = combineReducers({user, users, trip, membership, maps, activities})
+const reducer = combineReducers({user, users, trip, membership, maps, activities, ideas})
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
   createLogger({collapsed: true})
@@ -23,3 +24,4 @@ export * from './users'
 export * from './trip'
 export * from './membership'
 export * from './activities'
+export * from './ideas'

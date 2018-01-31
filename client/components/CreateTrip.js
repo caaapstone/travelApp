@@ -96,6 +96,7 @@ import history from '../history'
         const mapDispatch = (dispatch) => {
           return {
             createTrip: (newTrip) => {
+              console.log(newTrip)
               dispatch(postTrip(newTrip))
               history.push('/jointrip')
             },

@@ -20,6 +20,8 @@ const getActivities = activities => ({type: GET_ACTIVITIES, activities})
  * THUNK CREATORS
  */
 
+
+
 export const fetchActivities = (tripId) =>
   dispatch =>
     axios.get(`/api/activities/trip/${tripId}`)

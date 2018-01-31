@@ -23,7 +23,7 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are available to all visitors */}
             <Route path="/createtrip" component={CreateTrip} />
-            <Route path="/jointrip" component={JoinTrip} />
+            <Route path={'/trips/jointrip/'} component={JoinTrip} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route exact path="/flights/:tripId/:userId" component={Flights} />
