@@ -6,18 +6,16 @@ import { fetchUserTrips } from '../store'
 class UserDashboard extends Component {
 
   componentDidMount(){
-    this.props.getUserTrips()
+    let userId = this.props.match.params.userId
+    this.props.getUserTrips(userId)
   }
 
   render(){
     const { user, userTrips } = this.props
-    // console.log('user: ', user)
-    // console.log('userTrips: ', userTrips)
     if (userTrips){
       return (
         <div>
-        {console.log('userTrips: ', userTrips)}
-          <h3>{user.name}'s Dashboard</h3>
+          <h3>{user.firstName}'s Dashboard</h3>
           <div>
             Past trips:
             {
@@ -62,10 +60,9 @@ const mapState = (state) => {
   }
 }
 
-const mapDispatch = (dispatch, ownProps) => {
-  let userId = ownProps.match.params.userId
+const mapDispatch = (dispatch) => {
   return {
-    getUserTrips () {
+    getUserTrips (userId) {
       dispatch(fetchUserTrips(userId))
     }
   }

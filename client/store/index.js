@@ -13,7 +13,7 @@ import userFlights from './flights'
 import activities from './activities'
 import ideas from './ideas'
 
-const reducer = combineReducers({user, users, trip, membership, maps, destinations, userFlights, activities, ideas})
+const reducer = combineReducers({user, users, trip, membership, maps, destinations, userFlights, activities, ideas, userTrips})
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
   createLogger({collapsed: true})
