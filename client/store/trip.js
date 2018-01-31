@@ -37,10 +37,18 @@ export function postTrip(newTrip) {
   }
 }
 
+export const fetchTrip = (tripId) => dispatch => {
+  axios.get('/api/trips')
+    .then(res => {
+      dispatch(getTrip(res.data.filter(trip => trip.id === Number(tripId))))
+    })
+    .catch(err => console.error(err))
+}
+
 /**
  * REDUCER
  */
-export default function (state = {}, action) {
+export default function (trips = {}, action) {
   switch (action.type) {
     // do we need this to be on state? (create trip)
     case CREATE_TRIP:
@@ -48,6 +56,6 @@ export default function (state = {}, action) {
     case GET_TRIP:
       return action.trip;
     default:
-      return state
+      return trips
   }
 }
