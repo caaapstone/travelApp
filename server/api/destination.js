@@ -103,3 +103,19 @@ router.post('/upvote', (req, res, next) => {
     }
   })
 })
+
+router.post('/clearupvotes', (req, res, next) => {
+  Membership.findAll({
+    where: {
+      tripId: req.body.tripId
+    }
+  })
+    .then(results => {
+      results.forEach(result => {
+        result.update({
+          upVotes: 3
+        })
+      })
+    })
+    .then(() => res.sendStatus(200))
+})
