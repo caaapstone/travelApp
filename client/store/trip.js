@@ -17,6 +17,7 @@ const getTrip = trip => ({type: GET_TRIP, trip})
  * THUNK CREATORS
  */
 
+
 export const fetchTrip = (tripId) =>
   dispatch =>
     axios.get(`/api/trips/${tripId}`)

@@ -40,13 +40,14 @@ export class CalendarBoard extends React.Component {
     this.state.drake.on('drop', (el, target, source, sibling) => {
       // PER COLLIN: Can probably derive order based on sibling...
       console.log('dropped!')
+      var active = true
       if (target.id === 'ideas'){
         let date = ''
         let time = ''
         let activityId = el.id
-        this.props.updateActivity(date, time, activityId, tripId)
+        this.props.updateActivity(date, time, activityId, tripId, !active)
       } else {
-        this.props.updateActivity(target.title, target.id, el.id, tripId)
+        this.props.updateActivity(target.title, target.id, el.id, tripId, active)
       }
       el.setAttribute('style', `${el.style.cssText};display: none;`);
       this.state.drake.cancel(true)
@@ -165,16 +166,16 @@ export class CalendarBoard extends React.Component {
           </div>
         IDEAS:
         <div>
-          <div id="ideas" ref={this.dragulaDecorator}>
             {
               ideaActivities.length ?
               ideaActivities.map(activity =>
+                <div id="ideas" ref={this.dragulaDecorator}>
                 <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
+                </div>
               )
               : <div>All out of ideas!</div>
             }
           </div>
-        </div>
         </div>
       )
     }
@@ -201,12 +202,12 @@ const mapDispatch = (dispatch) => {
     getTripInfo(tripId){
       dispatch(fetchTrip(tripId))
     },
-    updateActivity(date, time, activityId, tripId){
+    updateActivity(date, time, activityId, tripId, active){
       console.log('date: ', date)
       console.log('time: ', time)
       console.log('activityId: ', activityId)
       console.log('tripId: ', tripId)
-      updateActivity(date, time, activityId, tripId)
+      updateActivity(date, time, activityId, tripId, active)
     }
   }
 }

@@ -9,7 +9,7 @@ router.use('/trips', require('./trips'))
 router.use('/memberships', require('./memberships'))
 router.use('/flights', require('./flights'))
 router.use('/destinations', require('./destination'))
-
+router.use('/ideas', require('./ideas'))
 
 router.post('/seed', (req, res, next) => {
   let activityArr = [seedData.trip1, seedData.trip2, seedData.trip3]
