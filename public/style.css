@@ -201,7 +201,7 @@ form div {
   opacity: 0.2;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
   filter: alpha(opacity=20);
-
+}
   /* DayPicker styles */
 
 .DayPicker {
@@ -441,6 +441,7 @@ form div {
 
 .two-rem-padding{
   padding: 2rem;
+}
 
 .possible-city-info{
   width: 85%;
@@ -469,4 +470,36 @@ form div {
   align-content: center;
   margin-bottom: 1rem;
   text-align: center;
+}
+
+#hotel-option-container{
+  width: 85%;
+  margin: auto;
+  border: 1px solid lightgray;
+  display: flex;
+}
+
+#hotel-option-sidebar{
+  width: 450px;
+  padding: 1rem;
+}
+
+#hotel-options{
+  max-height: 500px;
+  overflow-y: scroll;
+  border: 1px solid lightgray;
+  padding-top: 1rem;
+}
+
+#hotel-option-map{
+  width: calc(100% - 250px);
+  padding: 1rem;
+}
+
+.hotel-option-list-item{
+  border: 1px solid lightgray;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  padding: .5rem;
 }

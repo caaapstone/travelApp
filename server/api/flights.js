@@ -33,6 +33,8 @@ router.get('/trip', (req, res, next) => {
     }
   }
 
+  console.log('OPTIONS: ', options)
+
   Flight.destroy({
     where: {
       $and: [
@@ -85,16 +87,30 @@ router.get('/activeusercities', (req, res, next) => {
 })
 
 router.post('/setcity', (req, res, next) => {
-  Trip.findOne({
-    where: {
-      id: req.body.tripId
-    }
+  var options = { method: 'GET',
+    url: `https://api.mapbox.com/geocoding/v5/mapbox.places/${req.body.city}%20${req.body.state}.json`,
+    qs: { access_token: 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw' }
+  }
+  let coordinates
+
+  request(options, function (error, response, body) {
+    if (error) throw new Error(error);
+    coordinates = JSON.parse(body).features[0].geometry.coordinates
   })
-  .then(trip => {
-    trip.update({
-      destinationCity: req.body.city,
-      destinationState: req.body.state
+  .then(() => {
+    Trip.findOne({
+      where: {
+        id: req.body.tripId
+      }
     })
-    .then(result => res.json(result))
+    .then(trip => {
+      trip.update({
+        destinationCity: req.body.city,
+        destinationState: req.body.state,
+        lat: coordinates[0],
+        long: coordinates[1]
+      })
+      .then(result => res.json(result))
+    })
   })
 })
