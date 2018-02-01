@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Dragula from 'react-dragula'
 import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity } from '../store'
-import firebase from '../firebase'
+import DraggableItem from './draggableItem'
 
 
 class IdeaBoard extends Component {
@@ -32,33 +32,24 @@ class IdeaBoard extends Component {
 
     this.state.drake.on('drop', (el, target, source, sibling) => {
       console.log('dropped!')
-        console.log(el.id)
-        const id = el.id
-        var selectedActivity = this.props.ideas.find(idea =>{
-          return idea.id === id
-        })
-        console.log(selectedActivity)
-        var activity = {
-          name: selectedActivity.name,
-          lat: selectedActivity.coordinates.latitude,
-          long: selectedActivity.coordinates.longitude,
-          link: selectedActivity.url,
-          imageUrl: selectedActivity.image_url,
-          tripId: this.props.trip.id
+      const id = el.id
+      var selectedActivity = this.props.ideas.find(idea =>{
+        return idea.id === id
+      })
+      var activity = {
+        name: selectedActivity.name,
+        lat: selectedActivity.coordinates.latitude,
+        long: selectedActivity.coordinates.longitude,
+        link: selectedActivity.url,
+        imageUrl: selectedActivity.image_url,
+        tripId: this.props.trip.id
+      }
+      this.props.createActivity(activity)
 
-        }
-        //pass selected activity into post request thing
-        // console.log("this.idea", this.props.ideas)
-        // this.setState({
-        //   selectedActivity: this.props.ideas
-        // })
-      //   let activityId = el.id
-        this.props.createActivity(activity)
-
-      // el.setAttribute('style', `${el.style.cssText};display: none;`);
-      // this.state.drake.cancel(true)
+      // prevents strange behavior due to DOM manipulation
+      el.setAttribute('style', `${el.style.cssText};display: none;`);
+      this.state.drake.cancel(true)
     })
-
   }
 
   createIdeas = (event) => {
@@ -73,51 +64,49 @@ class IdeaBoard extends Component {
   }
 
   render() {
-    if (!this.props.ideas.length)
-    {
+    const { ideas, activities} = this.props
+    let ideaActivities = activities.filter(activity => !activity.isActive)
+    // calendarActivities -- do we need this on this page?
+    let calendarActivities = activities.filter(activity => activity.isActive)
+
       return (
-              <form onSubmit={this.createIdeas}>
+        <div>
+          <div className="idea-search">
+            <form onSubmit={this.createIdeas}>
               <input
-              name="yelp_search"
-              id="yelp_search"
-              />
+                name="yelp_search"
+                id="yelp_search"
+                />
               <button type="submit">click</button>
-              </form>
-              )
-
-    }  else {
-      return(
-             <div>
-             <form onSubmit={this.createIdeas}>
-             <input
-             name="yelp_search"
-             id="yelp_search"
-             />
-             <button type="submit">click</button>
-             </form>
-             {
-              this.props.ideas.map(idea =>{
-                return(
-
-                       <div ref={this.dragulaDecorator}>
-                       <h3
-                          id={idea.id}
-                        >{idea.name}</h3>
-                       </div>
-
-                       )
-              })
+            </form>
+            {
+              ideas.length ?
+              ideas.map(idea => {
+                return (
+                  <div key={idea.id} ref={this.dragulaDecorator}>
+                    <DraggableItem activity={idea} />
+                  </div>
+                )})
+              : <div />
             }
-            <div ref={this.dragulaDecorator}>
-            <h2>drop here</h2>
-            </div>
-            </div>
-            )
-
-    }
+          </div>
+        <div className="idea-board">
+          <h2>Idea Board</h2>
+          <div ref={this.dragulaDecorator} className="dragula-container">
+            {
+              ideaActivities.map(activity => {
+                return (
+                  <div key={activity.id} ref={this.dragulaDecorator}>
+                    <DraggableItem activity={activity} />
+                  </div>
+                )})
+            }
+          </div>
+        </div>
+      </div>
+    )
   }
-//drop here needs on drop firebase post
-//should render all unactive activities
+
   dragulaDecorator = (componentBackingInstance) => {
     if (componentBackingInstance) {
       let options = { };
@@ -125,17 +114,12 @@ class IdeaBoard extends Component {
     }
   }
 }
-//component did mount, go to firebase, get current activities
-/**
- * CONTAINER
- */
 
  const mapState = (state) => {
-
   return {
     user: state.user,
     trip: state.trip,
-    activities: state.tripActivities,
+    activities: state.activities,
     ideas: state.ideas
   }
 }
@@ -161,7 +145,3 @@ const mapDispatch = (dispatch) => {
 }
 
 export default connect(mapState, mapDispatch)(IdeaBoard)
-
-//search field
-// dragula things
-//post or put that happens on drop??

@@ -3,6 +3,7 @@ import Dragula from 'react-dragula';
 import firebase from '../firebase'
 import {connect} from 'react-redux'
 import { subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, updateActivity } from '../store';
+import DraggableItem from './draggableItem'
 
 export class CalendarBoard extends React.Component {
   constructor(){
@@ -80,86 +81,116 @@ export class CalendarBoard extends React.Component {
               dates.map(day => {
                 return (
                   <div>
-                  <h3>{day}</h3>
-                  <h3>Breakfast</h3>
-                  <div id="breakfast" ref={this.dragulaDecorator} title={day}>
+                    <h3>{day}</h3>
+                    <h3>Breakfast</h3>
+                    <div
+                      id="breakfast"
+                      ref={this.dragulaDecorator}
+                      title={day}
+                      className="dragula-container"
+                    >
+                      {
+                        breakfast.filter(breakfastActivity => {
+                          return breakfastActivity.date === day
+                        }).map(activity => {
+                          return (
+                            <DraggableItem activity={activity} key={activity.id} />
+                          )
+                        })
+                      }
+                  </div>
+                  <br />
+                  <h3>Morning</h3>
+                  <div
+                    id="morning"
+                    ref={this.dragulaDecorator}
+                    title={day}
+                    className="dragula-container"
+                  >
                     {
-                      breakfast.filter(breakfastActivity => {
-                        return breakfastActivity.date === day
+                      morning.filter(morningActivity => {
+                        return morningActivity.date === day
                       }).map(activity => {
                         return (
-                          <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
+                          <DraggableItem activity={activity} key={activity.id} />
                         )
                       })
                     }
                   </div>
-                    <br />
-                    <h3>Morning</h3>
-                    <div id="morning" ref={this.dragulaDecorator} title={day}>
-                      {
-                        morning.filter(morningActivity => {
-                          return morningActivity.date === day
-                        }).map(activity => {
-                          return (
-                            <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
-                          )
-                        })
-                      }
-                    </div>
-                    <br />
-                    <h3>Lunch</h3>
-                    <div id="lunch" ref={this.dragulaDecorator} title={day}>
+                  <br />
+                  <h3>Lunch</h3>
+                    <div
+                      id="lunch"
+                      ref={this.dragulaDecorator}
+                      title={day}
+                      className="dragula-container"
+                    >
                       {
                         lunch.filter(lunchActivity => {
                           return lunchActivity.date === day
                         }).map(activity => {
                           return (
-                            <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
+                            <DraggableItem activity={activity} key={activity.id} />
                           )
                         })
                       }
                     </div>
-                    <br />
-                    <h3>Afternoon</h3>
-                    <div id="afternoon" ref={this.dragulaDecorator} title={day}>
-                      {
-                        afternoon.filter(afternoonActivity => {
-                          return afternoonActivity.date === day
-                        }).map(activity => {
-                          return (
-                            <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
-                          )
-                        })
-                      }
-                    </div>
-                    <br />
-                    <h3>Dinner</h3>
-                    <div id="dinner" ref={this.dragulaDecorator} title={day}>
-                      {
-                        dinner.filter(dinnerActivity => {
-                          return dinnerActivity.date === day
-                        }).map(activity => {
-                          return (
-                            <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
-                          )
-                        })
-                      }
-                    </div>
-                    <br />
-                    <h3>Evening</h3>
-                    <div id="evening" ref={this.dragulaDecorator} title={day}>
-                      {
-                        evening.filter(eveningActivity => {
-                          return eveningActivity.date === day
-                        }).map(activity => {
-                          return (
-                            <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
-                          )
-                        })
-                      }
-                    </div>
-                    <br />
+                  <br />
+                  <h3>Afternoon</h3>
+                  <div
+                    id="afternoon"
+                    ref={this.dragulaDecorator}
+                    title={day}
+                    className="dragula-container"
+                  >
+                    {
+                      afternoon.filter(afternoonActivity => {
+                        return afternoonActivity.date === day
+                      }).map(activity => {
+                        return (
+                          <DraggableItem activity={activity} key={activity.id} />
+                        )
+                      })
+                    }
                   </div>
+                  <br />
+                  <h3>Dinner</h3>
+                  <div
+                    id="dinner"
+                    ref={this.dragulaDecorator}
+                    title={day}
+                    className="dragula-container"
+                  >
+                    {
+                      dinner.filter(dinnerActivity => {
+                        return dinnerActivity.date === day
+                      }).map(activity => {
+                        return (
+                          <DraggableItem activity={activity} key={activity.id} />
+                        )
+                      })
+                    }
+                  </div>
+                  <br />
+                  <h3>Evening</h3>
+                  <div
+                    id="evening"
+                    ref={this.dragulaDecorator}
+                    title={day}
+                    className="dragula-container"
+                  >
+                    {
+                      evening.filter(eveningActivity => {
+                        return eveningActivity.date === day
+                      }).map(activity => {
+                        return (
+                          <DraggableItem activity={activity} key={activity.id} />
+                        )
+                      })
+                    }
+                  </div>
+                  <br />
+                </div>
                 )
               })
             }
@@ -168,11 +199,16 @@ export class CalendarBoard extends React.Component {
         <div>
             {
               ideaActivities.length ?
-              ideaActivities.map(activity =>
-                <div id="ideas" ref={this.dragulaDecorator}>
-                <div id={activity.activityId} key={activity.activityId}>{activity.name}</div>
+              <div
+                id="ideas"
+                ref={this.dragulaDecorator}
+                className="dragula-container"
+              >
+              {
+                ideaActivities.map(activity =>
+                  <DraggableItem activity={activity} key={activity.id} />
+                )}
                 </div>
-              )
               : <div>All out of ideas!</div>
             }
           </div>
@@ -214,25 +250,3 @@ const mapDispatch = (dispatch) => {
 
 export default connect(mapState, mapDispatch)(CalendarBoard)
 
-      //if day number equals day we're on
-      // <div>
-      // <div id='container1' ref={this.dragulaDecorator} title='Monday'>
-      //   <div>Swap her around</div>
-      //   <div>Swap him around</div>
-      //   <div>Swap them around</div>
-      //   <div>Swap us around</div>
-      //   <div>Swap things around</div>
-      //   <div>Swap everything around</div>
-      // </div>
-      // <br />
-      // <br />
-      // <div id='container2' ref={this.dragulaDecorator} title='Tuesday'>
-      //   <div>Swap us around</div>
-      //   <div>Swap you around</div>
-      //   <div>Swap EVERYONE around</div>
-      //   <div>Swap them around</div>
-      //   <div>Swap ALL THE THINGS around</div>
-      //   <div>Swap things around</div>
-      //   <div>Swap everything around</div>
-      // </div>
-      // </div>

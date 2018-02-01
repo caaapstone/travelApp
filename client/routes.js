@@ -26,16 +26,15 @@ class Routes extends Component {
             <Route path={'/trips/jointrip/'} component={JoinTrip} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route exact path="/flights/:tripId/:userId" component={Flights} />
-            <Route path="/map" component={MapBoard} />
-            <Route path="/trip/:tripId/ideaboard" component={IdeaBoard} />
             {
               isLoggedIn &&
-                <Switch>
-                  {/* Routes placed here are only available after logging in */}
-                  <Route path="/home" component={UserHome} />
-                  <Route exact path="/dashboard/:userId" component={UserDashboard} />
-                  <Route exact path="/trip/:tripId/calendar" component={CalendarBoard} />
+              <Switch>
+              {/* Routes placed here are only available after logging in */}
+              <Route exact path ="/" component={UserDashboard} />
+              <Route exact path="/trip/:tripId/calendar" component={CalendarBoard} />
+              <Route exact path="/flights/:tripId/:userId" component={Flights} />
+              <Route path="/map" component={MapBoard} />
+              <Route path="/trip/:tripId/ideaboard" component={IdeaBoard} />
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}

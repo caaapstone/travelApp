@@ -201,6 +201,18 @@ form div {
   opacity: 0.2;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
   filter: alpha(opacity=20);
+}
+
+.dragula-container {
+  min-height: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
+}
+
+.activity-thumbnail {
+  max-width: 150px;
+}
 
   /* DayPicker styles */
 
