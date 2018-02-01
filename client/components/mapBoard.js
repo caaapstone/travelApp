@@ -54,17 +54,6 @@ class MapBoard extends Component {
     this.map.on('load', () => {
       let activities = this.props.activities
 
-      let testDate = activities[0].date
-      console.log('testDate', testDate)
-
-      let dateObj = activities.forEach(activity => {
-        if (activity.date !== testDate){
-          return activity.date
-        }
-      })
-
-      console.log(dateObj)
-
       let timesArr = activities.map(activity => {
         return activity.time
       })
@@ -83,8 +72,6 @@ class MapBoard extends Component {
         }
       })
 
-      console.log('timesArr', timesArr)
-      console.log('activities', activities)
       // Get the map style and set it in the state tree
       this.map.addSource('routes', {
         type: 'geojson',
@@ -94,6 +81,14 @@ class MapBoard extends Component {
       this.map.addLayer({
         id: 'routes',
         type: 'line',
+        source: 'routes'
+      })
+      this.map.addSource('points', {
+        type: 'geojson'
+      })
+      this.map.addLayer({
+        id: 'points',
+        type: 'symbol',
         source: 'routes'
       })
     })
