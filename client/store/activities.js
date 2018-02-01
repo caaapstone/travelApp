@@ -27,7 +27,6 @@ const setTripActivities = activities => ({type: SET_TRIP_ACTIVITIES, activities}
 
 export const subscribeToTripThunkCreator = (component, tripId) =>
   dispatch => {
-    console.log('tripId: ', tripId)
     const path = `/trips/T${tripId}`
     const ref = database.ref(path)
     const listener = snapshot => {
