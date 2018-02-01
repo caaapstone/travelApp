@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Dragula from 'react-dragula'
 import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity } from '../store'
-import DraggableItem from './draggableItem'
+import DraggableActivity from './draggableActivity'
+import DraggableYelpResult from './draggableYelpResult'
 
 
 class IdeaBoard extends Component {
@@ -26,23 +27,28 @@ class IdeaBoard extends Component {
 
   componentDidMount() {
     if (!this.props.trip.name) {
-      var tripId = this.props.match.params.tripId
+      let tripId = this.props.match.params.tripId
       this.props.getTrip(tripId)
     }
 
     this.state.drake.on('drop', (el, target, source, sibling) => {
       console.log('dropped!')
+      let now = new Date
+      let time = now.getTime()
       const id = el.id
-      var selectedActivity = this.props.ideas.find(idea =>{
+      let userUpdated = this.props.user.firstName + ' ' + this.props.user.lastName
+      let selectedActivity = this.props.ideas.find(idea => {
         return idea.id === id
       })
-      var activity = {
+      let activity = {
         name: selectedActivity.name,
         lat: selectedActivity.coordinates.latitude,
         long: selectedActivity.coordinates.longitude,
         link: selectedActivity.url,
         imageUrl: selectedActivity.image_url,
-        tripId: this.props.trip.id
+        tripId: this.props.trip.id,
+        timeUpdated: time,
+        userUpdated: userUpdated
       }
       this.props.createActivity(activity)
 
@@ -64,10 +70,13 @@ class IdeaBoard extends Component {
   }
 
   render() {
-    const { ideas, activities} = this.props
+    const { user, ideas, activities} = this.props
     let ideaActivities = activities.filter(activity => !activity.isActive)
     // calendarActivities -- do we need this on this page?
-    let calendarActivities = activities.filter(activity => activity.isActive)
+    // let calendarActivities = activities.filter(activity => activity.isActive)
+    let userName = user.firstName + ' ' + user.lastName
+    let userIdeas = ideaActivities.filter(activity => activity.userUpdated === userName)
+    let groupIdeas = ideaActivities.filter(activity => activity.userUpdated !== userName)
 
       return (
         <div>
@@ -84,7 +93,7 @@ class IdeaBoard extends Component {
               ideas.map(idea => {
                 return (
                   <div key={idea.id} ref={this.dragulaDecorator}>
-                    <DraggableItem activity={idea} />
+                    <DraggableYelpResult activity={idea} />
                   </div>
                 )})
               : <div />
@@ -94,10 +103,23 @@ class IdeaBoard extends Component {
           <h2>Idea Board</h2>
           <div ref={this.dragulaDecorator} className="dragula-container">
             {
-              ideaActivities.map(activity => {
+              userIdeas.map(activity => {
                 return (
                   <div key={activity.id} ref={this.dragulaDecorator}>
-                    <DraggableItem activity={activity} />
+                    <DraggableActivity activity={activity} />
+                  </div>
+                )})
+            }
+          </div>
+        </div>
+        <div className="friend-ideas">
+          <h2>Group Ideas</h2>
+          <div ref={this.dragulaDecorator} className="dragula-container">
+            {
+              groupIdeas.map(activity => {
+                return (
+                  <div key={activity.id} ref={this.dragulaDecorator}>
+                    <DraggableActivity activity={activity} />
                   </div>
                 )})
             }

@@ -207,11 +207,54 @@ form div {
   min-height: 10px;
   border-style: solid;
   border-width: 1px;
-  border-color: gray;
+  /* border-color: red; */
 }
 
 .activity-thumbnail {
   max-width: 150px;
+}
+
+.activity {
+  border-style: solid;
+  border-width: 1px;
+  /* border-color: blue; */
+}
+
+
+/* calendar */
+
+.calendar-container {
+  max-width: 80%;
+  display: flex;
+  flex-direction: row;
+}
+
+.calendar-day-container {
+  border-style: solid;
+  border-width: 1px;
+  border-color: green;
+  width: 250px;
+}
+
+.dragula-container#breakfast, .dragula-container#lunch, .dragula-container#dinner {
+  height: 125px;
+  overflow-y: scroll;
+}
+
+.dragula-container#morning, .dragula-container#afternoon, .dragula-container#evening {
+  height: 325px;
+  overflow-y: scroll;
+}
+
+.group-ideas-container {
+  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.dragula-container#ideas {
+  width: 250px;
 }
 
   /* DayPicker styles */
