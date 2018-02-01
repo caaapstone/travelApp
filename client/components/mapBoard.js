@@ -52,25 +52,34 @@ class MapBoard extends Component {
     this.map = new mapboxgl.Map(mapConfig);
 
     this.map.on('load', () => {
-      let activities = this.props.activities
 
-      let timesArr = activities.map(activity => {
-        return activity.time
+      let activities = this.props.activities.filter(activity => {
+        return activity.isActive
       })
 
-      timesArr = timesArr.sort(function(a, b){
-        if (times[a] < times[b]){
-          return -1
-        }
+      let dates = {}
 
-        if (times[a] > times[b]){
-          return 1
-        }
-
-        if (times[a] === times[b]){
-          return 0
+      activities.forEach(activity => {
+        if (dates[activity.date]) {
+          dates[activity.date].push(activity)
+        } else {
+          dates[activity.date] = [activity]
         }
       })
+
+      for (let singleDay in dates){
+        dates[singleDay].sort((a,b) => {
+          if (times[a.time] < times[b.time]){
+            return -1
+          }
+          if (times[a.time] > times[b.time]){
+            return 1
+          }
+          if (times[a.time]== times[b.time]){
+            return 0
+          }
+        })
+      }
 
       // Get the map style and set it in the state tree
       this.map.addSource('routes', {
