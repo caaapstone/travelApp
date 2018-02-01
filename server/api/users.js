@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
 const firebaseDb = require('../firebase')
-const mockActivitiesData = require('./mockActivitiesData')
+// const mockActivitiesData = require('./mockActivitiesData')
 
 module.exports = router
 
@@ -21,3 +21,37 @@ router.post('/test', (req, res, next) => {
   firebaseDb.ref('trips').push(req.body)
   .then(res.sendStatus(200))
 })
+
+router.post('/email', (req, res, next)=>{
+  let email = req.body.email
+  console.log("i'm here")
+  console.log("req.body", req.body)
+  User.findOrCreate({
+    where: {
+      email: req.body.email
+    }
+  })
+  .then(user => {
+    console.log("hit here in then")
+    console.log("found user", user)
+    return res.json(user)
+  })
+  .catch(next)
+})
+
+// router.post('/email', (req, res, next)=>{
+//   let email = req.body.email
+//   console.log("i'm here")
+//   console.log("req.body", req.body)
+//   User.findOrCreate({
+//     where: {
+//       email: req.body.email
+//     }
+//   })
+//   .then(user => {
+//     console.log("hit here in then")
+//     console.log("found user", user)
+//     return res.json(user)
+//   })
+//   .catch(next)
+// })

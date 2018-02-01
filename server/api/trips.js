@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Trip, Membership} = require('../db/models')
+const {Trip} = require('../db/models')
 const firebaseDb = require('../firebase')
 
 module.exports = router

@@ -27,6 +27,15 @@ export const getAllUsers = () =>
       dispatch(getUsers(res.data)))
     .catch(err => console.error(err))
 
+export const getUsersByEmail = email =>
+  dispatch =>
+    axios.post('/api/users/email', email)
+      .then(res => {
+        console.log("i'm here")
+        console.log("Res", res.data)
+        return dispatch(getUsers(res.data))})
+      .catch(err => console.error(err))
+
 export const fetchUsersOnTrip = (tripId) => dispatch => {
   axios.get('/api/flights/tripinfo', {
     params: {tripId: tripId}
