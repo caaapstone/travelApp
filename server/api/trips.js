@@ -38,6 +38,27 @@ router.post('/', function (req, res, next) {
 });
 
 
+router.put('/:tripId', function (req, res, next) {
+  let tripId = req.params.tripId
+  let name = req.body.name
+  let defaultBudget = req.body.defaultBudget || 200
+  let arrivalDate = req.body.arrivalDate || null
+  let departureDate = req.body.departureDate || null
+  let newTrip = {
+    name,
+    defaultBudget,
+    arrivalDate,
+    departureDate
+  }
+  Trip.update({
+    where: {
+      id: tripId
+    }, newTrip
+  })
+  .then(trip => res.json(trip))
+  .catch(next);
+});
+
 router.get('/user/:userId', (req, res, next) => {
   // Membership.where({user_id: req.user.id, trip_id: req.params.tripId})
   req.params.userId.getTrips()
