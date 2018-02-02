@@ -32,6 +32,7 @@ class Routes extends Component {
                 <Route exact path={'/trips/tripdetailsetup/:tripId'} component={TripDetailsSetUp} />
                 <Route exact path={'/trips/jointrip'} component={JoinTrip} />
                 <Route exact path ="/" component={UserDashboard} />
+                <Route exact path ="/home" component={UserDashboard} />
                 <Route exact path="/flights/:tripId/:userId" component={Flights} />
                 <Route exact path="/hotels/:tripId" component={Hotels} />
                 <Route path="/trip/:tripId" component={TripDashboard} />
