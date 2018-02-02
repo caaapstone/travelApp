@@ -11,6 +11,7 @@ router.use('/flights', require('./flights'))
 router.use('/destinations', require('./destination'))
 router.use('/ideas', require('./ideas'))
 
+// firebase seed
 router.post('/seed', (req, res, next) => {
   let activityArr = [seedData.trip1, seedData.trip2, seedData.trip3]
   for (let i = 0; i < activityArr.length; i++){
@@ -18,10 +19,6 @@ router.post('/seed', (req, res, next) => {
       firebaseDb.ref('trips').child('T' + (i + 1)).push(activityArr[i][j])
     }
   }
-  // firebaseDb.ref('trips').child('T1').set(seedData.trip1)
-  // firebaseDb.ref('trips').child('T2').set(seedData.trip2)
-  // firebaseDb.ref('trips').child('T3').set(seedData.trip3)
-  // .then(res.sendStatus(200))
   res.sendStatus(200)
 })
 

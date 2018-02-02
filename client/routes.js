@@ -4,7 +4,7 @@ import {Route, Switch, Router} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
 import {me} from './store'
-import {Main, Login, Signup, UserHome, Flights, CreateTrip, JoinTrip, MapBoard, CalendarBoard, IdeaBoard, TripDetailsSetUp} from './components'
+import {Main, Login, Signup, UserHome, Flights, CreateTrip, JoinTrip, MapBoard, CalendarBoard, IdeaBoard, TripDetailsSetUp, UserDashboard, TripDashboard} from './components'
 
 /**
  * COMPONENT
@@ -27,15 +27,15 @@ class Routes extends Component {
             <Route path={'/trips/jointrip'} component={JoinTrip} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route exact path="/flights/:tripId/:userId" component={Flights} />
-            <Route path="/map" component={MapBoard} />
-            <Route path="/trip/:tripId/ideaboard" component={IdeaBoard} />
             {
               isLoggedIn &&
-                <Switch>
-                  {/* Routes placed here are only available after logging in */}
-                  <Route path="/home" component={UserHome} />
-                  <Route exact path="/trip/:tripId/calendar" component={CalendarBoard} />
+              <Switch>
+              {/* Routes placed here are only available after logging in */}
+              <Route exact path ="/" component={UserDashboard} />
+              <Route exact path="/trip/:tripId/calendar" component={CalendarBoard} />
+              <Route exact path="/flights/:tripId/:userId" component={Flights} />
+              <Route path="/map" component={MapBoard} />
+              <Route path="/trip/:tripId/ideaboard" component={IdeaBoard} />
                 </Switch>
             }
             {/* Displays our Login component as a fallback */}
