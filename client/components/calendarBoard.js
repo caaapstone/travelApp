@@ -4,6 +4,8 @@ import firebase from '../firebase'
 import {connect} from 'react-redux'
 import { subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, updateActivity } from '../store';
 import DraggableActivity from './draggableActivity'
+import CalendarPopUp from './calendarPopUp'
+import Modal from 'react-responsive-modal'
 
 export class CalendarBoard extends React.Component {
   constructor(){
@@ -11,8 +13,12 @@ export class CalendarBoard extends React.Component {
     this.state = {
       drake: Dragula({
         // containers: []
-      })
+      }),
+      open: false,
+      selectedActivity: {}
     }
+    this.onOpenModal = this.onOpenModal.bind(this)
+    this.onCloseModal = this.onCloseModal.bind(this)
   }
 
   dragulaDecorator = (componentBackingInstance) => {
@@ -72,6 +78,14 @@ export class CalendarBoard extends React.Component {
     })
   }
 
+  onOpenModal(activity){
+    this.setState({ ...this.state, selectedActivity: activity, open: true });
+  }
+
+  onCloseModal(){
+    this.setState({ ...this.state, selectedActivity: '', open: false });
+  }
+
   render () {
     if (!this.props.trip.allDates || !this.props.activities.length){
       return <div />
@@ -91,7 +105,10 @@ export class CalendarBoard extends React.Component {
       let evening = calendarActivities.filter(activity => activity.time === 'evening')
       return (
         <div>
-        <h3>Group Idea Bank</h3>
+          <Modal open={this.state.open} onClose={this.onCloseModal} little>
+            <CalendarPopUp activity={this.state.selectedActivity} />
+          </Modal>
+          <h3>Group Idea Bank</h3>
         <div className="group-ideas-container">
             {
               ideaActivities.length ?
@@ -100,6 +117,7 @@ export class CalendarBoard extends React.Component {
                     id="ideas"
                     ref={this.dragulaDecorator}
                     className="dragula-container"
+                    onClick={() => this.onOpenModal(activity)}
                   >
                   <DraggableActivity activity={activity} key={activity.id} />
                   </div>
@@ -127,7 +145,10 @@ export class CalendarBoard extends React.Component {
                             return breakfastActivity.date === day
                           }).map(activity => {
                             return (
-                              <DraggableActivity activity={activity} key={activity.id} />
+                              <div onClick={() => this.onOpenModal(activity)}
+                              >
+                                <DraggableActivity activity={activity} key={activity.id} />
+                              </div>
                             )
                           })
                         }
@@ -141,13 +162,17 @@ export class CalendarBoard extends React.Component {
                       ref={this.dragulaDecorator}
                       title={day}
                       className="dragula-container"
+                      onClick={() => this.onOpenModal(activity)}
                     >
                       {
                         morning.filter(morningActivity => {
                           return morningActivity.date === day
                         }).map(activity => {
                           return (
+                            <div onClick={() => this.onOpenModal(activity)}
+                              >
                             <DraggableActivity activity={activity} key={activity.id} />
+                            </div>
                           )
                         })
                       }
@@ -161,13 +186,17 @@ export class CalendarBoard extends React.Component {
                         ref={this.dragulaDecorator}
                         title={day}
                         className="dragula-container"
+                        onClick={() => this.onOpenModal(activity)}
                       >
                         {
                           lunch.filter(lunchActivity => {
                             return lunchActivity.date === day
                           }).map(activity => {
                             return (
+                              <div onClick={() => this.onOpenModal(activity)}
+                              >
                               <DraggableActivity activity={activity} key={activity.id} />
+                              </div>
                             )
                           })
                         }
@@ -181,13 +210,17 @@ export class CalendarBoard extends React.Component {
                       ref={this.dragulaDecorator}
                       title={day}
                       className="dragula-container"
+                      onClick={() => this.onOpenModal(activity)}
                     >
                       {
                         afternoon.filter(afternoonActivity => {
                           return afternoonActivity.date === day
                         }).map(activity => {
                           return (
+                            <div onClick={() => this.onOpenModal(activity)}
+                              >
                             <DraggableActivity activity={activity} key={activity.id} />
+                            </div>
                           )
                         })
                       }
@@ -201,13 +234,17 @@ export class CalendarBoard extends React.Component {
                       ref={this.dragulaDecorator}
                       title={day}
                       className="dragula-container"
+                      onClick={() => this.onOpenModal(activity)}
                     >
                       {
                         dinner.filter(dinnerActivity => {
                           return dinnerActivity.date === day
                         }).map(activity => {
                           return (
+                            <div onClick={() => this.onOpenModal(activity)}
+                              >
                             <DraggableActivity activity={activity} key={activity.id} />
+                            </div>
                           )
                         })
                       }
@@ -221,13 +258,17 @@ export class CalendarBoard extends React.Component {
                       ref={this.dragulaDecorator}
                       title={day}
                       className="dragula-container"
+                      onClick={() => this.onOpenModal(activity)}
                     >
                       {
                         evening.filter(eveningActivity => {
                           return eveningActivity.date === day
                         }).map(activity => {
                           return (
+                            <div onClick={() => this.onOpenModal(activity)}
+                              >
                             <DraggableActivity activity={activity} key={activity.id} />
+                            </div>
                           )
                         })
                       }
