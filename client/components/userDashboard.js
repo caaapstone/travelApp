@@ -51,7 +51,7 @@ class UserDashboard extends Component {
             trips.map(trip => {
               return (
                 <div key={trip.id}>
-                  <Link to={`/trip/${trip.id}`}>{trip.trip.name}</Link><br />
+                  <Link to={`/trip/${trip.tripId}`}>{trip.trip.name}</Link><br />
                   Destination:
                   {
                     trip.destinationCity ?
