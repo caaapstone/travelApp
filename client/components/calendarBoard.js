@@ -91,8 +91,7 @@ export class CalendarBoard extends React.Component {
       let evening = calendarActivities.filter(activity => activity.time === 'evening')
       return (
         <div>
-        GROUP IDEAS:
-        <div className="test">
+        <h3>Group Idea Bank</h3>
         <div className="group-ideas-container">
             {
               ideaActivities.length ?
@@ -108,8 +107,7 @@ export class CalendarBoard extends React.Component {
               : <div>All out of ideas!</div>
             }
           </div>
-          </div>
-          CALENDAR BOARD:
+        <h3>Scheduler</h3>
           <div className="calendar-container">
             {
               dates.map(day => {

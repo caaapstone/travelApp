@@ -72,60 +72,69 @@ class IdeaBoard extends Component {
   render() {
     const { user, ideas, activities} = this.props
     let ideaActivities = activities.filter(activity => !activity.isActive)
-    // calendarActivities -- do we need this on this page?
-    // let calendarActivities = activities.filter(activity => activity.isActive)
+
     let userName = user.firstName + ' ' + user.lastName
     let userIdeas = ideaActivities.filter(activity => activity.userUpdated === userName)
     let groupIdeas = ideaActivities.filter(activity => activity.userUpdated !== userName)
 
       return (
         <div>
+        <div id="boards">
           <div className="idea-search">
+          <h4>Activity Search</h4>
             <form onSubmit={this.createIdeas}>
               <input
                 name="yelp_search"
                 id="yelp_search"
-                />
-              <button type="submit">click</button>
+              />
+              <button type="submit">Search</button>
             </form>
             {
               ideas.length ?
-              ideas.map(idea => {
-                return (
-                  <div key={idea.id} ref={this.dragulaDecorator}>
-                    <DraggableYelpResult activity={idea} />
-                  </div>
-                )})
-              : <div />
+                ideas.map(idea => {
+                  return (
+                    <div key={idea.id} ref={this.dragulaDecorator}>
+                      <DraggableYelpResult activity={idea} />
+                    </div>
+                  )
+                })
+                : <div />
             }
           </div>
-        <div className="idea-board">
-          <h2>Idea Board</h2>
-          <div ref={this.dragulaDecorator} className="dragula-container">
-            {
-              userIdeas.map(activity => {
-                return (
-                  <div key={activity.id} ref={this.dragulaDecorator}>
-                    <DraggableActivity activity={activity} />
-                  </div>
-                )})
-            }
+            <div id="user">
+              <h2>Idea Board</h2>
+              <div className="idea-board">
+                {
+                  userIdeas.map(activity => {
+                    return (
+                      <div ref={this.dragulaDecorator} className="dragula-container">
+                        <div key={activity.id} ref={this.dragulaDecorator}>
+                          <DraggableActivity activity={activity} />
+                        </div>
+                      </div>
+                    )
+                  })
+                }
+              </div>
+            </div>
+            <div id="group">
+              <h2>Group Ideas</h2>
+              <div className="friend-ideas">
+                {
+                  groupIdeas.map(activity => {
+                    return (
+                      <div ref={this.dragulaDecorator} className="dragula-container">
+                        <div key={activity.id} ref={this.dragulaDecorator}>
+                          <DraggableActivity activity={activity} />
+                        </div>
+                      </div>
+                    )
+                  })
+                }
+              </div>
+            </div>
           </div>
         </div>
-        <div className="friend-ideas">
-          <h2>Group Ideas</h2>
-          <div ref={this.dragulaDecorator} className="dragula-container">
-            {
-              groupIdeas.map(activity => {
-                return (
-                  <div key={activity.id} ref={this.dragulaDecorator}>
-                    <DraggableActivity activity={activity} />
-                  </div>
-                )})
-            }
-          </div>
-        </div>
-      </div>
     )
   }
 

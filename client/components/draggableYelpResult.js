@@ -10,7 +10,7 @@ export default class DraggableYelpResult extends Component {
     let time = now.getTime()
     let activityId = activity.activityId || activity.id
     return (
-      <div id={activityId} className="activity-border">
+      <div id={activityId} className="yelp-result">
         <img src={activity.imageUrl} className="activity-thumbnail" />
         <a href={activity.link} target="_blank">{activity.name}</a>
         <br />
