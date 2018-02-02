@@ -4,16 +4,42 @@ import { getRoutes, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, 
 import mapboxgl from 'mapbox-gl'
 import firebase from '../firebase'
 
-const times = {
-  breakfast: 0,
-  morning: 1,
-  lunch: 2,
-  afternoon: 3,
-  dinner: 4,
-  evening: 5
-}
+const times = ['breakfast',
+  'morning',
+  'lunch',
+  'afternoon',
+  'dinner',
+  'evening'
+]
 
 let token = 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw'
+
+let getRoutesGeoJSON = (coordinates) => {
+  const routesGeoJSON = {
+    type: 'Feature',
+    features: []
+  }
+
+  routesGeoJSON.features.push({
+    type: 'Feature',
+    properties: {},
+    geometry: {
+      type: 'LineString',
+      coordinates: [coordinates]
+    },
+    layout: {
+      lineJoin: 'round',
+      lineCap: 'round'
+    },
+    paint: {
+      lineColor: '#888',
+      lineWidth: 8
+    }
+  })
+
+  console.log('routes', routes)
+}
+
 
 class MapBoard extends Component {
   constructor() {
@@ -23,6 +49,10 @@ class MapBoard extends Component {
         positon: 'absolute',
         width: '200vh',
         height: '100vh'
+      },
+      routesGeoJSON: {
+        type: 'Feature',
+        features: []
       }
     }
   }
@@ -52,39 +82,46 @@ class MapBoard extends Component {
     this.map = new mapboxgl.Map(mapConfig);
 
     this.map.on('load', () => {
-
       let activities = this.props.activities.filter(activity => {
         return activity.isActive
       })
-
+      //dates object stores dates from the activities arr as keys
       let dates = {}
-
+      //create an arr of activity obj as keys on dates obj
       activities.forEach(activity => {
-        if (dates[activity.date]) {
-          dates[activity.date].push(activity)
+        if (!dates[activity.date]) {
+          dates[activity.date] = {};
+        }
+        if (!dates[activity.date][activity.time]) {
+          dates[activity.date][activity.time] = [activity];
         } else {
-          dates[activity.date] = [activity]
+          dates[activity.date][activity.time].push(activity);
         }
       })
 
-      for (let singleDay in dates){
-        dates[singleDay].sort((a,b) => {
-          if (times[a.time] < times[b.time]){
-            return -1
-          }
-          if (times[a.time] > times[b.time]){
-            return 1
-          }
-          if (times[a.time]== times[b.time]){
-            return 0
-          }
-        })
-      }
+      const days = Object.keys(dates);
 
-      // Get the map style and set it in the state tree
+      days.forEach(day => {
+        if (!dates.hasOwnProperty(day)) return;
+        dates[day].coordinates = times.filter(time => !!dates[day][time])
+        .map(time =>
+          dates[day][time].map(({ lat, long }) =>
+            `${long},${lat}`
+          ).join(';')
+        ).join(';');
+      });
+      //this is passing the coords through the getRoutes thunk
+
+      days.forEach(day => {
+        let numRoutes = dates[day].coordinates.split(';').length
+        // console.log('numRoutes compDidMount', numRoutes)
+        let coordinates = dates[day].coordinates
+        // this.props.getRoutes(coordinates, numRoutes)
+      })
+
       this.map.addSource('routes', {
         type: 'geojson',
-        // data: {getRoutes: this.props.getRoutes(coordinates)}
+        // data: {}
         //The data needs to be from the getRoutes thunk; this.props.getRoutes(coordinates) ??
       });
       this.map.addLayer({
@@ -130,9 +167,9 @@ let mapDispatchToProps = dispatch => {
     getTripInfo(tripId){
       dispatch(fetchTrip(tripId))
     },
-    getRoutes(coordinates){
+    getRoutes(coordinates, numRoutes){
       console.log(coordinates)
-      dispatch(getRoutes(coordinates))
+      dispatch(getRoutes(coordinates, numRoutes))
     }
   };
 }

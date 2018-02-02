@@ -19,18 +19,21 @@ export default function reducer (state = defaultState, action) {
       return action.coordinates
 
     case GET_DAILY_ROUTES:
-      return action.routes
+      return [...action, action.routes]
 
     default:
       return state
   }
 }
-
+//map coordinates
 //thunks
-export const getRoutes = coords => dispatch => {
-  console.log('routes thunk', coords)
-  axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${coords}?radiuses=40;;100&geometries=polyline&access_token=pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw`)
-  .then(res => dispatch(getDailyRoutesActionCreator(res.data)))
+export const getRoutes = (coords, numRoutes) => dispatch => {
+  console.log('routes thunk', coords, 'numRoutes', numRoutes)
+  axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${coords}?radiuses=unlimited;;100&geometries=polyline&access_token=pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw`)
+  .then(res => {
+    console.log('hits then!!')
+    dispatch(getDailyRoutesActionCreator(res.data))
+  })
   .catch(err => console.error(err))
 }
 
