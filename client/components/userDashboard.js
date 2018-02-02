@@ -6,8 +6,7 @@ import { fetchUserTrips } from '../store'
 class UserDashboard extends Component {
 
   componentDidMount(){
-    let userId = this.props.match.params.userId
-    this.props.getUserTrips(userId)
+    this.props.getUserTrips(this.props.user.id)
   }
 
   render(){

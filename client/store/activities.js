@@ -53,8 +53,8 @@ export const unsubscribeToTripThunkCreator = (component, tripId) =>
     // dispatch something?
 }
 
-export const updateActivity = (date, time, activityId, tripId, isActive) =>
-  axios.post('/api/activities', { date, time, activityId, tripId, isActive })
+export const updateActivity = (activityObj) =>
+  axios.post('/api/activities', activityObj)
     .then(() => { console.log('it worked?')})
     .catch(err => console.log(err))
 
