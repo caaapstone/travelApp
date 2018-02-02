@@ -50,10 +50,10 @@ router.put('/:tripId', function (req, res, next) {
     arrivalDate,
     departureDate
   }
-  Trip.update({
+  Trip.update(newTrip, {
     where: {
       id: tripId
-    }, newTrip
+    }
   })
   .then(trip => res.json(trip))
   .catch(next);
