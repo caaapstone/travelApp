@@ -44,14 +44,7 @@ import history from '../history'
       defaultBudget: event.target.defaultBudget.value,
       joined: true
     }
-    // let membership = {
-    //   userId: this.props.user.id,
-    //   tripId: this.props.trip.id,
-    //   joined: true,
-    //   organizer: true
-    // }
     this.props.updateTripInfo(tripId, trip)
-    // this.props.addOrganizer()
     history.push(`/flights/${tripId}/${userId}`)
   }
 
@@ -105,7 +98,7 @@ import history from '../history'
             {
               friendEmails.map(friend =>{
                 return (
-                        <h2>{friend}</h2>
+                        <h2 key={friend}>{friend}</h2>
                         )
               })
             }
