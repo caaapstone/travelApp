@@ -14,7 +14,39 @@ const times = ['breakfast',
 
 let token = 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw'
 
-let getRoutesGeoJSON = (coordinates) => {
+let getRoutesGeoJSON = (activities) => {
+  console.log('activities in func', activities)
+  //dates object stores dates from the activities arr as keys
+  let dates = {}
+  //create an arr of activity obj as keys on dates obj
+  activities.forEach(activity => {
+    if (!dates[activity.date]) {
+      dates[activity.date] = {};
+    }
+    if (!dates[activity.date][activity.time]) {
+      dates[activity.date][activity.time] = [activity];
+    } else {
+      dates[activity.date][activity.time].push(activity);
+    }
+  })
+
+  const days = Object.keys(dates);
+  days.forEach(day => {
+    if (!dates.hasOwnProperty(day)) return;
+    dates[day].coordinates = times.filter(time => {
+      //this is where it sorts by time of day
+      return !!dates[day][time]})
+    .map(time =>
+      dates[day][time].map(({ lat, long }) => `${long},${lat}`
+      ).join(';')
+    ).join(';')
+    .split(';')
+    .map(number => {
+      return parseFloat(number)
+    })
+    console.log('dates[day].coordinates', dates[day].coordinates)
+  });
+
   const routesGeoJSON = {
     type: 'Feature',
     features: []
@@ -25,7 +57,7 @@ let getRoutesGeoJSON = (coordinates) => {
     properties: {},
     geometry: {
       type: 'LineString',
-      coordinates: [coordinates]
+      coordinates: [] //put coordinates in there
     },
     layout: {
       lineJoin: 'round',
@@ -36,8 +68,6 @@ let getRoutesGeoJSON = (coordinates) => {
       lineWidth: 8
     }
   })
-
-  console.log('routes', routes)
 }
 
 
@@ -50,10 +80,7 @@ class MapBoard extends Component {
         width: '200vh',
         height: '100vh'
       },
-      routesGeoJSON: {
-        type: 'Feature',
-        features: []
-      }
+      routesGeoJSON: {}
     }
   }
 
@@ -82,42 +109,44 @@ class MapBoard extends Component {
     this.map = new mapboxgl.Map(mapConfig);
 
     this.map.on('load', () => {
+      console.log('activities in map load', this.props.activities)
       let activities = this.props.activities.filter(activity => {
         return activity.isActive
       })
-      //dates object stores dates from the activities arr as keys
-      let dates = {}
-      //create an arr of activity obj as keys on dates obj
-      activities.forEach(activity => {
-        if (!dates[activity.date]) {
-          dates[activity.date] = {};
-        }
-        if (!dates[activity.date][activity.time]) {
-          dates[activity.date][activity.time] = [activity];
-        } else {
-          dates[activity.date][activity.time].push(activity);
-        }
-      })
+      this.setState({getRoutesGeoJSON: getRoutesGeoJSON(activities)})
+      // //dates object stores dates from the activities arr as keys
+      // let dates = {}
+      // //create an arr of activity obj as keys on dates obj
+      // activities.forEach(activity => {
+      //   if (!dates[activity.date]) {
+      //     dates[activity.date] = {};
+      //   }
+      //   if (!dates[activity.date][activity.time]) {
+      //     dates[activity.date][activity.time] = [activity];
+      //   } else {
+      //     dates[activity.date][activity.time].push(activity);
+      //   }
+      // })
 
-      const days = Object.keys(dates);
+      // const days = Object.keys(dates);
 
-      days.forEach(day => {
-        if (!dates.hasOwnProperty(day)) return;
-        dates[day].coordinates = times.filter(time => !!dates[day][time])
-        .map(time =>
-          dates[day][time].map(({ lat, long }) =>
-            `${long},${lat}`
-          ).join(';')
-        ).join(';');
-      });
+      // days.forEach(day => {
+      //   if (!dates.hasOwnProperty(day)) return;
+      //   dates[day].coordinates = times.filter(time => !!dates[day][time])
+      //   .map(time =>
+      //     dates[day][time].map(({ lat, long }) =>
+      //       `${long},${lat}`
+      //     ).join(';')
+      //   ).join(';');
+      // });
       //this is passing the coords through the getRoutes thunk
 
-      days.forEach(day => {
-        let numRoutes = dates[day].coordinates.split(';').length
-        // console.log('numRoutes compDidMount', numRoutes)
-        let coordinates = dates[day].coordinates
-        // this.props.getRoutes(coordinates, numRoutes)
-      })
+      // days.forEach(day => {
+      //   let numRoutes = dates[day].coordinates.split(';').length
+      //   // console.log('numRoutes compDidMount', numRoutes)
+      //   let coordinates = dates[day].coordinates
+      //   // this.props.getRoutes(coordinates, numRoutes)
+      // })
 
       this.map.addSource('routes', {
         type: 'geojson',
