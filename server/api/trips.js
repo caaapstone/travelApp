@@ -20,7 +20,43 @@ router.get('/:tripId', (req, res, next) => {
 
 // POST new trip
 router.post('/', function (req, res, next) {
-  Trip.create(req.body)
+  let name = req.body.name || 'New Trip'
+  let defaultBudget = req.body.defaultBudget || 200
+  let destinationCity = req.body.destinationCity || null
+  let destinationState = req.body.destinationState || null
+  let arrivalDate = req.body.arrivalDate || null
+  let departureDate = req.body.departureDate || null
+  let newTrip = {
+    name,
+    defaultBudget,
+    destinationCity,
+    destinationState,
+    arrivalDate,
+    departureDate
+  }
+  Trip.create(newTrip)
+  .then(trip => res.json(trip))
+  .catch(next);
+});
+
+// update a trip
+router.put('/:tripId', function (req, res, next) {
+  let tripId = req.params.tripId
+  let name = req.body.name
+  let defaultBudget = req.body.defaultBudget || 200
+  let arrivalDate = req.body.arrivalDate || null
+  let departureDate = req.body.departureDate || null
+  let newTrip = {
+    name,
+    defaultBudget,
+    arrivalDate,
+    departureDate
+  }
+  Trip.update(newTrip, {
+    where: {
+      id: tripId
+    }
+  })
   .then(trip => res.json(trip))
   .catch(next);
 });
