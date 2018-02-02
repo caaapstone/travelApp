@@ -273,16 +273,28 @@ form div {
 
 /* Idea board */
 
-.idea-board, .friend-ideas {
+.friend-ideas {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   padding: 20px;
 }
 
-#user, #group {
-  max-width: 30%;
-  padding: 30px;
+.idea-board {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  padding: 10px;
+}
+
+#user {
+  max-width: 40%;
+  padding: 20px;
+}
+
+#group {
+  max-width: 20%;
+  padding: 20px;
 }
 
 .idea-search {
@@ -310,6 +322,15 @@ form div {
   text-align: center;
 }
 
+/* Activity pop up (modal) */
+
+.modal-image {
+  max-width: 300px;
+}
+
+.modal {
+
+}
 
   /* DayPicker styles */
 
