@@ -21,8 +21,11 @@
   padding: .5rem 1rem;
 }
 
+h{
+  font-family: 'Raleway', sans-serif;
+}
 body {
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 a {
@@ -30,7 +33,7 @@ a {
 }
 
 .capitalized-header{
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Raleway', sans-serif;
   font-style: normal;
   font-weight: 100;
   letter-spacing: .2rem;
@@ -127,7 +130,7 @@ a {
   font-size: 3rem;
   font-weight: 100;
   letter-spacing: .8rem;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 .possible-city-info{
@@ -564,7 +567,7 @@ form div {
   overflow: hidden;
   height: 200px;
   margin-bottom: 1rem;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Raleway', sans-serif;
   text-align: center;
 }
 
