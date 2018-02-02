@@ -17,7 +17,6 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/test', (req, res, next) => {
-  console.log(req.body)
   firebaseDb.ref('trips').push(req.body)
   .then(res.sendStatus(200))
 })
@@ -31,14 +30,12 @@ router.post('/email', (req, res, next)=>{
     }
   })
   .then(user => {
-    console.log("then user", user)
     return Trip.find({
       where: {
         id: tripId
       }
     })
     .then((trip)=>{
-      console.log(trip)
       trip.addUser(user[0])
     })
   })
