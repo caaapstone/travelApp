@@ -22,6 +22,12 @@ const Trip = db.define('trip', {
   },
   duration: {
     type: Sequelize.INTEGER
+  },
+  lat: {
+    type: Sequelize.STRING
+  },
+  long: {
+    type: Sequelize.STRING
   }
 }, {
     getterMethods: {

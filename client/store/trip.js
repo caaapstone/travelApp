@@ -50,9 +50,9 @@ export function updateTrip(tripId, updatedTrip) {
 }
 
 export const fetchTripInfo = (tripId) => dispatch => {
-  axios.get('/api/trips')
+  axios.get(`/api/trips/${tripId}`)
     .then(res => {
-      dispatch(getTrip(res.data.filter(trip => trip.id === Number(tripId))))
+      dispatch(getTrip(res.data))
     })
     .catch(err => console.error(err))
 }

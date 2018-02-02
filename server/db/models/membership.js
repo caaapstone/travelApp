@@ -28,6 +28,30 @@ const Membership = db.define('membership', {
   flightBooked: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
+  },
+  arrivalAirline: {
+    type: Sequelize.STRING
+  },
+  arrivalFlightNum: {
+    type: Sequelize.STRING
+  },
+  arrivalDate: {
+    type: Sequelize.STRING
+  },
+  arrivalTime: {
+    type: Sequelize.STRING
+  },
+  departureAirline: {
+    type: Sequelize.STRING
+  },
+  departureFlightNum: {
+    type: Sequelize.STRING
+  },
+  departureDate: {
+    type: Sequelize.STRING
+  },
+  departureTime: {
+    type: Sequelize.STRING
   }
 })
 
