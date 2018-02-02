@@ -19,9 +19,9 @@ const getUserTrips = userAndTrips => ({type: GET_USER_TRIPS, userAndTrips})
 /**
  * THUNK CREATORS
  */
-export const fetchUserTrips = user =>
+export const fetchUserTrips = userId =>
   dispatch =>
-    axios.get(`/api/trips/user/${user.id}`)
+    axios.get(`/api/trips/user/${userId}`)
       .then(res =>
         dispatch(getUserTrips(res.data)))
       .catch(err => console.log(err))
