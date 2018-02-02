@@ -1,9 +1,10 @@
 const router = require('express').Router()
-const {Trip, Membership} = require('../db/models')
+const {Trip, Membership, User} = require('../db/models')
 const firebaseDb = require('../firebase')
 
 module.exports = router
 
+// GET all trips
 router.get('/', (req, res, next) => {
   Trip.findAll()
     .then(trips => res.json(trips))
@@ -17,16 +18,59 @@ router.get('/:tripId', (req, res, next) => {
     .catch(next)
 })
 
+// POST new trip
 router.post('/', function (req, res, next) {
-  Trip.create(req.body)
+  let name = req.body.name || 'New Trip'
+  let defaultBudget = req.body.defaultBudget || 200
+  let destinationCity = req.body.destinationCity || null
+  let destinationState = req.body.destinationState || null
+  let arrivalDate = req.body.arrivalDate || null
+  let departureDate = req.body.departureDate || null
+  let newTrip = {
+    name,
+    defaultBudget,
+    destinationCity,
+    destinationState,
+    arrivalDate,
+    departureDate
+  }
+  Trip.create(newTrip)
   .then(trip => res.json(trip))
   .catch(next);
 });
 
+// update a trip
+router.put('/:tripId', function (req, res, next) {
+  let tripId = req.params.tripId
+  let name = req.body.name
+  let defaultBudget = req.body.defaultBudget || 200
+  let arrivalDate = req.body.arrivalDate || null
+  let departureDate = req.body.departureDate || null
+  let newTrip = {
+    name,
+    defaultBudget,
+    arrivalDate,
+    departureDate
+  }
+  Trip.update(newTrip, {
+    where: {
+      id: tripId
+    }
+  })
+  .then(trip => res.json(trip))
+  .catch(next);
+});
 
+// GET all trips for one user
 router.get('/user/:userId', (req, res, next) => {
-  // Membership.where({user_id: req.user.id, trip_id: req.params.tripId})
-  req.params.userId.getTrips()
-   .then(trip => res.json(trip))
-   .catch(next)
+  Membership.findAll({
+    where: {
+      userId: 1
+    },
+    include: [
+      { model: Trip }
+    ]
+  })
+    .then(trips => res.json(trips))
+    .catch(next)
 })

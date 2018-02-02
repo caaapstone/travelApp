@@ -25,9 +25,10 @@ const setTripActivities = activities => ({type: SET_TRIP_ACTIVITIES, activities}
  * THUNK CREATORS
  */
 
+
 export const subscribeToTripThunkCreator = (component, tripId) =>
   dispatch => {
-    console.log('tripId: ', tripId)
+    console.log('we made it')
     const path = `/trips/T${tripId}`
     const ref = database.ref(path)
     const listener = snapshot => {
@@ -52,11 +53,15 @@ export const unsubscribeToTripThunkCreator = (component, tripId) =>
     // dispatch something?
 }
 
-export const updateActivity = (date, time, activityId, tripId) =>
-  axios.post('/api/activities', { date, time, activityId, tripId })
+export const updateActivity = (activityObj) =>
+  axios.post('/api/activities', activityObj)
     .then(() => { console.log('it worked?')})
     .catch(err => console.log(err))
 
+export const createActivity = (activityObject) =>
+  axios.post('/api/activities/new', activityObject)
+    .then(() => {console.log('success')})
+    .catch(err => console.error(err))
 
 /**
  * REDUCER
