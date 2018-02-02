@@ -31,7 +31,6 @@ export function postTrip(newTrip) {
     return axios.post(`/api/trips`, newTrip)
       .then(res => res.data)
       .then(trip => {
-        console.log(trip)
         return dispatch(addTrip(trip))
       //   axios.post('/api/email/confirmation', emailaddresses)
       })
@@ -44,7 +43,6 @@ export function updateTrip(tripId, updatedTrip) {
     return axios.put(`/api/trips/${tripId}`, updatedTrip)
       .then(res => res.data)
       .then(trip => {
-        console.log(trip)
         return dispatch(update(trip))
       })
       .catch(err => console.error(err))
