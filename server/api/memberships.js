@@ -10,25 +10,33 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
-// router.post('/', function (req, res, next) {
-//   let userId = req.body.userId
-//   let tripId = req.body.tripId
-//   let joined = req.body.joined,
-//   let organizer = req.body.organizer
-//   Membership.create({
-//     where: {
-//       email: email
-//     }
-//   })
-//   .then(user => {
-//     return Trip.find({
-//       where: {
-//         id: tripId
-//       }
-//     })
-//     .then((trip)=>{
-//       trip.addUser(user[0])
-//     })
-//   })
-//   .catch(next)
-// });
+router.post('/', function (req, res, next) {
+  Membership.create(req.body)
+  .then(membership => res.json(membership))
+  .catch(next);
+});
+
+router.post('/flightinfo', (req, res, next) => {
+  Membership.findOne({
+    where: {
+      tripId: req.body.tripId,
+      userId: req.body.userId
+    }
+  })
+  .then(result => {
+    console.log(req.body)
+    result.update({
+      arrivalAirline: req.body.arrivalAirline,
+      arrivalFlightNum: req.body.arrivalFlightNum,
+      arrivalDate: req.body.arrivalDate,
+      arrivalTime: req.body.arrivalTime,
+      departureAirline: req.body.departureAirline,
+      departureFlightNum: req.body.departureFlightNum,
+      departureDate: req.body.departureDate,
+      departureTime: req.body.departureTime,
+      flightBooked: true
+    })
+    .then(updatedInfo => res.json(updatedInfo))
+  })
+})
+

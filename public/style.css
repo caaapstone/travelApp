@@ -296,10 +296,21 @@ form div {
   flex-direction: row;
 }
 
-.yelp-result {
+/* Trip Dashboard */
 
-
+.trip-dashboard-nav {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  /* background-color: #f1f1f1; */
+  display: flex;
 }
+
+.nav-link {
+  flex-grow: 1;
+  text-align: center;
+}
+
+
   /* DayPicker styles */
 
 .DayPicker {
@@ -539,6 +550,7 @@ form div {
 
 .two-rem-padding{
   padding: 2rem;
+}
 
 .possible-city-info{
   width: 85%;
@@ -567,4 +579,77 @@ form div {
   align-content: center;
   margin-bottom: 1rem;
   text-align: center;
+}
+
+#hotel-option-container{
+  width: 85%;
+  margin: auto;
+  border: 1px solid lightgray;
+  display: flex;
+}
+
+#hotel-option-sidebar{
+  width: 450px;
+  padding: 1rem;
+}
+
+#hotel-options{
+  max-height: 300px;
+  overflow-y: scroll;
+  border: 1px solid lightgray;
+  padding-top: 1rem;
+}
+
+#hotel-option-map{
+  width: calc(100% - 250px);
+  padding: 1rem;
+}
+
+.hotel-option-list-item{
+  border: 1px solid lightgray;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  padding: .5rem;
+}
+
+#hotel-search{
+  width: 300px;
+  margin: 1rem;
+}
+
+.hotel-search-result{
+  display: flex;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 0;
+  border: 1px solid lightgray;
+}
+
+.hotel-search-select{
+  display: flex;
+  margin-top: 0;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid lightgray;
+  text-align: center;
+}
+
+.hotel-search-image{
+  width: 150px;
+}
+
+.small-left-margin{
+  margin-left: .5rem;
+}
+
+.small-no-margin{
+  font-size: .5rem;
+  margin: 0;
+}
+
+a{
+  text-decoration: none;
+  color: black;
 }

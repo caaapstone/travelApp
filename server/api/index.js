@@ -9,6 +9,7 @@ router.use('/trips', require('./trips'))
 router.use('/memberships', require('./memberships'))
 router.use('/flights', require('./flights'))
 router.use('/destinations', require('./destination'))
+router.use('/hotels', require('./hotels'))
 router.use('/ideas', require('./ideas'))
 
 // firebase seed
