@@ -16,7 +16,6 @@ const Main = (props) => {
   console.log('main children: ', children)
   return (
     <div>
-      <h1>TRIP PLANNER</h1>
       <nav>
         {
           isLoggedIn

@@ -65,7 +65,7 @@ router.put('/:tripId', function (req, res, next) {
 router.get('/user/:userId', (req, res, next) => {
   Membership.findAll({
     where: {
-      userId: 1
+      userId: req.params.userId
     },
     include: [
       { model: Trip }
