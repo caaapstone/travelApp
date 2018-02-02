@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import users from '../store'
-import {postMembership, fetchTrip, getUsersByEmail, updateTrip} from '../store'
+import {postOrganizerMembership, fetchTrip, getUsersByEmail, updateTrip} from '../store'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
+import history from '../history'
 
 /**
  * COMPONENT
@@ -16,7 +17,8 @@ import DayPickerInput from 'react-day-picker/DayPickerInput'
       friendSearch: '',
       email: '',
       friendEmails: [],
-      newUsers: []
+      newUsers: [],
+      organizer: ''
     }
   }
 
@@ -30,20 +32,30 @@ import DayPickerInput from 'react-day-picker/DayPickerInput'
   handleDayClick = day => {
     this.setState({ selectedDay: day });
   }
-
-/** ADD FRIENDS **/
+/*Update Trip Details*/
   changeTrip = (event) =>{
     event.preventDefault()
     let tripId = this.props.match.params.tripId
+    let userId = this.props.user.id
     let trip = {
       name: this.props.trip.name,
       arrivalDate: this.refs.arrival.state.value,
       departureDate: this.refs.departure.state.value,
-      defaultBudget: event.target.defaultBudget.value
+      defaultBudget: event.target.defaultBudget.value,
+      joined: true
     }
+    // let membership = {
+    //   userId: this.props.user.id,
+    //   tripId: this.props.trip.id,
+    //   joined: true,
+    //   organizer: true
+    // }
     this.props.updateTripInfo(tripId, trip)
+    // this.props.addOrganizer()
+    history.push(`/flights/${tripId}/${userId}`)
   }
 
+/** ADD FRIENDS **/
   handleChange = event => {
     const search = event.target.value
     this.setState({email: search})
@@ -54,21 +66,26 @@ import DayPickerInput from 'react-day-picker/DayPickerInput'
         if (this.state.email) {
             this.setState({friendEmails: [...this.state.friendEmails, this.state.email
           ]})
-        this.props.getUsers({email: this.state.email, id: this.props.match.params.tripId})
+        this.props.getUsers({
+          email: this.state.email,
+          id: Number(this.props.match.params.tripId),
+          organizer: false,
+          joined: false
+        })
     }
+  var organizer = {
+    email: this.props.user.email,
+    id: Number(this.props.match.params.tripId),
+    organizer: true,
+    joined: true
+    }
+    this.props.addOrganizer(organizer)
   }
 
-/** UPDATE TRIP WITH NEW INFORMATION **/
-  // submitTrip = (event) =>{
-  //   event.preventDefault()
-  //   let trip = {
-  //     arrivalDate: this.refs.arrival.state.value,
-  //     departureDate: this.refs.departure.state.value,
-  //     defaultBudget: event.target.defaultBudget.value
-  //   }
-  //   this.props.createTrip(trip)
+  updateOrganizer = event => {
+    event.preventDefault()
 
-  // }
+  }
 
   render(){
     const {friendEmails} = this.state
@@ -132,6 +149,9 @@ import DayPickerInput from 'react-day-picker/DayPickerInput'
       },
       updateTripInfo: (tripId, tripInfo) => {
         dispatch(updateTrip(tripId, tripInfo))
+      },
+      addOrganizer: membership => {
+        dispatch(getUsersByEmail(membership))
       }
     }
   }

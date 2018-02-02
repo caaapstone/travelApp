@@ -10,8 +10,25 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
-router.post('/', function (req, res, next) {
-  Membership.create(req.body)
-  .then(membership => res.json(membership))
-  .catch(next);
-});
+// router.post('/', function (req, res, next) {
+//   let userId = req.body.userId
+//   let tripId = req.body.tripId
+//   let joined = req.body.joined,
+//   let organizer = req.body.organizer
+//   Membership.create({
+//     where: {
+//       email: email
+//     }
+//   })
+//   .then(user => {
+//     return Trip.find({
+//       where: {
+//         id: tripId
+//       }
+//     })
+//     .then((trip)=>{
+//       trip.addUser(user[0])
+//     })
+//   })
+//   .catch(next)
+// });
