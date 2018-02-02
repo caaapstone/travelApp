@@ -1,3 +1,4 @@
+
 const router = require('express').Router()
 const {Lodging} = require('../db/models')
 const firebaseDb = require('../firebase')
@@ -9,11 +10,12 @@ router.get('/possible', (req, res, next) => {
   var options = { method: 'GET',
     url: 'https://api.yelp.com/v3/businesses/search',
     qs: {
-      latitude: req.query.lat,
-      longitude: req.query.long,
+      term: req.query.term,
+      latitude: req.query.long,
+      longitude: req.query.lat,
       categories: 'hotels',
       radius: '20000',
-      limit: '50'
+      limit: '20'
     },
     headers:
       {
@@ -40,15 +42,16 @@ router.get('/possible', (req, res, next) => {
         description: '',
         url: result.url,
         photoUrl: result.image_url,
-        tripId: req.query.tripId
+        tripId: req.query.tripId,
+        userId: req.query.userId
       })
     })
 
-    possibleHotels.forEach(hotel => {
-      Lodging.create(hotel)
-    })
+    // possibleHotels.forEach(hotel => {
+    //   Lodging.create(hotel)
+    // })
   })
-  .then(() => res.sendStatus(200))
+  .then(() => res.send(possibleHotels))
 })
 
 router.get('/', (req, res, next) => {
@@ -58,4 +61,41 @@ router.get('/', (req, res, next) => {
     }
   })
   .then(results => res.json(results))
+})
+
+router.get('/userhotel', (req, res, next) => {
+  Lodging.findOne({
+    where: {
+      userId: req.query.userId,
+      tripId: req.query.tripId
+    }
+  })
+  .then(results => res.json(results))
+})
+
+router.post('/userhotel', (req, res, next) => {
+  Lodging.findAll({
+    where: {
+      userId: req.body.userId,
+      tripId: req.body.tripId
+    }
+  })
+  .then(results => {
+    results.forEach(result => result.destroy())
+  })
+  .then(() => {
+    Lodging.create({
+      name: req.body.name,
+      add1: req.body.add1,
+      city: req.body.city,
+      state: req.body.state,
+      lat: req.body.lat,
+      long: req.body.long,
+      url: req.body.url,
+      photoUrl: req.body.photoUrl,
+      userId: req.body.userId,
+      tripId: req.body.tripId
+    })
+    .then(hotel => res.json(hotel))
+  })
 })

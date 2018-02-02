@@ -44,7 +44,15 @@ export const fetchUsersOnTrip = (tripId) => dispatch => {
         organizer: member.organizer,
         joined: member.joined,
         flightBooked: member.flightBooked,
-        upVotes: member.upVotes
+        upVotes: member.upVotes,
+        arrivalAirline: member.arrivalAirline,
+        arrivalFlightNum: member.arrivalFlightNum,
+        arrivalDate: member.arrivalDate,
+        arrivalTime: member.arrivalTime,
+        departureAirline: member.departureAirline,
+        departureFlightNum: member.departureFlightNum,
+        departureDate: member.departureDate,
+        departureTime: member.departureTime
       })
     })
 

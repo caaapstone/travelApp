@@ -485,7 +485,7 @@ form div {
 }
 
 #hotel-options{
-  max-height: 500px;
+  max-height: 300px;
   overflow-y: scroll;
   border: 1px solid lightgray;
   padding-top: 1rem;
@@ -502,4 +502,45 @@ form div {
   margin-right: 1rem;
   margin-bottom: 1rem;
   padding: .5rem;
+}
+
+#hotel-search{
+  width: 300px;
+  margin: 1rem;
+}
+
+.hotel-search-result{
+  display: flex;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 0;
+  border: 1px solid lightgray;
+}
+
+.hotel-search-select{
+  display: flex;
+  margin-top: 0;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid lightgray;
+  text-align: center;
+}
+
+.hotel-search-image{
+  width: 150px;
+}
+
+.small-left-margin{
+  margin-left: .5rem;
+}
+
+.small-no-margin{
+  font-size: .5rem;
+  margin: 0;
+}
+
+a{
+  text-decoration: none;
+  color: black;
 }

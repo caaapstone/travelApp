@@ -11,7 +11,8 @@ import destinations from './destinations'
 import userFlights from './flights'
 import activities from './activities'
 import possibleHotels from './possibleHotels'
-const reducer = combineReducers({user, users, trip, membership, maps, destinations, userFlights, activities, possibleHotels})
+import userHotel from './userHotel'
+const reducer = combineReducers({user, users, trip, membership, maps, destinations, userFlights, activities, possibleHotels, userHotel})
 
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
@@ -29,4 +30,5 @@ export * from './destinations'
 export * from './flights'
 export * from './activities'
 export * from './possibleHotels'
+export * from './userHotel'
 
