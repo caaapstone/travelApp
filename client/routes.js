@@ -33,9 +33,7 @@ class Routes extends Component {
                 <Route exact path={'/trips/jointrip'} component={JoinTrip} />
                 <Route exact path ="/" component={UserDashboard} />
                 <Route exact path="/flights/:tripId/:userId" component={Flights} />
-                <Route exact path="/trip/:tripId" component={TripDashboard} />
-
-
+                <Route path="/trip/:tripId" component={TripDashboard} />
               </Switch>
             }
             {/* Displays our Login component as a fallback */}
