@@ -5,6 +5,7 @@ import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripTh
 import DraggableActivity from './draggableActivity'
 import DraggableYelpResult from './draggableYelpResult'
 import Modal from 'react-responsive-modal'
+import {withRouter} from 'react-router-dom'
 
 class IdeaBoard extends Component {
   constructor() {
@@ -33,7 +34,7 @@ class IdeaBoard extends Component {
     if (!this.props.trip.name) {
       this.props.getTrip(tripId)
     }
-    if (!this.props.users){
+    if (!this.props.users.length){
       this.props.getTripUsers(tripId)
     }
 
@@ -173,7 +174,8 @@ class IdeaBoard extends Component {
     user: state.user,
     trip: state.trip,
     activities: state.activities,
-    ideas: state.ideas
+    ideas: state.ideas,
+    users: state.users
   }
 }
 
@@ -200,4 +202,4 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(IdeaBoard)
+export default withRouter(connect(mapState, mapDispatch)(IdeaBoard))
