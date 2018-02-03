@@ -57,3 +57,17 @@ router.post('/:tripId/user/:userId', (req, res, next) => {
   })
 })
 
+router.delete('/:tripId/user/:userId', (req, res, next) => {
+    Membership.destroy({
+    where: {
+      $and: [
+        {userId: req.params.userId},
+        {tripId: req.params.tripId}
+      ]
+    }
+  })
+    .then(() => {
+      res.status(200).send(`membership deleted!`)
+    })
+    .catch(next)
+})

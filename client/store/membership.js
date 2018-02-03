@@ -1,4 +1,5 @@
 import axios from 'axios'
+import history from '../history'
 
 /**
  * ACTION TYPES
@@ -12,6 +13,7 @@ const UPDATE_MEMBERSHIP = 'UPDATE_MEMBERSHIP'
 
 const addMembership = membership => ({type: CREATE_MEMBERSHIP, membership})
 const update = membership => ({type: UPDATE_MEMBERSHIP, membership})
+
 /**
  * THUNK CREATORS
  */
@@ -35,6 +37,8 @@ const update = membership => ({type: UPDATE_MEMBERSHIP, membership})
       .catch(err => console.error(err))
   }
 }
+
+
 
 /**
  * REDUCER

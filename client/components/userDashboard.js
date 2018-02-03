@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
-import { fetchUserTrips } from '../store'
+import { fetchUserTrips, deleteMembership } from '../store'
 
 class UserDashboard extends Component {
 
@@ -9,6 +9,14 @@ class UserDashboard extends Component {
     this.props.getUserTrips(this.props.user.id)
   }
 
+  declineInvitation = (tripId) => {
+    let userId = this.props.user.id
+    let ids = {
+      userId,
+      tripId
+    }
+    this.props.removeMembership(ids)
+  }
   render(){
     const { user, userTrips } = this.props
     let invitations = userTrips.filter(trip => !trip.flightBudget)
@@ -26,7 +34,6 @@ class UserDashboard extends Component {
                 invitations.map(trip => {
                   return (
                     <div key={trip.id}>
-                      <Link to={`/trip/${trip.id}`}>{trip.trip.name}</Link><br />
                       Destination:
                       {
                         trip.destinationCity ?
@@ -38,6 +45,7 @@ class UserDashboard extends Component {
                       Arrival Date: {trip.trip.arrivalDate}<br />
                       Departure Date: {trip.trip.departureDate}<br />
                       <Link to={`/trips/jointrip/${trip.tripId}`}><input type="button" value="join this trip"/></Link>
+                      <button onClick={() => this.declineInvitation(trip.tripId)} type="submit">Decline invite</button>
                     </div>)
                 })
               }
@@ -84,6 +92,9 @@ const mapDispatch = (dispatch) => {
   return {
     getUserTrips (userId) {
       dispatch(fetchUserTrips(userId))
+    },
+    removeMembership (ids) {
+      dispatch(deleteMembership(ids))
     }
   }
 }

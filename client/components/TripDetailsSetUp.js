@@ -103,7 +103,7 @@ import history from '../history'
               })
             }
             <form onSubmit={this.changeTrip}>
-            <h3>The current budget for this trip is {this.props.trip.defaultBudget}</h3>
+            <h3>The default budget for this trip is {this.props.trip.defaultBudget}</h3>
             <label>Update budget:</label>
             <input
             id="defaultBudget"
