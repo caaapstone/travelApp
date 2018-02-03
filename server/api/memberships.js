@@ -24,7 +24,6 @@ router.post('/flightinfo', (req, res, next) => {
     }
   })
   .then(result => {
-    console.log(req.body)
     result.update({
       arrivalAirline: req.body.arrivalAirline,
       arrivalFlightNum: req.body.arrivalFlightNum,
@@ -35,6 +34,24 @@ router.post('/flightinfo', (req, res, next) => {
       departureDate: req.body.departureDate,
       departureTime: req.body.departureTime,
       flightBooked: true
+    })
+    .then(updatedInfo => res.json(updatedInfo))
+  })
+})
+
+router.post('/:tripId/user/:userId', (req, res, next) => {
+  Membership.findOne({
+    where: {
+      tripId: req.params.tripId,
+      userId: req.params.userId
+    }
+  })
+  .then(result => {
+    result.update({
+      userCity: req.body.userCity,
+      userState: req.body.userState,
+      flightBudget: req.body.flightBudget,
+      joined: true
     })
     .then(updatedInfo => res.json(updatedInfo))
   })

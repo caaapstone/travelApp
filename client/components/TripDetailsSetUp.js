@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import users from '../store'
-import {postOrganizerMembership, fetchTrip, getUsersByEmail, updateTrip} from '../store'
+import { fetchTrip, getUsersByEmail, updateTrip} from '../store'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import history from '../history'
 
@@ -9,7 +9,7 @@ import history from '../history'
  * COMPONENT
  */
  export class TripDetailsSetUp extends Component {
-  constructor(props){
+  constructor(){
     super()
 
     this.state = {
@@ -17,15 +17,14 @@ import history from '../history'
       friendSearch: '',
       email: '',
       friendEmails: [],
-      newUsers: [],
-      organizer: ''
+      newUsers: []
     }
   }
 
   componentDidMount() {
     var tripId = this.props.match.params.tripId
     this.props.getTrip(tripId)
-    // this.props.getUsers()
+
   }
 
 /** CALENDAR PICKER **/
@@ -33,7 +32,7 @@ import history from '../history'
     this.setState({ selectedDay: day });
   }
 /*Update Trip Details*/
-  changeTrip = (event) =>{
+  changeTrip = (event) => {
     event.preventDefault()
     let tripId = this.props.match.params.tripId
     let userId = this.props.user.id
@@ -81,6 +80,7 @@ import history from '../history'
   }
 
   render(){
+    const past = {before: new Date()}
     const {friendEmails} = this.state
     return (
             <div>
@@ -111,9 +111,20 @@ import history from '../history'
             />
             <p>(*your friends can adjust their budget once they join the trip!)</p>
             <label>Pick your dates:</label>
-            <DayPickerInput name="startingDate" ref="arrival" onDayClick={this.handleDayClick} selectedDays={this.state.selectedDay} />
-            <DayPickerInput name="endingDate" ref="departure" onDayClick={this.handleDayClick} selectedDays={this.state.selectedDay} />
-
+            <DayPickerInput
+              dayPickerProps={{disabledDays: past}}
+              name="startingDate"
+              ref="arrival"
+              onDayClick={this.handleDayClick}
+              selectedDays={this.state.selectedDay}
+            />
+            <DayPickerInput
+              disabledDays={{ before: past }}
+              name="endingDate"
+              ref="departure"
+              onDayClick={this.handleDayClick}
+              selectedDays={this.state.selectedDay}
+            />
             <button type="submit">Invite your friends!</button>
             </form>
             </div>
@@ -134,10 +145,10 @@ import history from '../history'
 
   const mapDispatch = (dispatch) => {
     return {
-      getTrip: (tripId) =>{
+      getTrip: tripId => {
         dispatch(fetchTrip(tripId))
       },
-      getUsers: email =>{
+      getUsers: email => {
         dispatch(getUsersByEmail(email))
       },
       updateTripInfo: (tripId, tripInfo) => {
@@ -150,6 +161,3 @@ import history from '../history'
   }
 
   export default connect(mapState, mapDispatch)(TripDetailsSetUp)
-
-
-//add trip ID to user

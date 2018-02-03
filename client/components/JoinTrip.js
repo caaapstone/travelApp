@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import users from '../store'
-import {postMembership} from '../store'
+import {updateMembership, fetchTrip} from '../store'
 
 /**
  * COMPONENT
@@ -13,16 +13,20 @@ export class JoinTrip extends Component {
     let membership = {
       userCity: event.target.startingCity.value,
       userState: event.target.startingState.value,
-      userId: this.props.user.id,
       flightBudget: event.target.flightBudget.value,
-      hotelBudget: event.target.hotelBudget.value,
+      userId: this.props.user.id,
       tripId: this.props.trip.id
     }
-    this.props.createMembership(membership)
+    this.props.changeMembership(membership)
   }
 
-render(){
+componentDidMount() {
+  let tripId = this.props.match.params.tripId
+  this.props.getTrip(tripId)
+}
 
+render(){
+console.log(this.props)
   return (
           <div>
             <h1>Trip Details</h1>
@@ -33,11 +37,6 @@ render(){
               placeholder= "flight budget"
               id="flightBudget"
               name="flightBudget"
-            />
-            <input
-              placeholder= "hotel budget"
-              id="hotellBudget"
-              name="hotelBudget"
             />
             <label>Where are you coming from?</label>
             <input
@@ -69,13 +68,13 @@ render(){
 
   const mapDispatch = (dispatch) => {
     return {
-      createMembership: (newMembership) => {
-          dispatch(postMembership(newMembership))
+      changeMembership: (newMembership) => {
+          dispatch(updateMembership(newMembership))
+      },
+      getTrip: tripId =>{
+        dispatch(fetchTrip(tripId))
       }
     }
   }
 
 export default connect(mapState, mapDispatch)(JoinTrip)
-
-
-//add trip ID to user
