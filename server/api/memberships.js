@@ -24,7 +24,6 @@ router.post('/flightinfo', (req, res, next) => {
     }
   })
   .then(result => {
-    console.log(req.body)
     result.update({
       arrivalAirline: req.body.arrivalAirline,
       arrivalFlightNum: req.body.arrivalFlightNum,
@@ -40,3 +39,35 @@ router.post('/flightinfo', (req, res, next) => {
   })
 })
 
+router.post('/:tripId/user/:userId', (req, res, next) => {
+  Membership.findOne({
+    where: {
+      tripId: req.params.tripId,
+      userId: req.params.userId
+    }
+  })
+  .then(result => {
+    result.update({
+      userCity: req.body.userCity,
+      userState: req.body.userState,
+      flightBudget: req.body.flightBudget,
+      joined: true
+    })
+    .then(updatedInfo => res.json(updatedInfo))
+  })
+})
+
+router.delete('/:tripId/user/:userId', (req, res, next) => {
+    Membership.destroy({
+    where: {
+      $and: [
+        {userId: req.params.userId},
+        {tripId: req.params.tripId}
+      ]
+    }
+  })
+    .then(() => {
+      res.status(200).send(`membership deleted!`)
+    })
+    .catch(next)
+})

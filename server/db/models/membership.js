@@ -11,9 +11,6 @@ const Membership = db.define('membership', {
   flightBudget: {
     type: Sequelize.INTEGER
   },
-  hotelBudget: {
-    type: Sequelize.INTEGER
-  },
   organizer: {
     type: Sequelize.BOOLEAN
   },
