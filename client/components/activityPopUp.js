@@ -24,12 +24,7 @@ export default class ActivityPopUp extends Component {
     )
   } else {
     return (
-      <div className="modal">
-        <h3>{activity.name}</h3>
-        <img src={activity.imageUrl} className="modal-image" />
-        <br />
-        Here is going to be a bunch of information about this one thing!
-      </div>
+      <div />
     )
   }
   }

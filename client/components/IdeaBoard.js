@@ -4,7 +4,7 @@ import Dragula from 'react-dragula'
 import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchParticipants } from '../store'
 import DraggableActivity from './draggableActivity'
 import DraggableYelpResult from './draggableYelpResult'
-
+import Modal from 'react-responsive-modal'
 
 class IdeaBoard extends Component {
   constructor() {
@@ -105,6 +105,10 @@ class IdeaBoard extends Component {
     }
 
       return (
+        <div>
+        <Modal open={this.state.open} onClose={this.onCloseModal} little>
+            {/* need some sort of yelp result pop up */}
+          </Modal>
         <div id="boards">
           <div className="idea-search">
           <h4>Activity Search</h4>
@@ -151,6 +155,7 @@ class IdeaBoard extends Component {
                     }
               </div>
             </div>
+          </div>
           </div>
     )
   }
