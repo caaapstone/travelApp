@@ -301,12 +301,12 @@ form div {
 }
 
 #group {
-  max-width: 20%;
+  max-width: 30%;
   padding: 20px;
 }
 
 .idea-search {
-  /* box-shadow: 0 0 10px 0 rgba(0,0,0,0.4); */
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
   width: 250px;
 }
 
@@ -314,6 +314,17 @@ form div {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+}
+
+.yelp-result {
+  box-shadow: 0 0px 10px 0px rgba(0,0,0,0.2);
+  transition: 0.3s;
+  padding: 8px 16px 8px 16px;
+  border-radius: 5px;
+  margin: 5px;
+  background-color: white;
+  width: 200px;
+  max-height: 150px;
 }
 
 /* Trip Dashboard */
