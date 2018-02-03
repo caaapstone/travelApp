@@ -71,7 +71,7 @@ class UserDashboard extends Component {
             {
               futureTrips.map(trip => {
                 return (
-                  <div key={trip.id}>
+                  <div key={trip.trip.id}>
                     <Link to={`/trip/${trip.tripId}`}>{trip.trip.name}</Link><br />
                     Destination:
                     {
@@ -91,7 +91,7 @@ class UserDashboard extends Component {
             {
               previousTrips.map(trip => {
                 return (
-                  <div key={trip.id}>
+                  <div key={trip.trip.id}>
                     <Link to={`/trip/${trip.tripId}`}>{trip.trip.name}</Link><br />
                     Destination:
                     {

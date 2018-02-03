@@ -20,7 +20,8 @@ import history from '../history'
   render(){
 
     return (
-            <div>
+            <div className="createTrip-container">
+            <div className="createTrip-inner-container">
             <h1>Welcome</h1>
             <h2>Start a trip!</h2>
               <form onSubmit={this.submitTrip}>
@@ -32,6 +33,7 @@ import history from '../history'
                 <h3>We'll get more details from you once you create your trip</h3>
                 <button>Create your trip!</button>
               </form>
+              </div>
             </div>
             )
   }

@@ -13,7 +13,6 @@ import {logout} from '../store'
  */
 const Main = (props) => {
   const {children, handleClick, isLoggedIn} = props
-  console.log('main children: ', children)
   return (
     <div>
       <div id="nav-bar">
