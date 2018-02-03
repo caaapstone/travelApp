@@ -37,15 +37,18 @@ console.log(this.props)
               placeholder= "flight budget"
               id="flightBudget"
               name="flightBudget"
+              required
             />
             <label>Where are you coming from?</label>
             <input
               id="startingCity"
               name="startingCity"
+              required
             />
             <input
               id="startingState"
               name="startingState"
+              required
             />
 
             <button>Join the trip!</button>
