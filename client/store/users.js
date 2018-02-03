@@ -34,6 +34,7 @@ export const getUsersByEmail = email =>
         return dispatch(getUsers(res.data))})
       .catch(err => console.error(err))
 
+// More info, for deciding on cities, flights, etc.
 export const fetchUsersOnTrip = (tripId) => dispatch => {
   axios.get('/api/flights/tripinfo', {
     params: {tripId: tripId}
@@ -68,6 +69,14 @@ export const fetchUsersOnTrip = (tripId) => dispatch => {
   .catch(err => console.error(err))
 }
 
+// Less info, for identifying who has selected ideas
+export const fetchParticipants = (tripId) => dispatch => {
+  axios.get(`/api/users/${tripId}`)
+  .then(res => {
+    dispatch(getUsersOnTrip(res.data))
+  })
+  .catch(err => console.error(err))
+}
 
 /**
  * REDUCER

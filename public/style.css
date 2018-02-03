@@ -207,8 +207,8 @@ form div {
 }
 
 .dragula-container {
-  min-height: 10px;
-  /* background-color: lightcyan; */
+  min-height: 200px;
+  background-color: lightcyan;
   /* border-style: solid; */
   /* border-width: 1px; */
   /* border-color: red; */
@@ -288,6 +288,10 @@ form div {
   flex-wrap: wrap;
   flex-direction: row;
   padding: 10px;
+}
+
+.ideas-container {
+  min-height: 200px;
 }
 
 #user {
