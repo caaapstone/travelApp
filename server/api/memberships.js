@@ -39,3 +39,4 @@ router.post('/flightinfo', (req, res, next) => {
     .then(updatedInfo => res.json(updatedInfo))
   })
 })
+

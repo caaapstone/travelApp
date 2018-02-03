@@ -16,13 +16,12 @@ const addMembership = membership => ({type: CREATE_MEMBERSHIP, membership})
  * THUNK CREATORS
  */
 
- export function postMembership(newMembership) {
+ export function postOrganizerMembership(newMembership) {
   return function thunk(dispatch) {
-    return axios.post(`/api/memberships`, newMembership)
-      .then(res => res.data)
-      .then(membership => {
+    return axios.post(`/api/users/email`, newMembership)
+      .then(res =>
         dispatch(addMembership(membership))
-      })
+      )
       .catch(err => console.error(err))
   }
 }
