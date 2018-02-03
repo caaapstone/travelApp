@@ -106,6 +106,7 @@ import history from '../history'
             <h3>The default budget for this trip is {this.props.trip.defaultBudget}</h3>
             <label>Update budget:</label>
             <input
+            required
             id="defaultBudget"
             name="defaultBudget"
             />
@@ -117,6 +118,7 @@ import history from '../history'
               ref="arrival"
               onDayClick={this.handleDayClick}
               selectedDays={this.state.selectedDay}
+              required
             />
             <DayPickerInput
               disabledDays={{ before: past }}
@@ -124,6 +126,7 @@ import history from '../history'
               ref="departure"
               onDayClick={this.handleDayClick}
               selectedDays={this.state.selectedDay}
+              required
             />
             <button type="submit">Invite your friends!</button>
             </form>
