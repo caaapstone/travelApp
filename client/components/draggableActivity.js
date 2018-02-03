@@ -24,10 +24,6 @@ class DraggableItem extends Component {
         <img src={activity.imageUrl} className="activity-thumbnail" />
         <a href={activity.link} target="_blank">{activity.name}</a>
         <br />
-        placeholder for address<br />
-        placeholder for rating<br />
-        placeholder for cost<br />
-        placeholder for cost<br />
         Last updated by: { activity.userUpdated }<br />
         Selected by: { activityUserNames.map(name => <div key={name}>{name}</div>) }
       </div>

@@ -11,13 +11,8 @@ export default class DraggableYelpResult extends Component {
     let activityId = activity.activityId || activity.id
     return (
       <div id={activityId} className="yelp-result">
-        <img src={activity.imageUrl} className="activity-thumbnail" />
-        <a href={activity.link} target="_blank">{activity.name}</a>
-        <br />
-        placeholder for address<br />
-        placeholder for rating<br />
-        placeholder for cost<br />
-        placeholder for cost<br />
+        <img src={activity.image_url} className="activity-thumbnail" />
+        <h4><a href={activity.link} target="_blank">{activity.name}</a></h4>
       </div>
     )
   }
