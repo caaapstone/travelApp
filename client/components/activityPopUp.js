@@ -6,11 +6,11 @@ export default class ActivityPopUp extends Component {
     let activity = this.props.activity
      // the 'activity' prop is an object and includes the following:
     // activityId, date, imageUrl, link, isActive, lat, long, name, time, tripId
-    if (activity.yelpInfo){
+  if (activity.yelpInfo){
     activity = this.props.activity.yelpInfo
     return (
       <div className="modal">
-        <h3><a href={activity.link} target="_blank">{activity.name}</a></h3>
+        <h3><a href={activity.url} target="_blank">{activity.name}</a></h3>
         <img src={activity.image_url} className="modal-image" />
         <br />
         <p>{activity.price}</p>
@@ -24,12 +24,7 @@ export default class ActivityPopUp extends Component {
     )
   } else {
     return (
-      <div className="modal">
-        <h3>{activity.name}</h3>
-        <img src={activity.imageUrl} className="modal-image" />
-        <br />
-        Here is going to be a bunch of information about this one thing!
-      </div>
+      <div />
     )
   }
   }

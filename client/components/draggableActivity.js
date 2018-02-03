@@ -1,7 +1,27 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import ActivityPopUp from './activityPopUp'
+import Modal from 'react-responsive-modal'
 
 class DraggableItem extends Component {
+  constructor(){
+    super();
+    this.state = {
+      open: false
+    }
+    this.onOpenModal = this.onOpenModal.bind(this)
+    this.onCloseModal = this.onCloseModal.bind(this)
+  }
+
+  onOpenModal(activity){
+    this.setState({ ...this.state, selectedActivity: activity, open: true });
+    console.log('this.state(open): ', this.state)
+  }
+
+  onCloseModal(){
+    this.setState({ ...this.state, selectedActivity: '', open: false });
+    console.log('this.state(close): ', this.state)
+  }
 
   render() {
     const { activity, currentUser, tripUsers } = this.props
@@ -20,7 +40,10 @@ class DraggableItem extends Component {
     })
 
     return (
-      <div id={activityId} className="activity">
+      <div id={activityId} className="activity" onClick={() => this.onOpenModal(activity)}>
+      <Modal open={this.state.open} onClose={this.onCloseModal} little>
+            <ActivityPopUp activity={this.state.selectedActivity} />
+        </Modal>
         <img src={activity.imageUrl} className="activity-thumbnail" />
         <a href={activity.link} target="_blank">{activity.name}</a>
         <br />

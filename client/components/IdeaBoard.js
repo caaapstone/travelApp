@@ -4,9 +4,7 @@ import Dragula from 'react-dragula'
 import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchParticipants } from '../store'
 import DraggableActivity from './draggableActivity'
 import DraggableYelpResult from './draggableYelpResult'
-import ActivityPopUp from './activityPopUp'
 import Modal from 'react-responsive-modal'
-
 
 class IdeaBoard extends Component {
   constructor() {
@@ -109,8 +107,8 @@ class IdeaBoard extends Component {
       return (
         <div>
         <Modal open={this.state.open} onClose={this.onCloseModal} little>
-            <ActivityPopUp activity={this.state.selectedActivity} />
-        </Modal>
+            {/* need some sort of yelp result pop up */}
+          </Modal>
         <div id="boards">
           <div className="idea-search">
           <h4>Activity Search</h4>
@@ -121,27 +119,25 @@ class IdeaBoard extends Component {
               />
               <button type="submit">Search</button>
             </form>
+            <div ref={this.dragulaDecorator}>
             {
               ideas.length ?
                 ideas.map(idea => {
                   return (
-                    <div key={idea.id} ref={this.dragulaDecorator} onClick={() => this.onOpenModal(idea)}>
                       <DraggableYelpResult activity={idea} />
-                    </div>
-                  )
-                })
-                : <div />
-            }
-          </div>
+                    )
+                  })
+                  : <div />
+                }
+                </div>
+              </div>
             <div id="user">
               <h2>Idea Board</h2>
-              <div className="idea-board">
+              <div className="idea-board dragula-container" ref={this.dragulaDecorator}>
                 {
                   userIdeas.map(activity => {
                     return (
-                        <div key={activity.id} className="dragula-container" ref={this.dragulaDecorator} onClick={() => this.onOpenModal(activity)}>
-                          <DraggableActivity activity={activity} />
-                        </div>
+                      <DraggableActivity activity={activity} />
                     )
                   })
                 }
@@ -149,22 +145,18 @@ class IdeaBoard extends Component {
             </div>
             <div id="group">
               <h2>Group Ideas</h2>
-              <div className="friend-ideas">
+              <div className="friend-ideas dragula-container" ref={this.dragulaDecorator}>
                 {
                   groupIdeas.map(activity => {
                     return (
-                      <div ref={this.dragulaDecorator} className="dragula-container" key={activity.id}>
-                        <div key={activity.id} ref={this.dragulaDecorator} onClick={() => this.onOpenModal(activity)}>
                           <DraggableActivity activity={activity} />
-                        </div>
-                      </div>
-                    )
-                  })
-                }
+                        )
+                      })
+                    }
               </div>
             </div>
           </div>
-        </div>
+          </div>
     )
   }
 

@@ -54,12 +54,12 @@ export const unsubscribeToTripThunkCreator = (component, tripId) =>
 }
 
 export const updateActivity = (activityObj) =>
-  axios.post('/api/activities', activityObj)
+  axios.post('/api/activities/update', activityObj)
     .then(() => { console.log('it worked?')})
     .catch(err => console.log(err))
 
 export const createActivity = (activityObject) =>
-  axios.post('/api/activities/new', activityObject)
+  axios.post('/api/activities/create', activityObject)
     .then(() => {console.log('success')})
     .catch(err => console.error(err))
 
