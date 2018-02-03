@@ -2,14 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import axios from 'axios'
-import bluebird from 'bluebird'
 import { setTimeout } from 'timers';
 import history from '../history'
-import me from '../store/user'
-import {fetchTripInfo} from '../store/trip'
-import { fetchUsersOnTrip } from '../store/users';
-import { fetchDestinationCities } from '../store/destinations';
-import { fetchActiveUserFlights } from '../store/flights';
+import {fetchTripInfo, fetchUsersOnTrip, fetchDestinationCities, fetchActiveUserFlights} from '../store'
 
 /**
  * COMPONENT
@@ -145,6 +140,7 @@ class Flights extends Component {
   }
 
   findFlights() {
+    console.log(this.props.duration)
     let allFlights = []
     const {usersOnTrip} = this.props
     for (var i = 0; i < usersOnTrip.length; i++) {
@@ -406,10 +402,10 @@ const mapStateToProps = ({user, trip, users, destinations, userFlights}, ownProp
   let duration = 0
   let lastUpdated = ''
 
-  if (trip.length) {
-    tripName = trip[0].name
-    departure = trip[0].arrivalDate
-    duration = trip[0].duration
+  if (trip.id) {
+    tripName = trip.name
+    departure = trip.arrivalDate
+    duration = trip.duration
   }
 
   if (destinations.length) {

@@ -2,7 +2,10 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Dragula from 'react-dragula'
 import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity } from '../store'
-import firebase from '../firebase'
+import DraggableActivity from './draggableActivity'
+import DraggableYelpResult from './draggableYelpResult'
+import CalendarPopUp from './calendarPopUp'
+import Modal from 'react-responsive-modal'
 
 
 class IdeaBoard extends Component {
@@ -10,8 +13,11 @@ class IdeaBoard extends Component {
     super()
     this.state = {
       drake: Dragula({}),
-      selectedActivity: {}
+      selectedActivity: {},
+      open: false
     }
+    this.onOpenModal = this.onOpenModal.bind(this)
+    this.onCloseModal = this.onCloseModal.bind(this)
   }
 
   componentWillMount(){
@@ -26,39 +32,35 @@ class IdeaBoard extends Component {
 
   componentDidMount() {
     if (!this.props.trip.name) {
-      var tripId = this.props.match.params.tripId
+      let tripId = this.props.match.params.tripId
       this.props.getTrip(tripId)
     }
 
     this.state.drake.on('drop', (el, target, source, sibling) => {
       console.log('dropped!')
-        console.log(el.id)
-        const id = el.id
-        var selectedActivity = this.props.ideas.find(idea =>{
-          return idea.id === id
-        })
-        console.log(selectedActivity)
-        var activity = {
-          name: selectedActivity.name,
-          lat: selectedActivity.coordinates.latitude,
-          long: selectedActivity.coordinates.longitude,
-          link: selectedActivity.url,
-          imageUrl: selectedActivity.image_url,
-          tripId: this.props.trip.id
+      let now = new Date
+      let time = now.getTime()
+      const id = el.id
+      let userUpdated = this.props.user.firstName + ' ' + this.props.user.lastName
+      let selectedActivity = this.props.ideas.find(idea => {
+        return idea.id === id
+      })
+      let activity = {
+        name: selectedActivity.name,
+        lat: selectedActivity.coordinates.latitude,
+        long: selectedActivity.coordinates.longitude,
+        link: selectedActivity.url,
+        imageUrl: selectedActivity.image_url,
+        tripId: this.props.trip.id,
+        timeUpdated: time,
+        userUpdated: userUpdated
+      }
+      this.props.createActivity(activity)
 
-        }
-        //pass selected activity into post request thing
-        // console.log("this.idea", this.props.ideas)
-        // this.setState({
-        //   selectedActivity: this.props.ideas
-        // })
-      //   let activityId = el.id
-        this.props.createActivity(activity)
-
-      // el.setAttribute('style', `${el.style.cssText};display: none;`);
-      // this.state.drake.cancel(true)
+      // prevents strange behavior due to DOM manipulation
+      el.setAttribute('style', `${el.style.cssText};display: none;`);
+      this.state.drake.cancel(true)
     })
-
   }
 
   createIdeas = (event) => {
@@ -72,52 +74,86 @@ class IdeaBoard extends Component {
     this.props.getIdeas(tripId, search)
   }
 
-  render() {
-    if (!this.props.ideas.length)
-    {
-      return (
-              <form onSubmit={this.createIdeas}>
-              <input
-              name="yelp_search"
-              id="yelp_search"
-              />
-              <button type="submit">click</button>
-              </form>
-              )
-
-    }  else {
-      return(
-             <div>
-             <form onSubmit={this.createIdeas}>
-             <input
-             name="yelp_search"
-             id="yelp_search"
-             />
-             <button type="submit">click</button>
-             </form>
-             {
-              this.props.ideas.map(idea =>{
-                return(
-
-                       <div ref={this.dragulaDecorator}>
-                       <h3
-                          id={idea.id}
-                        >{idea.name}</h3>
-                       </div>
-
-                       )
-              })
-            }
-            <div ref={this.dragulaDecorator}>
-            <h2>drop here</h2>
-            </div>
-            </div>
-            )
-
-    }
+  onOpenModal(activity){
+    this.setState({ ...this.state, selectedActivity: activity, open: true });
   }
-//drop here needs on drop firebase post
-//should render all unactive activities
+
+  onCloseModal(){
+    this.setState({ ...this.state, selectedActivity: '', open: false });
+  }
+
+  render() {
+    const { user, ideas, activities} = this.props
+    let ideaActivities = activities.filter(activity => !activity.isActive)
+
+    let userName = user.firstName + ' ' + user.lastName
+    let userIdeas = ideaActivities.filter(activity => activity.userUpdated === userName)
+    let groupIdeas = ideaActivities.filter(activity => activity.userUpdated !== userName)
+
+      return (
+        <div>
+        <Modal open={this.state.open} onClose={this.onCloseModal} little>
+            <CalendarPopUp activity={this.state.selectedActivity} />
+        </Modal>
+        <div id="boards">
+          <div className="idea-search">
+          <h4>Activity Search</h4>
+            <form onSubmit={this.createIdeas}>
+              <input
+                name="yelp_search"
+                id="yelp_search"
+              />
+              <button type="submit">Search</button>
+            </form>
+            {
+              ideas.length ?
+                ideas.map(idea => {
+                  return (
+                    <div key={idea.id} ref={this.dragulaDecorator} onClick={() => this.onOpenModal(idea)}>
+                      <DraggableYelpResult activity={idea} />
+                    </div>
+                  )
+                })
+                : <div />
+            }
+          </div>
+            <div id="user">
+              <h2>Idea Board</h2>
+              <div className="idea-board">
+                {
+                  userIdeas.map(activity => {
+                    return (
+                      <div ref={this.dragulaDecorator} className="dragula-container">
+                        <div key={activity.id} ref={this.dragulaDecorator} onClick={() => this.onOpenModal(activity)}>
+                          <DraggableActivity activity={activity} />
+                        </div>
+                      </div>
+                    )
+                  })
+                }
+              </div>
+            </div>
+            <div id="group">
+              <h2>Group Ideas</h2>
+              <div className="friend-ideas">
+                {
+                  groupIdeas.map(activity => {
+                    return (
+                      <div ref={this.dragulaDecorator} className="dragula-container">
+                        <div key={activity.id} ref={this.dragulaDecorator} onClick={() => this.onOpenModal(activity)}>
+                          <DraggableActivity activity={activity} />
+                        </div>
+                      </div>
+                    )
+                  })
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+    )
+  }
+
   dragulaDecorator = (componentBackingInstance) => {
     if (componentBackingInstance) {
       let options = { };
@@ -125,17 +161,12 @@ class IdeaBoard extends Component {
     }
   }
 }
-//component did mount, go to firebase, get current activities
-/**
- * CONTAINER
- */
 
  const mapState = (state) => {
-
   return {
     user: state.user,
     trip: state.trip,
-    activities: state.tripActivities,
+    activities: state.activities,
     ideas: state.ideas
   }
 }
@@ -161,7 +192,3 @@ const mapDispatch = (dispatch) => {
 }
 
 export default connect(mapState, mapDispatch)(IdeaBoard)
-
-//search field
-// dragula things
-//post or put that happens on drop??

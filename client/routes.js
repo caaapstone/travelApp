@@ -4,7 +4,7 @@ import {Route, Switch, Router} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
 import {me} from './store'
-import {Main, Login, Signup, UserHome, Flights, CreateTrip, JoinTrip, MapBoard, CalendarBoard, IdeaBoard, UserDashboard, TripDashboard} from './components'
+import {Main, Login, Signup, UserHome, Flights, CreateTrip, JoinTrip, MapBoard, CalendarBoard, IdeaBoard, TripDetailsSetUp, UserDashboard, TripDashboard, Hotels} from './components'
 
 /**
  * COMPONENT
@@ -22,23 +22,21 @@ class Routes extends Component {
         <Main>
           <Switch>
             {/* Routes placed here are available to all visitors */}
-            <Route path="/createtrip" component={CreateTrip} />
-            <Route path={'/trips/jointrip/'} component={JoinTrip} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route exact path="/flights/:tripId/:userId" component={Flights} />
-            <Route path="/trip/:tripId/ideaboard" component={IdeaBoard} />
-
             {
               isLoggedIn &&
-                <Switch>
-                  {/* Routes placed here are only available after logging in */}
-                  <Route path="/home" component={UserHome} />
-                  <Route exact path="/dashboard/:userId" component={UserDashboard} />
-                  <Route exact path="/trip/:tripId/calendar" component={CalendarBoard} />
-                  <Route path="/trip/:tripId/map" component={MapBoard} />
-                  <Route exact path="/trip/:tripId/dashboard" component={TripDashboard} />
-                </Switch>
+              <Switch>
+              {/* Routes placed here are only available after logging in */}
+                <Route exact path="/createtrip" component={CreateTrip} />
+                <Route exact path={'/trips/tripdetailsetup/:tripId'} component={TripDetailsSetUp} />
+                <Route exact path={'/trips/jointrip'} component={JoinTrip} />
+                <Route exact path ="/" component={UserDashboard} />
+                <Route exact path ="/home" component={UserDashboard} />
+                <Route exact path="/flights/:tripId/:userId" component={Flights} />
+                <Route exact path="/hotels/:tripId" component={Hotels} />
+                <Route path="/trip/:tripId" component={TripDashboard} />
+              </Switch>
             }
             {/* Displays our Login component as a fallback */}
             <Route component={Login} />

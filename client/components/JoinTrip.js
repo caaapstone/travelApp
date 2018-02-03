@@ -25,7 +25,7 @@ render(){
 
   return (
           <div>
-            <h1>Welcome</h1>
+            <h1>Trip Details</h1>
             <h3>The budget for this trip is {this.props.trip.defaultBudget}</h3>
             <form onSubmit={this.submitMembership}>
             <label>You can adjust your personal budget here:</label>

@@ -6,7 +6,9 @@ let trip1 = [{
     tripId: 1,
     isActive: true,
     time: 'dinner',
-    users: [1, 2],
+    timeUpdated: 1517514798964,
+    userUpdated: 'Alyssa Venere Braun',
+    // users: [1, 2],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -17,7 +19,9 @@ let trip1 = [{
     tripId: 1,
     isActive: true,
     time: 'lunch',
-    users: [1],
+    timeUpdated: 1517514798964,
+    userUpdated: 'Alyssa Drobatz',
+    // users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -28,7 +32,9 @@ let trip1 = [{
     tripId: 1,
     isActive: true,
     time: 'morning',
-    users: [1],
+    timeUpdated: 1517514798964,
+    userUpdated: 'Alexa Billings',
+    // users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -39,7 +45,9 @@ let trip1 = [{
     tripId: 1,
     isActive: true,
     time: 'afternoon',
-    users: [1, 4],
+    timeUpdated: 1517514798964,
+    userUpdated: 'Pat Noonan',
+    // users: [1, 4],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -50,7 +58,9 @@ let trip1 = [{
     tripId: 1,
     time: 'evening',
     isActive: true,
-    users: [3, 4],
+    timeUpdated: 1517514798964,
+    userUpdated: 'Alexa Billings',
+    // users: [3, 4],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -61,7 +71,9 @@ let trip1 = [{
     tripId: 1,
     isActive: true,
     time: 'breakfast',
-    users: [1],
+    timeUpdated: 1517514798964,
+    userUpdated: 'Alyssa Venere Braun',
+    // users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   }]
 
@@ -73,7 +85,9 @@ let trip2 = [{
     tripId: 2,
     isActive: true,
     time: 'morning',
-    users: [1],
+    timeUpdated: 1517514798964,
+    userUpdated: 2,
+    // users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -84,7 +98,9 @@ let trip2 = [{
     tripId: 2,
     isActive: true,
     time: 'breakfast',
-    users: [1],
+    timeUpdated: 1517514798964,
+    userUpdated: 2,
+    // users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -95,7 +111,9 @@ let trip2 = [{
     tripId: 2,
     isActive: true,
     time: 'lunch',
-    users: [1],
+    timeUpdated: 1517514798964,
+    userUpdated: 1,
+    // users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -106,7 +124,9 @@ let trip2 = [{
     tripId: 2,
     isActive: true,
     time: 'evening',
-    users: [1],
+    timeUpdated: 1517514798964,
+    userUpdated: 1,
+    // users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -117,7 +137,9 @@ let trip2 = [{
     tripId: 2,
     isActive: true,
     time: 'afternoon',
-    users: [1],
+    timeUpdated: 1517514798964,
+    userUpdated: 2,
+    // users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -128,7 +150,9 @@ let trip2 = [{
     tripId: 2,
     isActive: true,
     time: 'dinner',
-    users: [1, 2],
+    timeUpdated: 1517514798964,
+    userUpdated: 2,
+    // users: [1, 2],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   }]
 
@@ -139,7 +163,9 @@ let trip3 = [{
     long: -87.6761,
     tripId: 3,
     isActive: false,
-    users: [1],
+    timeUpdated: 1517514798964,
+    userUpdated: 1,
+    // users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -148,7 +174,9 @@ let trip3 = [{
     long: -87.6300,
     tripId: 3,
     isActive: false,
-    users: [1],
+    timeUpdated: 1517514798964,
+    userUpdated: 1,
+    // users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -157,7 +185,9 @@ let trip3 = [{
     long: -87.6251,
     tripId: 3,
     isActive: false,
-    users: [1],
+    timeUpdated: 1517514798964,
+    userUpdated: 1,
+    // users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -166,7 +196,7 @@ let trip3 = [{
     long: -87.6553,
     tripId: 3,
     isActive: false,
-    users: [1],
+    // users: [1],
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   }]
 

@@ -6,15 +6,15 @@ import { fetchUserTrips } from '../store'
 class UserDashboard extends Component {
 
   componentDidMount(){
-    let userId = this.props.match.params.userId
-    this.props.getUserTrips(userId)
+    this.props.getUserTrips(this.props.user.id)
+    console.log('user id: ', this.props.user.id)
   }
 
   render(){
     const { user, userTrips } = this.props
     let invitations = userTrips.filter(trip => !trip.flightBudget && !trip.hotelBudget)
     let trips = userTrips.filter(trip => trip.flightBudget && trip.hotelBudget)
-
+    console.log(invitations)
     if (userTrips){
       return (
         <div>
@@ -52,7 +52,7 @@ class UserDashboard extends Component {
             trips.map(trip => {
               return (
                 <div key={trip.id}>
-                  <Link to={`/trip/${trip.id}`}>{trip.trip.name}</Link><br />
+                  <Link to={`/trip/${trip.tripId}`}>{trip.trip.name}</Link><br />
                   Destination:
                   {
                     trip.destinationCity ?

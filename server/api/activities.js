@@ -7,24 +7,22 @@ module.exports = router
 // POST because it is not specifying exact URL where stored
 //this updates an already existing activity (re: activityID)
 router.post('/', (req, res, next) => {
-  // firebaseDb.ref('trips').push(req.body)
-  // .then(res.sendStatus(200))
   console.log('req.body: ', req.body)
   let tripId = req.body.tripId
   let activityId = req.body.activityId
   let date = req.body.date
   let time = req.body.time
   let isActive = req.body.isActive
+  let timeUpdated = req.body.timeUpdated
+  let userUpdated = req.body.userUpdated
   let tripRef = firebaseDb.ref(`/trips/T${tripId}/${activityId}`)
   let updates = {
     date,
     time,
-    isActive
+    isActive,
+    timeUpdated,
+    userUpdated
   }
-  console.log('date(api): ', date)
-  console.log('time(api): ', time)
-  console.log('activityId(api): ', activityId)
-  console.log('tripId(api): ', tripId)
   tripRef.update(updates)
 })
 
@@ -39,6 +37,9 @@ router.post('/new', (req, res, next) =>{
   let link = req.body.link
   let imageUrl = req.body.imageUrl
   let tripId = req.body.tripId
+  let userId = req.body.userId
+  let timeUpdated = req.body.timeUpdated
+  let userUpdated = req.body.userUpdated
 
   let tripRef = firebaseDb.ref(`/trips/T${tripId}`)
   let newActivity = {
@@ -50,7 +51,9 @@ router.post('/new', (req, res, next) =>{
     long,
     link,
     imageUrl,
-    tripId
+    tripId,
+    timeUpdated,
+    userUpdated
   }
   tripRef.push(newActivity)
 })
