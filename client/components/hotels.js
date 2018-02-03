@@ -156,11 +156,11 @@ class Hotels extends Component {
     }
 
     return (
-      <div>
-        <h1 className="capitalized-header">Hotels</h1>
+      <div className="two-rem-padding">
+        <h1 className="capitalized-header">MY TRIP INFO</h1>
         <div id="hotel-option-container">
           <div id="hotel-option-sidebar">
-            <h4>Lodging Details</h4>
+            <h2 className="purple-sub-head">Lodging Details</h2>
             <div id="hotel-options">
               {
                 userHotel.name
@@ -181,16 +181,13 @@ class Hotels extends Component {
                       <div key={hotel.name}>
                         <form key={hotel.name}>
                           <div className="hotel-search-result">
-                            <div>
-                              <img src={hotel.photoUrl} className="hotel-search-image" />
-                            </div>
-                            <div className="small-left-margin">
+                            <div className="small-left-margin" style={{backgroundImage: `url(${hotel.photoUrl})`}}>
                               <a href={hotel.url} target="_blank"><h5 name="hotelName">{hotel.name}</h5></a>
                               <p className="small-no-margin">{`${hotel.add1}, ${hotel.city}, ${hotel.state}`}</p>
                             </div>
                           </div>
                           <div className="hotel-search-select">
-                              <button type="button" onClick={() => this.selectHotel(hotel.name, hotel.add1, hotel.city, hotel.state, hotel.lat, hotel.long, hotel.url, hotel.photoUrl)}>Select This Hotel</button>
+                              <button type="button" onClick={() => this.selectHotel(hotel.name, hotel.add1, hotel.city, hotel.state, hotel.lat, hotel.long, hotel.url, hotel.photoUrl)} className="button-outline center-loading">Select This Hotel</button>
                               </div>
                         </form>
                       </div>
@@ -199,7 +196,7 @@ class Hotels extends Component {
                 </div>
               }
             </div>
-            <h4>Flight Details</h4>
+            <h2 className="purple-sub-head">Flight Details</h2>
               <div id="hotel-options">
                 {
                   (users.length > 0 && userTripInfo.name)
@@ -227,7 +224,7 @@ class Hotels extends Component {
                         <input placeholder="Flight #" name="departureflight" />
                         <input placeholder="Date (YYYY-MM-DD)" name="departuredate" />
                         <input placeholder="Departure Time" name="departuretime" />
-                        <button>Submit</button>
+                        <button className="button">Submit</button>
                       </form>
                     : <form onSubmit={this.flightInfo} id="flight-info-form">
                       <label>Enter Arrival Details</label>
@@ -240,7 +237,7 @@ class Hotels extends Component {
                       <input placeholder="Flight #" name="departureflight" />
                       <input placeholder="Date (YYYY-MM-DD)" name="departuredate" />
                       <input placeholder="Departure Time" name="departuretime" />
-                      <button>Submit</button>
+                      <button className="button">Submit</button>
                     </form>
                 }
               </div>
