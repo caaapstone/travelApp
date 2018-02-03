@@ -39,7 +39,6 @@ const update = membership => ({type: UPDATE_MEMBERSHIP, membership})
 }
 
 
-
 /**
  * REDUCER
  */

@@ -19,7 +19,7 @@ class UserDashboard extends Component {
   }
   render(){
     const { user, userTrips } = this.props
-    let invitations = userTrips.filter(trip => !trip.flightBudget)
+    let invitations = userTrips.filter(trip => !trip.flightBudget && !trip.organizer)
     let trips = userTrips.filter(trip => trip.flightBudget)
     if (userTrips){
       return (
