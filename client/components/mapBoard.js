@@ -72,7 +72,6 @@ class MapBoard extends Component {
   componentWillUnmount(){
     let tripId = this.props.match.params.tripId
     this.props.unsubscribeFromFirebase(this, tripId)
-    this.map.remove();
   }
 
   componentDidMount(){
@@ -117,7 +116,6 @@ class MapBoard extends Component {
       })
       let routes = dates[day].coordinates
       // this.props.getRoutes(routes)
-      console.log('this.props.getRoutes', this.props.getRoutesGeoJSON)
       this.setState({routesGeoJSON: getRoutesGeoJSON(activities, routes)})
     })
   }
