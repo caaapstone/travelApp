@@ -6,6 +6,7 @@ import { subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, 
 import DraggableActivity from './draggableActivity'
 import ActivityPopUp from './activityPopUp'
 import Modal from 'react-responsive-modal'
+import {withRouter} from 'react-router-dom'
 
 export class CalendarBoard extends React.Component {
   constructor(){
@@ -291,5 +292,5 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(CalendarBoard)
+export default withRouter(connect(mapState, mapDispatch)(CalendarBoard))
 
