@@ -5,6 +5,7 @@ import axios from 'axios'
 import { setTimeout } from 'timers';
 import history from '../history'
 import {fetchTripInfo, fetchUsersOnTrip, fetchDestinationCities, fetchActiveUserFlights} from '../store'
+import Loading from 'react-loading-components'
 
 /**
  * COMPONENT
@@ -111,7 +112,8 @@ class Flights extends Component {
         YV:	'Mesa',
         YX:	'Midwest',
         ZK:	'Great Lakes'
-      }
+      },
+      loading: false
     }
 
     this.findFlights = this.findFlights.bind(this)
@@ -122,6 +124,10 @@ class Flights extends Component {
     this.upVoteErrorClear = this.upVoteErrorClear.bind(this)
     this.selectCity = this.selectCity.bind(this)
     this.updateFlights = this.updateFlights.bind(this)
+    this.whereCanWeGo = this.whereCanWeGo.bind(this)
+    this.whereError = this.whereError.bind(this)
+    this.whereClear = this.whereClear.bind(this)
+    this.toggleLoading = this.toggleLoading.bind(this)
 
   }
 
@@ -140,7 +146,7 @@ class Flights extends Component {
   }
 
   findFlights() {
-    console.log(this.props.duration)
+    this.setState({loading: true})
     let allFlights = []
     const {usersOnTrip} = this.props
     for (var i = 0; i < usersOnTrip.length; i++) {
@@ -176,6 +182,7 @@ class Flights extends Component {
   }
 
   updateFlights() {
+    this.setState({loading: true})
     const {getUsersOnTrip} = this.props
     axios.post('/api/destinations/clearupvotes', {
       tripId: this.props.match.params.tripId
@@ -213,7 +220,8 @@ class Flights extends Component {
       tripId: this.props.match.params.tripId
     })
     .then((response) => {
-      setTimeout(this.getDestinationCities, 2000)
+      setTimeout(this.getDestinationCities, 1000)
+      setTimeout(this.toggleLoading, 1500)
     })
     .then(() => {
       getUserFlights(this.props.match.params.tripId, this.props.match.params.userId)
@@ -234,7 +242,7 @@ class Flights extends Component {
     })
     .then(result => {
       if(result.status === 401) {
-        console.log('You\'ve used all of your votes')
+        this.upVoteError()
       } else{
         setTimeout(this.getDestinationCities, 1000)
       }
@@ -243,7 +251,7 @@ class Flights extends Component {
       getUsersOnTrip(this.props.match.params.tripId)
     })
     .catch(err => {
-      console.log(err)
+      console.error(err)
       this.upVoteError()
     })
   }
@@ -264,10 +272,25 @@ class Flights extends Component {
     errorPopup.style.opacity = 0
   }
 
+  whereError() {
+    let errorPopup = document.getElementById('where_error')
+
+    errorPopup.style.visibility = 'visible'
+    errorPopup.style.opacity = 1
+
+    setTimeout(this.whereClear, 3000)
+  }
+
+  whereClear() {
+    let errorPopup = document.getElementById('where_error')
+
+    errorPopup.style.visibility = 'hidden'
+    errorPopup.style.opacity = 0
+  }
+
   selectCity(e){
     const {getTripInfo} = this.props
     let destination = e.target.value.split('-')
-    console.log(destination)
     axios.post('/api/flights/setcity', {
       tripId: this.props.match.params.tripId,
       city: destination[0],
@@ -275,17 +298,43 @@ class Flights extends Component {
     })
     .then(result => {
       getTripInfo(this.props.match.params.tripId)
-      history.push('/home')
+      history.push(`/trip/${this.props.match.params.tripId}`)
     })
   }
 
+  whereCanWeGo(){
+    const {usersOnTrip} = this.props
+    let joined = 0
+
+    usersOnTrip.forEach(user => {
+      if (user.joined === true) {
+        joined++
+      }
+    })
+
+    if(usersOnTrip.length === joined) {
+      this.findFlights()
+    } else {
+      this.whereError()
+    }
+  }
+
+  toggleLoading() {
+    this.setState({loading: false})
+  }
+
   render() {
-    const {tripName, usersOnTrip, possibleCities, userFlights, lastUpdated} = this.props
+    const {tripName, usersOnTrip, possibleCities, userFlights, lastUpdated, trip} = this.props
     let organizer = usersOnTrip.filter(user => user.userId === Number(this.props.match.params.userId))
+
+    if(trip.destinationCity) {
+      history.push(`/trip/${this.props.match.params.tripId}`)
+    }
+
     return (
-      <div>
+      <div className="two-rem-padding">
         <div id="flight-search-header">
-          <h1 className="capitalized-header">{tripName.toUpperCase()}</h1>
+          <h2 className="capitalized-header">{tripName.toUpperCase()}</h2>
           <div id="flight-page-members">
             {
               usersOnTrip.map(user => (
@@ -324,18 +373,34 @@ class Flights extends Component {
           <i className="fa fa-times-circle"/>
            You've Already Voted 3 Times
         </div>
+        <div id="where_error">
+          <i className="fa fa-times-circle"/>
+           Waiting for all users to join this trip.
+        </div>
         {
           possibleCities.length
-            ? <div className="get-flights-div">
-              <p>Flight information was last updated on: {lastUpdated}</p>
-              <button onClick={this.updateFlights}>Update Flight Data</button>
-            </div>
-            : <div className="get-flights-div">
-              <button onClick={this.findFlights}>Where Can We Go?</button>
-            </div>
+            ? (organizer.length && organizer[0].organizer)
+              ? <div className="get-flights-div">
+                <p>Flight information was last updated on: {lastUpdated}</p>
+                <button onClick={this.updateFlights}>Update Flight Data</button>
+              </div>
+              : <div className="get-flights-div">
+                <p>Flight information was last updated on: {lastUpdated}</p>
+              </div>
+            : (organizer.length && organizer[0].organizer)
+              ? <div className="get-flights-div">
+                <button onClick={this.whereCanWeGo}>Where Can We Go?</button>
+              </div>
+              : <div className="get-flights-div">
+                <p>Waiting for everyone to accept their invitations.</p>
+              </div>
         }
         {
-          possibleCities.length
+          this.state.loading
+          ? <div className="text-align-center">
+            <Loading type="puff" width={200} height={200} fill="#7E4E60" className="center-loading"/>
+          </div>
+          : possibleCities.length
             ? <div>
               {possibleCities.map(city => (
                 <div key={city.airport} className="possible-city-container">
@@ -382,9 +447,13 @@ class Flights extends Component {
                 </div>
               ))}
             </div>
-            : <div id="search-for-flights">
-              <h1 className="two-rem-padding">Search for possible flights to see where your group can go!</h1>
-            </div>
+            :  (organizer.length && organizer[0].organizer)
+              ? <div id="search-for-flights">
+                <h2 className="two-rem-padding center-header">Search for flights to see where your crew can go.</h2>
+              </div>
+              : <div id="search-for-flights">
+                <h2 className="two-rem-padding center-header">Once everyone joins your trip and your organizer searches for flights your possible destinations will show up here.</h2>
+              </div>
         }
       </div>
     )
@@ -428,7 +497,8 @@ const mapStateToProps = ({user, trip, users, destinations, userFlights}, ownProp
     usersOnTrip: users,
     possibleCities: destinations,
     userFlights,
-    lastUpdated
+    lastUpdated,
+    trip
   }
 }
 
