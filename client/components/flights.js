@@ -382,14 +382,14 @@ class Flights extends Component {
             ? (organizer.length && organizer[0].organizer)
               ? <div className="get-flights-div">
                 <p>Flight information was last updated on: {lastUpdated}</p>
-                <button onClick={this.updateFlights}>Update Flight Data</button>
+                <button onClick={this.updateFlights} className="button">Update Flight Data</button>
               </div>
               : <div className="get-flights-div">
                 <p>Flight information was last updated on: {lastUpdated}</p>
               </div>
             : (organizer.length && organizer[0].organizer)
               ? <div className="get-flights-div">
-                <button onClick={this.whereCanWeGo}>Where Can We Go?</button>
+                <button onClick={this.whereCanWeGo} className="button">Where Can We Go?</button>
               </div>
               : <div className="get-flights-div">
                 <p>Waiting for everyone to accept their invitations.</p>
@@ -417,11 +417,11 @@ class Flights extends Component {
                         {
                           (organizer.length && organizer[0].organizer)
                             ? <div>
-                                <button value={`${city.city}-${city.state}`} onClick={this.selectCity}>Select This Destination</button>
+                                <button value={`${city.city}-${city.state}`} onClick={this.selectCity} className="button-outline">Select This Destination</button>
                                 <br />
-                                <button onClick={this.upVote} value={city.airport}>Vote For This Destination</button>
+                                <button onClick={this.upVote} value={city.airport} className="button-outline">Vote For This Destination</button>
                               </div>
-                            : <button onClick={this.upVote} value={city.airport}>Vote For This Destination</button>
+                            : <button onClick={this.upVote} value={city.airport} className="button-outline">Vote For This Destination</button>
                         }
                       </div>
                     </div>

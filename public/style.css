@@ -664,7 +664,7 @@ form div {
   max-height: 300px;
   overflow-y: scroll;
   border: 1px solid #C4C7D1;
-  padding-top: 1rem;
+  padding: 10px;
 }
 
 #hotel-option-map{
@@ -683,6 +683,10 @@ form div {
 #hotel-search{
   width: 300px;
   margin: 1rem;
+  padding: .5rem 1rem;
+  font-size: .8rem;
+  border: 1px solid #C4C7D1;
+  border-radius: 5px;
 }
 
 .hotel-search-result{
@@ -690,7 +694,6 @@ form div {
   margin-left: 1rem;
   margin-right: 1rem;
   margin-bottom: 0;
-  border: 1px solid #C4C7D1;
 }
 
 .hotel-search-select{
@@ -699,8 +702,10 @@ form div {
   margin-left: 1rem;
   margin-right: 1rem;
   margin-bottom: 1rem;
-  border: 1px solid #C4C7D1;
+  border-bottom: 2px solid #C4C7D1;
   text-align: center;
+  align-content: center;
+  padding-bottom: 1rem;
 }
 
 .hotel-search-image{
@@ -789,4 +794,50 @@ body{
 .text-align-center{
   margin: auto;
   text-align: center;
+}
+
+.button{
+  border: none;
+  background-color: #7E4E60;
+  padding: .5rem 2rem;
+  color: white;
+  font-size: .8rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.button:hover{
+  background-color: #B7B8C6;
+}
+
+.button-outline{
+  border: 1px solid #7E4E60;
+  background-color: white;
+  padding: .5rem 1rem;
+  color: #7E4E60;
+  font-size: .6rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 150px;
+  margin-top: 8px;
+}
+
+.button-outline:hover{
+  border-color: #B7B8C6;
+  color: #B7B8C6;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+.purple-sub-head{
+  font-weight: 100;
+  color: #7E4E60;
 }
