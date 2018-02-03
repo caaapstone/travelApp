@@ -7,7 +7,6 @@ class UserDashboard extends Component {
 
   componentDidMount(){
     this.props.getUserTrips(this.props.user.id)
-    console.log('user id: ', this.props.user.id)
   }
 
   render(){

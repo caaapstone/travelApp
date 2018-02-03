@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import { subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, updateActivity } from '../store';
+import { subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, getMembership, updateActivity } from '../store';
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 
 //Itinerary should have flight info
 //lodging info if available
@@ -25,6 +26,7 @@ class Itinerary extends Component {
   componentWillMount(){
     let tripId = this.props.match.params.tripId
     this.props.subscribeToFirebase(this, tripId)
+    this.props.getCurrentTripMembership(tripId)
   }
 
   componentWillUnmount(){
@@ -71,27 +73,25 @@ class Itinerary extends Component {
 
   render(){
     let days = Object.keys(this.state.activities)
-
     return (
       <div>
       <h1>Itinerary</h1>
       {
         days.map(day => {
-          let splitDate = day.split('-')
-          let singleDate = splitDate.pop()
-          console.log('singleDate', Number(singleDate))
           let schedTimes = Object.keys(this.state.activities[day])
-          console.log('day', day)
           return (
           schedTimes.map(schedTime => {
             let activity = this.state.activities[day][schedTime]
             return (
               activity.map(singleActivity => {
+                let location = singleActivity.yelpInfo.location
                 return (
                   <div>
                     <h2>{day}</h2>
                     <h3>{schedTime}</h3>
                     <p>{singleActivity.name}</p>
+                    <p>{location.address1}</p>
+                    <p>{location.city}, {location.state} {location.zip_code}</p>
                   </div>
                 )
               })
@@ -118,13 +118,13 @@ let mapDispatchToProps = dispatch => {
     unsubscribeFromFirebase(component, tripId){
       dispatch(unsubscribeToTripThunkCreator(component, tripId))
     },
-    getTripInfo(tripId){
-      dispatch(fetchTrip(tripId))
-    },
     updateActivity(activityObj){
       updateActivity(activityObj)
+    },
+    getCurrentTripMembership(tripId){
+      dispatch(getMembership(tripId))
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Itinerary)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Itinerary))

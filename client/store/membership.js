@@ -4,6 +4,7 @@ import axios from 'axios'
  * ACTION TYPES
  */
 const CREATE_MEMBERSHIP = 'CREATE_MEMBERSHIP'
+const GET_TRIP_MEMBERSHIP = 'GET_TRIP_MEMBERSHIP'
 
 
 /**
@@ -11,6 +12,7 @@ const CREATE_MEMBERSHIP = 'CREATE_MEMBERSHIP'
  */
 
 const addMembership = membership => ({type: CREATE_MEMBERSHIP, membership})
+const getTripMembership = membership => ({type: GET_TRIP_MEMBERSHIP, membership})
 
 /**
  * THUNK CREATORS
@@ -26,13 +28,26 @@ const addMembership = membership => ({type: CREATE_MEMBERSHIP, membership})
   }
 }
 
+
+  export let getMembership = tripId => dispatch => {
+    axios.get(`/api/memberships/${tripId}`)
+      .then(res => {
+        console.log('data from membership thunk', res.data)
+        dispatch(getTripMembership(res.data))
+      })
+      .catch(err => console.error(err))
+  }
+
 /**
  * REDUCER
  */
 export default function (state = {}, action) {
   switch (action.type) {
     case CREATE_MEMBERSHIP:
-    return {...state, membership: action.membership};
+      return {...state, membership: action.membership};
+    case GET_TRIP_MEMBERSHIP:
+      return action.membership
+
     default:
       return state
   }
