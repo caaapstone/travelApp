@@ -4,29 +4,29 @@ const firebaseDb = require('../firebase')
 
 module.exports = router
 
-// // POST because it is not specifying exact URL where stored
-// //this updates an already existing activity (re: activityID)
-// router.post('/', (req, res, next) => {
-//   console.log('req.body: ', req.body)
-//   let tripId = req.body.tripId
-//   let activityId = req.body.activityId
-//   let date = req.body.date
-//   let time = req.body.time
-//   let isActive = req.body.isActive
-//   let timeUpdated = req.body.timeUpdated
-//   let userUpdated = req.body.userUpdated
-//   let tripRef = firebaseDb.ref(`/trips/T${tripId}/${activityId}`)
-//   let updates = {
-//     date,
-//     time,
-//     isActive,
-//     timeUpdated,
-//     userUpdated
-//   }
-//   tripRef.update(updates)
-// })
+// POST because it is not specifying exact URL where stored
+//this updates an already existing activity (re: activityID)
+router.post('/update', (req, res, next) => {
+  console.log('req.body: ', req.body)
+  let tripId = req.body.tripId
+  let activityId = req.body.activityId
+  let date = req.body.date
+  let time = req.body.time
+  let isActive = req.body.isActive
+  let timeUpdated = req.body.timeUpdated
+  let userUpdated = req.body.userUpdated
+  let tripRef = firebaseDb.ref(`/trips/T${tripId}/${activityId}`)
+  let updates = {
+    date,
+    time,
+    isActive,
+    timeUpdated,
+    userUpdated
+  }
+  tripRef.update(updates)
+})
 
-router.post('/new', async (req, res, next) =>{
+router.post('/create', async (req, res, next) =>{
   let name = req.body.name
   let date = ''
   let time = ''

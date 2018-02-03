@@ -112,15 +112,18 @@ export class CalendarBoard extends React.Component {
         <div className="group-ideas-container">
             {
               ideaActivities.length ?
-                ideaActivities.map(activity =>
-                  <div
-                    id="ideas"
-                    ref={this.dragulaDecorator}
-                    className="dragula-container"
-                    onClick={() => this.onOpenModal(activity)}
-                  >
-                  <DraggableActivity activity={activity} key={activity.id} />
-                  </div>
+                ideaActivities.map(activity => {
+                   return (
+                    <div
+                      id="ideas"
+                      ref={this.dragulaDecorator}
+                      className="dragula-container"
+                      onClick={() => this.onOpenModal(activity)}
+                    >
+                    <DraggableActivity activity={activity} key={activity.id} />
+                    </div>
+                  )
+                }
                 )
               : <div>All out of ideas!</div>
             }
