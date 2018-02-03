@@ -24,6 +24,8 @@ router.post('/test', (req, res, next) => {
 router.post('/email', (req, res, next)=>{
   let email = req.body.email
   let tripId = req.body.id
+  let joined = req.body.joined
+  let organizer = req.body.organizer
   User.findOrCreate({
     where: {
       email: email
@@ -36,7 +38,7 @@ router.post('/email', (req, res, next)=>{
       }
     })
     .then((trip)=>{
-      trip.addUser(user[0])
+      trip.addUser(user[0], { through: { joined: joined, organizer: organizer }})
     })
   })
   .catch(next)
