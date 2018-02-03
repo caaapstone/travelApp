@@ -4,6 +4,7 @@ import { getRoutes, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, 
 import reactMapboxGL, {Layer, Feature} from 'react-mapbox-gl'
 import mapboxgl from 'mapbox-gl'
 import firebase from '../firebase'
+import {withRouter} from 'react-router-dom'
 
 const times = ['breakfast',
   'morning',
@@ -173,4 +174,4 @@ let mapDispatchToProps = dispatch => {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapBoard)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MapBoard))

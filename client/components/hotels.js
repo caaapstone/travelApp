@@ -19,7 +19,8 @@ class Hotels extends Component {
       possibleHotels: [],
       selectedHotel: {},
       hotelMarkerSet: false,
-      getHotel: true
+      getHotel: true,
+      mapLoaded: false
     }
 
     this.hotelSearch = this.hotelSearch.bind(this)
@@ -50,6 +51,7 @@ class Hotels extends Component {
     }
 
     this.map = new mapboxgl.Map(mapConfig)
+    this.setState({mapLoaded: true})
 
   }
 
@@ -145,7 +147,7 @@ class Hotels extends Component {
       height: '550px'
     }
 
-    if (trip.id) {
+    if (trip.id && this.state.mapLoaded) {
       this.map.jumpTo({center: [Number(trip.lat), Number(trip.long)]})
     }
 
