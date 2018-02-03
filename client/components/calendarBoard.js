@@ -4,7 +4,7 @@ import firebase from '../firebase'
 import {connect} from 'react-redux'
 import { subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, updateActivity } from '../store';
 import DraggableActivity from './draggableActivity'
-import CalendarPopUp from './calendarPopUp'
+import ActivityPopUp from './activityPopUp'
 import Modal from 'react-responsive-modal'
 
 export class CalendarBoard extends React.Component {
@@ -106,7 +106,7 @@ export class CalendarBoard extends React.Component {
       return (
         <div>
           <Modal open={this.state.open} onClose={this.onCloseModal} little>
-            <CalendarPopUp activity={this.state.selectedActivity} />
+            <ActivityPopUp activity={this.state.selectedActivity} />
           </Modal>
           <h3>Group Idea Bank</h3>
         <div className="group-ideas-container">

@@ -4,7 +4,7 @@ import Dragula from 'react-dragula'
 import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchParticipants } from '../store'
 import DraggableActivity from './draggableActivity'
 import DraggableYelpResult from './draggableYelpResult'
-import CalendarPopUp from './calendarPopUp'
+import ActivityPopUp from './activityPopUp'
 import Modal from 'react-responsive-modal'
 
 
@@ -57,7 +57,8 @@ class IdeaBoard extends Component {
         tripId: this.props.trip.id,
         timeUpdated: time,
         userUpdated: userUpdated,
-        userId: this.props.user.id
+        userId: this.props.user.id,
+        yelpInfo: selectedActivity
       }
       this.props.createActivity(activity)
 
@@ -80,10 +81,12 @@ class IdeaBoard extends Component {
 
   onOpenModal(activity){
     this.setState({ ...this.state, selectedActivity: activity, open: true });
+    console.log('this.state(open): ', this.state)
   }
 
   onCloseModal(){
     this.setState({ ...this.state, selectedActivity: '', open: false });
+    console.log('this.state(close): ', this.state)
   }
 
   render() {
@@ -106,7 +109,7 @@ class IdeaBoard extends Component {
       return (
         <div>
         <Modal open={this.state.open} onClose={this.onCloseModal} little>
-            <CalendarPopUp activity={this.state.selectedActivity} />
+            <ActivityPopUp activity={this.state.selectedActivity} />
         </Modal>
         <div id="boards">
           <div className="idea-search">
