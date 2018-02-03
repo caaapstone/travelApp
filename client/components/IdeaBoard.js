@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Dragula from 'react-dragula'
-import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity } from '../store'
+import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchParticipants } from '../store'
 import DraggableActivity from './draggableActivity'
 import DraggableYelpResult from './draggableYelpResult'
 import CalendarPopUp from './calendarPopUp'
@@ -31,9 +31,12 @@ class IdeaBoard extends Component {
   }
 
   componentDidMount() {
+    let tripId = this.props.match.params.tripId
     if (!this.props.trip.name) {
-      let tripId = this.props.match.params.tripId
       this.props.getTrip(tripId)
+    }
+    if (!this.props.users){
+      this.props.getTripUsers(tripId)
     }
 
     this.state.drake.on('drop', (el, target, source, sibling) => {
@@ -53,7 +56,8 @@ class IdeaBoard extends Component {
         imageUrl: selectedActivity.image_url,
         tripId: this.props.trip.id,
         timeUpdated: time,
-        userUpdated: userUpdated
+        userUpdated: userUpdated,
+        userId: this.props.user.id
       }
       this.props.createActivity(activity)
 
@@ -87,8 +91,17 @@ class IdeaBoard extends Component {
     let ideaActivities = activities.filter(activity => !activity.isActive)
 
     let userName = user.firstName + ' ' + user.lastName
-    let userIdeas = ideaActivities.filter(activity => activity.userUpdated === userName)
-    let groupIdeas = ideaActivities.filter(activity => activity.userUpdated !== userName)
+
+    let userIdeas = []
+    let groupIdeas = []
+
+    for ( let activity in ideaActivities){
+      if (!ideaActivities[activity].users['U' + user.id]){
+        groupIdeas.push(ideaActivities[activity])
+      } else if (ideaActivities[activity].users['U' + user.id] === true){
+        userIdeas.push(ideaActivities[activity])
+      }
+    }
 
       return (
         <div>
@@ -123,11 +136,9 @@ class IdeaBoard extends Component {
                 {
                   userIdeas.map(activity => {
                     return (
-                      <div ref={this.dragulaDecorator} className="dragula-container">
-                        <div key={activity.id} ref={this.dragulaDecorator} onClick={() => this.onOpenModal(activity)}>
+                        <div key={activity.id} className="dragula-container" ref={this.dragulaDecorator} onClick={() => this.onOpenModal(activity)}>
                           <DraggableActivity activity={activity} />
                         </div>
-                      </div>
                     )
                   })
                 }
@@ -139,7 +150,7 @@ class IdeaBoard extends Component {
                 {
                   groupIdeas.map(activity => {
                     return (
-                      <div ref={this.dragulaDecorator} className="dragula-container">
+                      <div ref={this.dragulaDecorator} className="dragula-container" key={activity.id}>
                         <div key={activity.id} ref={this.dragulaDecorator} onClick={() => this.onOpenModal(activity)}>
                           <DraggableActivity activity={activity} />
                         </div>
@@ -179,11 +190,14 @@ const mapDispatch = (dispatch) => {
     unsubscribeFromFirebase(component, tripId){
       dispatch(unsubscribeToTripThunkCreator(component, tripId))
     },
-    getIdeas: (tripId, searchQuery) => {
+    getIdeas(tripId, searchQuery) {
       dispatch(fetchIdeas(tripId, searchQuery))
     },
-    getTrip: (tripId) => {
+    getTrip(tripId) {
       dispatch(fetchTrip(tripId))
+    },
+    getTripUsers(tripId){
+      dispatch(fetchParticipants(tripId))
     },
     createActivity(activity) {
       createActivity(activity)
