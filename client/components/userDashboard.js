@@ -17,10 +17,23 @@ class UserDashboard extends Component {
     }
     this.props.removeMembership(ids)
   }
+
   render(){
+    const tripDate = new Date()
+    let year = tripDate.getFullYear().toString()
+    let month = (tripDate.getMonth() + 1).toString()
+    let today = tripDate.getDate().toString()
+    if (today.length < 2) {
+      today = '0' + today
+    }
+    if (month.length < 2) {
+      month = '0' + month
+    }
+    let todaysDate = year + '-' + month + '-' + today
     const { user, userTrips } = this.props
     let invitations = userTrips.filter(trip => !trip.flightBudget && !trip.organizer)
-    let trips = userTrips.filter(trip => trip.flightBudget)
+    let previousTrips = userTrips.filter(trip => trip.flightBudget && trip.trip.arrivalDate < todaysDate)
+    let futureTrips = userTrips.filter(trip => trip.flightBudget && trip.trip.arrivalDate > todaysDate)
     if (userTrips){
       return (
         <div>
@@ -54,24 +67,46 @@ class UserDashboard extends Component {
           <br />
           <div>
           <h4>Your Trips</h4>
-          {
-            trips.map(trip => {
-              return (
-                <div key={trip.id}>
-                  <Link to={`/trip/${trip.tripId}`}>{trip.trip.name}</Link><br />
-                  Destination:
-                  {
-                    trip.destinationCity ?
-                    <div>{trip.destinationCity}, {trip.destinationState}</div>
-                    : 'Not yet selected'
-                  }
-                  <br />
-                  Personal Flight Budget (total): {trip.flightBudget}<br />
-                  Arrival Date: {trip.trip.arrivalDate}<br />
-                  Departure Date: {trip.trip.departureDate}<br />
-                </div>)
-            })
-          }
+          <h5>Upcoming Trips:</h5>
+            {
+              futureTrips.map(trip => {
+                return (
+                  <div key={trip.id}>
+                    <Link to={`/trip/${trip.tripId}`}>{trip.trip.name}</Link><br />
+                    Destination:
+                    {
+                      trip.destinationCity ?
+                      <div>{trip.destinationCity}, {trip.destinationState}</div>
+                      : 'Not yet selected'
+                    }
+                    <br />
+                    Personal Flight Budget (total): {trip.flightBudget}<br />
+                    Arrival Date: {trip.trip.arrivalDate}<br />
+                    Departure Date: {trip.trip.departureDate}<br />
+                  </div>
+                )
+              })
+            }
+            <h5>Past Trips: </h5>
+            {
+              previousTrips.map(trip => {
+                return (
+                  <div key={trip.id}>
+                    <Link to={`/trip/${trip.tripId}`}>{trip.trip.name}</Link><br />
+                    Destination:
+                    {
+                      trip.destinationCity ?
+                      <div>{trip.destinationCity}, {trip.destinationState}</div>
+                      : 'Not yet selected'
+                    }
+                    <br />
+                    Personal Flight Budget (total): {trip.flightBudget}<br />
+                    Arrival Date: {trip.trip.arrivalDate}<br />
+                    Departure Date: {trip.trip.departureDate}<br />
+                  </div>
+                )
+              })
+            }
         </div>
         </div>
       )
