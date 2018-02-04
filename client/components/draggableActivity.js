@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import ActivityPopUp from './activityPopUp'
 import Modal from 'react-responsive-modal'
-import {fetchParticipants} from '../store'
+import {fetchUsersOnTrip} from '../store'
 import {withRouter} from 'react-router-dom'
 
 class DraggableItem extends Component {
@@ -47,8 +47,8 @@ class DraggableItem extends Component {
       return <div />
     } else {
       users.forEach(user => {
-        if (activity.users['U' + user.user.id]){
-          activityUserNames.push(user.user.firstName)
+        if (activity.users['U' + user.userId]){
+          activityUserNames.push(user.name)
         }
       })
 
@@ -80,7 +80,7 @@ const mapState = (state, ownProps) => {
 const mapDispatch = (dispatch) => {
   return {
     getTripUsers(tripId){
-      dispatch(fetchParticipants(tripId))
+      dispatch(fetchUsersOnTrip(tripId))
     }
   }
 }

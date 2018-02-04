@@ -92,19 +92,19 @@ class IdeaBoard extends Component {
     const { user, ideas, activities} = this.props
     let ideaActivities = activities.filter(activity => !activity.isActive)
 
-    let userName = user.firstName + ' ' + user.lastName
-
     let userIdeas = []
     let groupIdeas = []
 
-    for ( let activity in ideaActivities){
-      if (!ideaActivities[activity].users['U' + user.id]){
-        groupIdeas.push(ideaActivities[activity])
-      } else if (ideaActivities[activity].users['U' + user.id] === true){
-        userIdeas.push(ideaActivities[activity])
+    if (!this.props.activities.length){
+      return <div />
+    } else {
+      for (let activity in ideaActivities){
+        if (!ideaActivities[activity].users['U' + user.id]){
+          groupIdeas.push(ideaActivities[activity])
+        } else if (ideaActivities[activity].users['U' + user.id] === true){
+          userIdeas.push(ideaActivities[activity])
+        }
       }
-    }
-
       return (
         <div>
         <Modal open={this.state.open} onClose={this.onCloseModal} little>
@@ -158,7 +158,8 @@ class IdeaBoard extends Component {
             </div>
           </div>
           </div>
-    )
+      )
+    }
   }
 
   dragulaDecorator = (componentBackingInstance) => {
