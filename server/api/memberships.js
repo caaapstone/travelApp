@@ -10,6 +10,18 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
+router.get('/:tripId', (req, res, next) => {
+  let tripId = req.params.tripId
+  console.log('tripId', tripId)
+  Membership.findAll({
+    where: {
+      tripId: tripId
+    }
+  })
+  .then(memberships => res.json(memberships))
+  .catch(next)
+})
+
 router.post('/', function (req, res, next) {
   Membership.create(req.body)
   .then(membership => res.json(membership))

@@ -5,6 +5,7 @@ import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripTh
 import DraggableActivity from './draggableActivity'
 import DraggableYelpResult from './draggableYelpResult'
 import Modal from 'react-responsive-modal'
+import {withRouter} from 'react-router-dom'
 
 class IdeaBoard extends Component {
   constructor() {
@@ -33,7 +34,7 @@ class IdeaBoard extends Component {
     if (!this.props.trip.name) {
       this.props.getTrip(tripId)
     }
-    if (!this.props.users){
+    if (!this.props.users.length){
       this.props.getTripUsers(tripId)
     }
 
@@ -91,19 +92,19 @@ class IdeaBoard extends Component {
     const { user, ideas, activities} = this.props
     let ideaActivities = activities.filter(activity => !activity.isActive)
 
-    let userName = user.firstName + ' ' + user.lastName
-
     let userIdeas = []
     let groupIdeas = []
 
-    for ( let activity in ideaActivities){
-      if (!ideaActivities[activity].users['U' + user.id]){
-        groupIdeas.push(ideaActivities[activity])
-      } else if (ideaActivities[activity].users['U' + user.id] === true){
-        userIdeas.push(ideaActivities[activity])
+    if (!this.props.activities.length){
+      return <div />
+    } else {
+      for (let activity in ideaActivities){
+        if (!ideaActivities[activity].users['U' + user.id]){
+          groupIdeas.push(ideaActivities[activity])
+        } else if (ideaActivities[activity].users['U' + user.id] === true){
+          userIdeas.push(ideaActivities[activity])
+        }
       }
-    }
-
       return (
         <div>
         <Modal open={this.state.open} onClose={this.onCloseModal} little>
@@ -157,7 +158,8 @@ class IdeaBoard extends Component {
             </div>
           </div>
           </div>
-    )
+      )
+    }
   }
 
   dragulaDecorator = (componentBackingInstance) => {
@@ -173,7 +175,8 @@ class IdeaBoard extends Component {
     user: state.user,
     trip: state.trip,
     activities: state.activities,
-    ideas: state.ideas
+    ideas: state.ideas,
+    users: state.users
   }
 }
 
@@ -200,4 +203,4 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(IdeaBoard)
+export default withRouter(connect(mapState, mapDispatch)(IdeaBoard))

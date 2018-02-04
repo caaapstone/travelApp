@@ -663,6 +663,7 @@ form div {
 #hotel-option-container{
   width: 85%;
   margin: auto;
+  margin-bottom: 2rem;
   border: 1px solid #C4C7D1;
   display: flex;
 }
@@ -676,7 +677,7 @@ form div {
   max-height: 300px;
   overflow-y: scroll;
   border: 1px solid #C4C7D1;
-  padding-top: 1rem;
+  padding: 10px;
 }
 
 #hotel-option-map{
@@ -695,6 +696,10 @@ form div {
 #hotel-search{
   width: 300px;
   margin: 1rem;
+  padding: .5rem 1rem;
+  font-size: .8rem;
+  border: 1px solid #C4C7D1;
+  border-radius: 5px;
 }
 
 .hotel-search-result{
@@ -702,7 +707,6 @@ form div {
   margin-left: 1rem;
   margin-right: 1rem;
   margin-bottom: 0;
-  border: 1px solid #C4C7D1;
 }
 
 .hotel-search-select{
@@ -711,8 +715,10 @@ form div {
   margin-left: 1rem;
   margin-right: 1rem;
   margin-bottom: 1rem;
-  border: 1px solid #C4C7D1;
+  border-bottom: 2px solid #C4C7D1;
   text-align: center;
+  align-content: center;
+  padding-bottom: 1rem;
 }
 
 .hotel-search-image{
@@ -721,11 +727,58 @@ form div {
 
 .small-left-margin{
   margin-left: .5rem;
+  width: 100%;
+  height: 160px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 300px;
+  position: relative;
+}
+
+.hotel-information{
+  margin: 0;
+  background-color: rgba(255, 255, 255, 0.81);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.user-hotel-image{
+  height: 150px;
+  background-repeat: no-repeat;
+  background-position: 50% 75%;
+  background-size: 350px;
+  position: relative;
+}
+
+.one-pt-border{
+  border: 1px solid #C4C7D1;
+}
+
+.airline-input{
+  width: 45%;
+  padding: .5rem 1rem;
+  font-size: .8rem;
+  border: 1px solid #C4C7D1;
+  border-radius: 5px;
+  margin-left: 8px;
+  margin-bottom: 8px;
+}
+
+.no-margin{
+  margin: 0;
 }
 
 .small-no-margin{
-  font-size: .5rem;
+  font-size: .75rem;
   margin: 0;
+}
+
+.hotel-name-small{
+  margin: 0;
+  font-family: Raleway;
+  font-weight: bold;
+  color: #7E4E60;
 }
 
 a{
@@ -733,7 +786,7 @@ a{
 }
 
 .nav-links{
-  color: #B7B8C6;
+  color: white;
   height: 100%;
   vertical-align: middle;
   box-sizing: border-box;
@@ -741,18 +794,17 @@ a{
 }
 
 .nav-links:hover{
-  color: #AED9E0;
-  border-bottom-color:#C4C7D1;
+  border-bottom-color:white;
 }
 
 .flock-blue{
-  color: #AED9E0;
+  color: white;
 }
 
 #nav-bar{
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #C4C7D1;
+  background-color: #AED9E0;
   box-sizing: border-box;
   padding: 0 2rem;
 }
@@ -765,6 +817,15 @@ a{
 
 .flex-display{
   display: flex;
+}
+
+h4{
+  font-family: 'Raleway';
+  font-weight: bold;
+}
+
+.space-around{
+  justify-content: space-around;
 }
 
 .vertical-align-center{
@@ -801,4 +862,54 @@ body{
 .text-align-center{
   margin: auto;
   text-align: center;
+}
+
+.full-width{
+  width: 100%;
+}
+
+.button{
+  border: none;
+  background-color: #7E4E60;
+  padding: .5rem 2rem;
+  color: white;
+  font-size: .8rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.button:hover{
+  background-color: #B7B8C6;
+}
+
+.button-outline{
+  border: 1px solid #7E4E60;
+  background-color: white;
+  padding: .5rem 1rem;
+  color: #7E4E60;
+  font-size: .6rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 150px;
+  margin-top: 8px;
+}
+
+.button-outline:hover{
+  border-color: #B7B8C6;
+  color: #B7B8C6;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+.purple-sub-head{
+  font-weight: 100;
+  color: #7E4E60;
 }

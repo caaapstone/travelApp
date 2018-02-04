@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import ActivityPopUp from './activityPopUp'
 import Modal from 'react-responsive-modal'
-import {fetchParticipants} from '../store'
+import {fetchUsersOnTrip} from '../store'
 import {withRouter} from 'react-router-dom'
 
 class DraggableItem extends Component {
@@ -27,13 +27,13 @@ class DraggableItem extends Component {
 
   componentDidMount(){
     const { tripId } = this.props
-    if (!this.props.tripUsers.length){
+    if (!this.props.users.length){
       this.props.getTripUsers(tripId)
     }
   }
 
   render() {
-    const { activity, currentUser, tripUsers } = this.props
+    const { activity, currentUser, users } = this.props
     // the 'activity' prop is an object and includes the following:
     // activityId, date, imageUrl, link, isActive, lat, long, name, time, tripId, users
 
@@ -43,12 +43,12 @@ class DraggableItem extends Component {
 
     let activityUserNames = []
 
-    if (!this.props.tripUsers.length){
+    if (!this.props.users.length){
       return <div />
     } else {
-      tripUsers.forEach(user => {
-        if (activity.users['U' + user.user.id]){
-          activityUserNames.push(user.user.firstName)
+      users.forEach(user => {
+        if (activity.users['U' + user.userId]){
+          activityUserNames.push(user.name)
         }
       })
 
@@ -72,7 +72,7 @@ const mapState = (state, ownProps) => {
   let tripId = ownProps.match.params.tripId
   return {
     currentUser: state.user,
-    tripUsers: state.users,
+    users: state.users,
     tripId: tripId
   }
 }
@@ -80,7 +80,7 @@ const mapState = (state, ownProps) => {
 const mapDispatch = (dispatch) => {
   return {
     getTripUsers(tripId){
-      dispatch(fetchParticipants(tripId))
+      dispatch(fetchUsersOnTrip(tripId))
     }
   }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getRoutes, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, setMapActionCreator } from '../store'
-import reactMapboxGL, {Layer, Feature} from 'react-mapbox-gl'
+import reactMapboxGL, {Layer, Feature, GeoJSONLayer, Popup} from 'react-mapbox-gl'
 import mapboxgl from 'mapbox-gl'
 import firebase from '../firebase'
 import {withRouter} from 'react-router-dom'
@@ -18,28 +18,28 @@ let token = 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGo
 
 let getRoutesGeoJSON = (activities, routes) => {
   const routesGeoJSON = {
-    type: 'FeatureCollection',
-    features: []
+    "type": "FeatureCollection",
+    "features": []
   }
 
   if (routes.length > 0) {
     routesGeoJSON.features.push({
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'LineString',
-        coordinates: [routes] //put coordinates in there
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "properties": {},
+        "coordinates": [routes] //put coordinates in there
       }
     })
   }
 
   routes.forEach(route => {
     routesGeoJSON.features.push({
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'LineString',
-        coordinates: [routes]
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "properties": {},
+        "coordinates": [routes]
       }
     })
   })
@@ -58,10 +58,9 @@ class MapBoard extends Component {
       //   width: '200vh',
       //   height: '100vh'
       // },
-      routesGeoJSON: {
-        type: 'FeatureCollection',
-        features: []
-      }
+      routesGeoJSON: {},
+      color: "#FF00FF",
+      coordinates: []
     }
   }
 
@@ -77,7 +76,6 @@ class MapBoard extends Component {
 
   componentDidMount(){
     //if there are no activities when this mounts, we need to get the activities
-    console.log('this.props.activities', this.props.activities)
     let activities = this.props.activities.filter(activity => {
       return activity.isActive
     })
@@ -118,33 +116,55 @@ class MapBoard extends Component {
       let routes = dates[day].coordinates
       // this.props.getRoutes(routes)
       this.setState({routesGeoJSON: getRoutesGeoJSON(activities, routes)})
+      this.setState({activities: dates})
     })
   }
 
   render() {
     const Map = reactMapboxGL({accessToken: token})
-    console.log('activities', this.props.activities)
-    if (!this.props.activities.length){
-      return <div/>
-    } else {
-      return (
-        <Map
-        style="mapbox://styles/mapbox/streets-v9"
-        center={[-87.6354, 41.8885]}
-        containerStyle={{
-          height: "75vh",
-          width: "75vw"
-        }}>
-          <Layer
-            type="symbol"
-            id="marker"
-            layout={{ "icon-image": "marker-15" }}>
-            <Feature coordinates={[-87.6354, 41.8885]}/>
-            {/* <Feature coordinates={[-87.5831, 41.7906]}/> */}
-          </Layer>
-        </Map>
-      )
-    }
+    let days = Object.keys(this.state.activities)
+
+    return (
+      this.state.routesGeoJSON &&
+      <Map
+      style="mapbox://styles/mapbox/streets-v9"
+      center={[-87.6354, 41.8885]}
+      containerStyle={{
+        height: "75vh",
+        width: "75vw"
+      }}>
+
+          {
+            days.map(day => {
+              {/* console.log('activities[day]', this.state.activities[day]) */}
+              let singleDay = this.state.activities[day]
+              {/* console.log('singleDay', singleDay) */}
+              return (
+              singleDay.coordinates.map(coordinate => {
+                {/* console.log('coordinate', coordinate) */}
+                return (
+                  <div>
+                  <Layer
+                    type="symbol"
+                    id="marker"
+                    layout={{ "icon-image": "marker-15" }}>
+                    <Feature
+                    coordinates={coordinate}/>
+                  </Layer>
+                  <Popup
+                    coordinates={coordinate}
+                    offset={{
+                      'bottom-left': [12, -38], 'bottom': [0, -38], 'bottom-right': [-12, -38]
+                    }}>
+                    <h1>Popup</h1>
+                  </Popup>
+                  </div>
+                )
+              })
+            )})
+          }
+      </Map>
+    )
   }
 }
 
