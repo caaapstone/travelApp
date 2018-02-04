@@ -179,8 +179,9 @@ class IdeaBoard extends Component {
             </div>
           </div>
           </div>
-    )
-  }
+      )
+    }
+
 
   dragulaDecorator = (componentBackingInstance) => {
     if (componentBackingInstance) {
