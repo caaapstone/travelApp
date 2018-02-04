@@ -69,7 +69,7 @@ const mapDispatch = (dispatch) => {
       return dispatch(postTrip())
       .then(trip =>{
         let tripId = trip.trip.id
-        history.push(`/trips/tripdetailsetup/${tripId}`)
+        history.push(`/trips/tripdetails/${tripId}`)
       })
     }
   }

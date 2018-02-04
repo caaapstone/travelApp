@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const {Membership} = require('../db/models')
 const firebaseDb = require('../firebase')
+const {isUser, isTripUser} = require('../middleware.js')
 
 module.exports = router
 
@@ -51,7 +52,7 @@ router.post('/flightinfo', (req, res, next) => {
   })
 })
 
-router.post('/:tripId/user/:userId', (req, res, next) => {
+router.post('/:tripId/user/:userId',  isUser, (req, res, next) => {
   Membership.findOne({
     where: {
       tripId: req.params.tripId,
@@ -69,7 +70,7 @@ router.post('/:tripId/user/:userId', (req, res, next) => {
   })
 })
 
-router.delete('/:tripId/user/:userId', (req, res, next) => {
+router.delete('/:tripId/user/:userId', isUser, (req, res, next) => {
     Membership.destroy({
     where: {
       $and: [
