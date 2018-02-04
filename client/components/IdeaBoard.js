@@ -101,20 +101,19 @@ class IdeaBoard extends Component {
     const { user, ideas, activities} = this.props
     let ideaActivities = activities.filter(activity => !activity.isActive)
 
+    let userName = user.firstName + ' ' + user.lastName
+
     let userIdeas = []
     let groupIdeas = []
 
-    if (!this.props.activities.length){
-      return <div />
-    } else {
-      for (let activity in ideaActivities){
-        if (!ideaActivities[activity].users['U' + user.id]){
-          groupIdeas.push(ideaActivities[activity])
-        } else if (ideaActivities[activity].users['U' + user.id] === true){
-          userIdeas.push(ideaActivities[activity])
-        }
+    for ( let activity in ideaActivities){
+      if (!ideaActivities[activity].users['U' + user.id]){
+        groupIdeas.push(ideaActivities[activity])
+      } else if (ideaActivities[activity].users['U' + user.id] === true){
+        userIdeas.push(ideaActivities[activity])
       }
     }
+// console.log("before return in render", this.state.loading)
       return (
         <div>
         <Modal open={this.state.open} onClose={this.onCloseModal} little>
@@ -130,14 +129,14 @@ class IdeaBoard extends Component {
               />
               <button type="submit">Search</button>
             </form>
-            <div ref={this.dragulaDecorator}>
-        {
-          this.state.loading
-          ? <div className="text-align-center">
-            <Loading type="puff" width={200} height={200} fill="#7E4E60" className="center-loading"/>
-            </div>
-          : ideas.length ?
-          <div>
+
+              {
+                this.state.loading
+                ? <div className="text-align-center">
+                  <Loading type="puff" width={200} height={200} fill="#7E4E60" className="center-loading"/>
+                  </div>
+                : ideas.length ?
+              <div ref={this.dragulaDecorator}>
             {
                 ideas.map(idea => {
               console.log("in ideas", this.state.loading)
@@ -151,7 +150,6 @@ class IdeaBoard extends Component {
 
                 }
 
-                </div>
               </div>
             <div id="user">
               <h2>Idea Board</h2>
