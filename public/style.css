@@ -810,6 +810,10 @@ a{
   color: white;
 }
 
+.light-blue{
+  color: #AED9E0
+}
+
 #nav-bar{
   display: flex;
   justify-content: space-between;
@@ -921,4 +925,48 @@ button:focus {
 .purple-sub-head{
   font-weight: 100;
   color: #7E4E60;
+}
+
+#userpage-welcome {
+  display: flex;
+  padding: 4rem 0;
+}
+
+#map-image{
+  width: 150px;
+  margin-left: 8rem;
+  margin-right: 8rem;
+}
+
+#adventure{
+  padding-left: 8rem;
+  align-self: center;
+}
+
+.raleway{
+  font-family: 'Raleway';
+}
+
+.trip-info{
+  border: 1px solid #C4C7D1;
+  width: 300px;
+  text-align: center;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.trip-info-header{
+  height: 4rem;
+  color: black;
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Raleway';
+  text-align: center;
+  letter-spacing: 1px;
+  padding-top: .8rem;
+}
+
+.line-break{
+  margin: 1rem;
+  border: 1px solid #C4C7D1;
 }
