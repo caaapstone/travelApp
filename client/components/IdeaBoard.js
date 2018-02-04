@@ -43,6 +43,7 @@ class IdeaBoard extends Component {
     }
 
     this.state.drake.on('drop', (el, target, source, sibling) => {
+      console.log('dropped!')
       let now = new Date
       let time = now.getTime()
       const id = el.id
@@ -70,6 +71,19 @@ class IdeaBoard extends Component {
     })
   }
 
+  createIdeas = (event) => {
+    event.preventDefault();
+    this.setState({loading: true})
+    let tripId = this.props.trip.id
+    let location = this.props.trip.destinationCity.toLowerCase()
+    const search = {
+      term: event.target.yelp_search.value,
+      location: location
+    }
+    setTimeout(this.toggleLoading, 1500)
+    setTimeout(this.props.getIdeas(tripId, search), 2000)
+  }
+
   onOpenModal(activity){
     this.setState({ ...this.state, selectedActivity: activity, open: true });
     console.log('this.state(open): ', this.state)
@@ -80,24 +94,9 @@ class IdeaBoard extends Component {
     console.log('this.state(close): ', this.state)
   }
 
-  createIdeas = (event) => {
-    this.setState({loading: true})
-    event.preventDefault();
-    let tripId = this.props.trip.id
-    let location = this.props.trip.destinationCity.toLowerCase()
-    const search = {
-      term: event.target.yelp_search.value,
-      location: location
-    }
-    this.props.getIdeas(tripId, search)
-    setTimeout(this.toggleLoading, 1000)
-  }
-
-
   toggleLoading() {
     this.setState({loading: false})
   }
-
   render() {
     const { user, ideas, activities} = this.props
     let ideaActivities = activities.filter(activity => !activity.isActive)
@@ -114,7 +113,7 @@ class IdeaBoard extends Component {
         userIdeas.push(ideaActivities[activity])
       }
     }
-
+// console.log("before return in render", this.state.loading)
       return (
         <div>
         <Modal open={this.state.open} onClose={this.onCloseModal} little>
@@ -131,32 +130,32 @@ class IdeaBoard extends Component {
               <button type="submit">Search</button>
             </form>
             <div ref={this.dragulaDecorator}>
-
         {
           this.state.loading
           ? <div className="text-align-center">
             <Loading type="puff" width={200} height={200} fill="#7E4E60" className="center-loading"/>
             </div>
           : ideas.length ?
-             <div>
-              {
-
+          <div>
+            {
                 ideas.map(idea => {
+              console.log("in ideas", this.state.loading)
                   return (
                       <DraggableYelpResult activity={idea} />
                     )
                   })
+                }
+                </div>
+                  : <div />
 
                 }
-          </div>
-          : <div />
-          }
 
                 </div>
               </div>
             <div id="user">
               <h2>Idea Board</h2>
               <div className="idea-board dragula-container" ref={this.dragulaDecorator}>
+
                 {
                   userIdeas.map(activity => {
                     return (
@@ -164,6 +163,7 @@ class IdeaBoard extends Component {
                     )
                   })
                 }
+
               </div>
             </div>
             <div id="group">
@@ -189,7 +189,7 @@ class IdeaBoard extends Component {
       this.state.drake.containers.push(componentBackingInstance)
     }
   }
-
+}
 
  const mapState = (state) => {
   return {
