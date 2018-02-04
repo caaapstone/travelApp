@@ -2,7 +2,7 @@ import React from 'react';
 import Dragula from 'react-dragula';
 import firebase from '../firebase'
 import {connect} from 'react-redux'
-import { subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, updateActivity } from '../store';
+import { subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, updateActivity, fetchUsersOnTrip } from '../store';
 import DraggableActivity from './draggableActivity'
 import ActivityPopUp from './activityPopUp'
 import Modal from 'react-responsive-modal'
@@ -44,6 +44,9 @@ export class CalendarBoard extends React.Component {
     let tripId = this.props.match.params.tripId
     if (!this.props.trip.name){
       this.props.getTripInfo(tripId)
+    }
+    if (!this.props.users.length){
+      this.props.getTripUsers(tripId)
     }
     this.state.drake.on('drop', (el, target, source, sibling) => {
       // PER COLLIN: Can probably derive order based on sibling...
@@ -271,7 +274,8 @@ const mapState = (state) => {
   return {
     user: state.user,
     trip: state.trip,
-    activities: state.activities
+    activities: state.activities,
+    users: state.users
   }
 }
 
@@ -288,6 +292,9 @@ const mapDispatch = (dispatch) => {
     },
     updateActivity(activityObj){
       updateActivity(activityObj)
+    },
+    getTripUsers(tripId){
+      dispatch(fetchUsersOnTrip(tripId))
     }
   }
 }

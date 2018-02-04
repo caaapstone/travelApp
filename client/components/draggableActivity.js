@@ -9,7 +9,8 @@ class DraggableItem extends Component {
   constructor(){
     super();
     this.state = {
-      open: false
+      open: false,
+      new: false
     }
     this.onOpenModal = this.onOpenModal.bind(this)
     this.onCloseModal = this.onCloseModal.bind(this)
@@ -26,10 +27,10 @@ class DraggableItem extends Component {
   }
 
   componentDidMount(){
-    const { tripId } = this.props
-    if (!this.props.users.length){
-      this.props.getTripUsers(tripId)
-    }
+    // const { tripId } = this.props
+    // if (!this.props.users.length){
+    //   this.props.getTripUsers(tripId)
+    // }
   }
 
   render() {
@@ -46,6 +47,11 @@ class DraggableItem extends Component {
     if (!this.props.users.length){
       return <div />
     } else {
+
+      // if (time > activity.timeUpdated){
+      //   this.setState({...this.state, new: true})
+      // }
+
       users.forEach(user => {
         if (activity.users['U' + user.userId]){
           activityUserNames.push(user.name)
@@ -53,7 +59,11 @@ class DraggableItem extends Component {
       })
 
       return (
-        <div id={activityId} className="activity" onClick={() => this.onOpenModal(activity)}>
+        <div
+          id={activityId}
+          className={this.state.new ? 'activity updated-activity' : 'activity'}
+          onClick={() => this.onOpenModal(activity)}
+        >
           <Modal open={this.state.open} onClose={this.onCloseModal} little>
               <ActivityPopUp activity={this.state.selectedActivity} />
           </Modal>

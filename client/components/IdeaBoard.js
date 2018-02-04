@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Dragula from 'react-dragula'
-import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchParticipants } from '../store'
+import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchUsersOnTrip } from '../store'
 import DraggableActivity from './draggableActivity'
 import DraggableYelpResult from './draggableYelpResult'
 import Modal from 'react-responsive-modal'
@@ -195,7 +195,7 @@ const mapDispatch = (dispatch) => {
       dispatch(fetchTrip(tripId))
     },
     getTripUsers(tripId){
-      dispatch(fetchParticipants(tripId))
+      dispatch(fetchUsersOnTrip(tripId))
     },
     createActivity(activity) {
       createActivity(activity)
