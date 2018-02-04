@@ -22,28 +22,25 @@ const update = membership => ({type: UPDATE_MEMBERSHIP, membership})
  * THUNK CREATORS
  */
 
- export function postOrganizerMembership(newMembership) {
-  return function thunk(dispatch) {
-    return axios.post(`/api/users/email`, newMembership)
-      .then(res =>
-        dispatch(addMembership(res.data))
-      )
-      .catch(err => console.error(err))
+  export function postOrganizerMembership(newMembership) {
+    return function thunk(dispatch) {
+      return axios.post(`/api/users/email`, newMembership)
+        .then(res =>
+          dispatch(addMembership(res.data))
+        )
+        .catch(err => console.error(err))
+    }
   }
-}
-
-
 
   export let getMembership = tripId => dispatch => {
     axios.get(`/api/memberships/${tripId}`)
       .then(res => {
-        console.log('data from membership thunk', res.data)
         dispatch(getTripMembership(res.data))
       })
       .catch(err => console.error(err))
   }
 
- export function updateMembership(membership) {
+  export function updateMembership(membership) {
   return function thunk(dispatch) {
     return axios.post(`/api/memberships/${membership.tripId}/user/${membership.userId}`, membership)
       .then(res =>
@@ -52,9 +49,6 @@ const update = membership => ({type: UPDATE_MEMBERSHIP, membership})
       .catch(err => console.error(err))
   }
 }
-
-
-
 /**
  * REDUCER
  */

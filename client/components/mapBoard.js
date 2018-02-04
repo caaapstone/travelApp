@@ -123,6 +123,7 @@ class MapBoard extends Component {
   render() {
     const Map = reactMapboxGL({accessToken: token})
     let days = Object.keys(this.state.activities)
+    days = days.sort()
 
     return (
       this.state.routesGeoJSON &&
@@ -130,38 +131,50 @@ class MapBoard extends Component {
       style="mapbox://styles/mapbox/streets-v9"
       center={[-87.6354, 41.8885]}
       containerStyle={{
-        height: "75vh",
-        width: "75vw"
+        height: "100vh",
+        width: "100vw"
       }}>
 
           {
             days.map(day => {
-              {/* console.log('activities[day]', this.state.activities[day]) */}
+              let activeTimes = times.filter(time => !!this.state.activities[day][time])
               let singleDay = this.state.activities[day]
-              {/* console.log('singleDay', singleDay) */}
+              let singleDayActivities
+              activeTimes.map(activeTime => {
+                singleDayActivities = singleDay[activeTime]
+              })
               return (
               singleDay.coordinates.map(coordinate => {
-                {/* console.log('coordinate', coordinate) */}
                 return (
-                  <div>
-                  <Layer
-                    type="symbol"
-                    id="marker"
-                    layout={{ "icon-image": "marker-15" }}>
-                    <Feature
-                    coordinates={coordinate}/>
-                  </Layer>
-                  <Popup
-                    coordinates={coordinate}
-                    offset={{
-                      'bottom-left': [12, -38], 'bottom': [0, -38], 'bottom-right': [-12, -38]
-                    }}>
-                    <h1>Popup</h1>
-                  </Popup>
-                  </div>
+                  singleDayActivities.map(singleDayActivity => {
+                    //these are all just repeating activiites..look into that
+                      return (
+                        <div>
+                          <Layer
+                            type="symbol"
+                            id="marker"
+                            layout={{ "icon-image": "marker-15" }}>
+                            <Feature
+                            coordinates={coordinate}/>
+                          </Layer>
+                          <Popup
+                            coordinates={coordinate}
+                            offset={{
+                              'bottom-left': [12, -38], 'bottom': [0, -38], 'bottom-right': [-12, -38]
+                            }}>
+                            <div>
+                            <img className="activity-thumbnail" src={singleDayActivity.imageUrl}/>
+                            <p>{singleDayActivity.date}</p>
+                            <p>{singleDayActivity.name}</p>
+                            </div>
+                          </Popup>
+                        </div>
+                      )})
+                    )
+                  })
                 )
               })
-            )})
+            })
           }
       </Map>
     )
