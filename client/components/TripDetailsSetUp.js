@@ -83,53 +83,56 @@ import history from '../history'
     const past = {before: new Date()}
     const {friendEmails} = this.state
     return (
-            <div>
-            <h1>Trip Details for {this.props.trip.name}</h1>
+            <div className="createTrip-container">
+              <div className="createTrip-inner-container">
+              <h1>Trip Details for {this.props.trip.name}</h1>
 
-            <form onSubmit={this.addFriend}>
-              <label htmlFor="emails">Invite your friends:</label>
+              <form onSubmit={this.addFriend}>
+                <label htmlFor="emails">Invite your friends:</label>
+                <input
+                  id="emails"
+                  name="emails"
+                  onChange={this.handleChange}
+                />
+                <button type="submit">+</button>
+              </form>
+              {
+                friendEmails.map(friend =>{
+                  return (
+                          <h2 key={friend}>{friend}</h2>
+                          )
+                })
+              }
+              <form onSubmit={this.changeTrip}>
+              <h3>The default budget for this trip is {this.props.trip.defaultBudget}</h3>
+              <label>Update budget:</label>
               <input
-                id="emails"
-                name="emails"
-                onChange={this.handleChange}
+              required
+              id="defaultBudget"
+              name="defaultBudget"
               />
-              <button type="submit">+</button>
-            </form>
-            {
-              friendEmails.map(friend =>{
-                return (
-                        <h2 key={friend}>{friend}</h2>
-                        )
-              })
-            }
-            <form onSubmit={this.changeTrip}>
-            <h3>The default budget for this trip is {this.props.trip.defaultBudget}</h3>
-            <label>Update budget:</label>
-            <input
-            required
-            id="defaultBudget"
-            name="defaultBudget"
-            />
-            <p>(*your friends can adjust their budget once they join the trip!)</p>
-            <label>Pick your dates:</label>
-            <DayPickerInput
-              dayPickerProps={{disabledDays: past}}
-              name="startingDate"
-              ref="arrival"
-              onDayClick={this.handleDayClick}
-              selectedDays={this.state.selectedDay}
-              required
-            />
-            <DayPickerInput
-              disabledDays={{ before: past }}
-              name="endingDate"
-              ref="departure"
-              onDayClick={this.handleDayClick}
-              selectedDays={this.state.selectedDay}
-              required
-            />
-            <button type="submit">Invite your friends!</button>
-            </form>
+              <p>(*your friends can adjust their budget once they join the trip!)</p>
+              <label>Pick your dates:</label>
+              <DayPickerInput
+                dayPickerProps={{disabledDays: past}}
+                name="startingDate"
+                ref="arrival"
+                onDayClick={this.handleDayClick}
+                selectedDays={this.state.selectedDay}
+                required
+              />
+              <DayPickerInput
+                disabledDays={{ before: past }}
+                name="endingDate"
+                ref="departure"
+                onDayClick={this.handleDayClick}
+                selectedDays={this.state.selectedDay}
+                required
+              />
+              <br/>
+              <button type="submit">Invite your friends!</button>
+              </form>
+              </div>
             </div>
             )
   }
