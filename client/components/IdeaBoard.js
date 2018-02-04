@@ -80,7 +80,7 @@ class IdeaBoard extends Component {
       term: event.target.yelp_search.value,
       location: location
     }
-    setTimeout(this.toggleLoading, 1500)
+    setTimeout(this.toggleLoading, 1900)
     setTimeout(this.props.getIdeas(tripId, search), 2000)
   }
 
