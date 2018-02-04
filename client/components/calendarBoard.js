@@ -4,8 +4,9 @@ import firebase from '../firebase'
 import {connect} from 'react-redux'
 import { subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, updateActivity } from '../store';
 import DraggableActivity from './draggableActivity'
-import CalendarPopUp from './calendarPopUp'
+import ActivityPopUp from './activityPopUp'
 import Modal from 'react-responsive-modal'
+import {withRouter} from 'react-router-dom'
 
 export class CalendarBoard extends React.Component {
   constructor(){
@@ -86,12 +87,12 @@ export class CalendarBoard extends React.Component {
     this.setState({ ...this.state, selectedActivity: '', open: false });
   }
 
-  render () {
-    if (!this.props.trip.allDates || !this.props.activities.length){
+  render() {
+    if (!this.props.trip.allDates || !this.props.activities.length) {
       return <div />
     } else {
       // this cuts off unnecessary date data
-      let dates = this.props.trip.allDates.map(date => date.slice(0,10))
+      let dates = this.props.trip.allDates.map(date => date.slice(0, 10))
 
       let calendarActivities = this.props.activities.filter(activity => activity.isActive === true)
       let ideaActivities = this.props.activities.filter(activity => activity.isActive === false)
@@ -106,26 +107,28 @@ export class CalendarBoard extends React.Component {
       return (
         <div>
           <Modal open={this.state.open} onClose={this.onCloseModal} little>
-            <CalendarPopUp activity={this.state.selectedActivity} />
+            <ActivityPopUp activity={this.state.selectedActivity} />
           </Modal>
           <h3>Group Idea Bank</h3>
-        <div className="group-ideas-container">
+          <div className="group-ideas-container">
             {
               ideaActivities.length ?
-                ideaActivities.map(activity =>
-                  <div
-                    id="ideas"
-                    ref={this.dragulaDecorator}
-                    className="dragula-container"
-                    onClick={() => this.onOpenModal(activity)}
-                  >
-                  <DraggableActivity activity={activity} key={activity.id} />
-                  </div>
+                ideaActivities.map(activity => {
+                  return (
+                    <div
+                      id="ideas"
+                      ref={this.dragulaDecorator}
+                      className="dragula-container"
+                    >
+                      <DraggableActivity activity={activity} key={activity.id} />
+                    </div>
+                  )
+                }
                 )
-              : <div>All out of ideas!</div>
+                : <div>All out of ideas!</div>
             }
           </div>
-        <h3>Scheduler</h3>
+          <h3>Scheduler</h3>
           <div className="calendar-container">
             {
               dates.map(day => {
@@ -145,137 +148,114 @@ export class CalendarBoard extends React.Component {
                             return breakfastActivity.date === day
                           }).map(activity => {
                             return (
-                              <div onClick={() => this.onOpenModal(activity)}
-                              >
-                                <DraggableActivity activity={activity} key={activity.id} />
-                              </div>
+                              <DraggableActivity activity={activity} key={activity.id} />
                             )
                           })
                         }
+                      </div>
                     </div>
-                  </div>
-                  <br />
-                  <div className="calendar-day-container">
-                    <h3>Morning</h3>
-                    <div
-                      id="morning"
-                      ref={this.dragulaDecorator}
-                      title={day}
-                      className="dragula-container"
-                      onClick={() => this.onOpenModal(activity)}
-                    >
-                      {
-                        morning.filter(morningActivity => {
-                          return morningActivity.date === day
-                        }).map(activity => {
-                          return (
-                            <div onClick={() => this.onOpenModal(activity)}
-                              >
-                            <DraggableActivity activity={activity} key={activity.id} />
-                            </div>
-                          )
-                        })
-                      }
+                    <br />
+                    <div className="calendar-day-container">
+                      <h3>Morning</h3>
+                      <div
+                        id="morning"
+                        ref={this.dragulaDecorator}
+                        title={day}
+                        className="dragula-container"
+                      >
+                        {
+                          morning.filter(morningActivity => {
+                            return morningActivity.date === day
+                          }).map(activity => {
+                            return (
+                              <DraggableActivity activity={activity} key={activity.id} />
+                            )
+                          })
+                        }
+                      </div>
                     </div>
-                  </div>
-                  <br />
-                  <div className="calendar-day-container">
-                    <h3>Lunch</h3>
+                    <br />
+                    <div className="calendar-day-container">
+                      <h3>Lunch</h3>
                       <div
                         id="lunch"
                         ref={this.dragulaDecorator}
                         title={day}
                         className="dragula-container"
-                        onClick={() => this.onOpenModal(activity)}
                       >
                         {
                           lunch.filter(lunchActivity => {
                             return lunchActivity.date === day
                           }).map(activity => {
                             return (
-                              <div onClick={() => this.onOpenModal(activity)}
-                              >
                               <DraggableActivity activity={activity} key={activity.id} />
-                              </div>
                             )
                           })
                         }
                       </div>
                     </div>
-                  <br />
-                  <div className="calendar-day-container">
-                    <h3>Afternoon</h3>
-                    <div
-                      id="afternoon"
-                      ref={this.dragulaDecorator}
-                      title={day}
-                      className="dragula-container"
-                      onClick={() => this.onOpenModal(activity)}
-                    >
-                      {
-                        afternoon.filter(afternoonActivity => {
-                          return afternoonActivity.date === day
-                        }).map(activity => {
-                          return (
-                            <div onClick={() => this.onOpenModal(activity)}
-                              >
-                            <DraggableActivity activity={activity} key={activity.id} />
-                            </div>
-                          )
-                        })
-                      }
+                    <br />
+                    <div className="calendar-day-container">
+                      <h3>Afternoon</h3>
+                      <div
+                        id="afternoon"
+                        ref={this.dragulaDecorator}
+                        title={day}
+                        className="dragula-container"
+                      >
+                        {
+                          afternoon.filter(afternoonActivity => {
+                            return afternoonActivity.date === day
+                          }).map(activity => {
+                            return (
+                              <DraggableActivity activity={activity} key={activity.id} />
+                            )
+                          })
+                        }
+                      </div>
                     </div>
-                  </div>
-                  <br />
-                  <div className="calendar-day-container">
-                    <h3>Dinner</h3>
-                    <div
-                      id="dinner"
-                      ref={this.dragulaDecorator}
-                      title={day}
-                      className="dragula-container"
-                      onClick={() => this.onOpenModal(activity)}
-                    >
-                      {
-                        dinner.filter(dinnerActivity => {
-                          return dinnerActivity.date === day
-                        }).map(activity => {
-                          return (
-                            <div onClick={() => this.onOpenModal(activity)}
-                              >
-                            <DraggableActivity activity={activity} key={activity.id} />
-                            </div>
-                          )
-                        })
-                      }
+                    <br />
+                    <div className="calendar-day-container">
+                      <h3>Dinner</h3>
+                      <div
+                        id="dinner"
+                        ref={this.dragulaDecorator}
+                        title={day}
+                        className="dragula-container"
+                      >
+                        {
+                          dinner.filter(dinnerActivity => {
+                            return dinnerActivity.date === day
+                          }).map(activity => {
+                            return (
+                              <DraggableActivity activity={activity} key={activity.id} />
+                            )
+                          })
+                        }
+                      </div>
                     </div>
-                  </div>
-                  <br />
-                  <div className="calendar-day-container">
-                    <h3>Evening</h3>
-                    <div
-                      id="evening"
-                      ref={this.dragulaDecorator}
-                      title={day}
-                      className="dragula-container"
-                      onClick={() => this.onOpenModal(activity)}
-                    >
-                      {
-                        evening.filter(eveningActivity => {
-                          return eveningActivity.date === day
-                        }).map(activity => {
-                          return (
-                            <div onClick={() => this.onOpenModal(activity)}
-                              >
-                            <DraggableActivity activity={activity} key={activity.id} />
-                            </div>
-                          )
-                        })
-                      }
+                    <br />
+                    <div className="calendar-day-container">
+                      <h3>Evening</h3>
+                      <div
+                        id="evening"
+                        ref={this.dragulaDecorator}
+                        title={day}
+                        className="dragula-container"
+                      >
+                        {
+                          evening.filter(eveningActivity => {
+                            return eveningActivity.date === day
+                          }).map(activity => {
+                            return (
+                              <DraggableActivity activity={activity} key={activity.id} />
+                            )
+                          })
+                        }
+                      </div>
                     </div>
+                    <br />
                   </div>
-                  <br />
-                </div>
                 )
               })
             }
@@ -312,5 +292,5 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(CalendarBoard)
+export default withRouter(connect(mapState, mapDispatch)(CalendarBoard))
 

@@ -20,3 +20,5 @@ export {default as DraggableActivity} from './draggableActivity'
 export {default as DraggableYelpResult} from './draggableYelpResult'
 export {default as CalendarPopUp} from './calendarPopUp'
 export {default as Itinerary} from './Itinerary'
+export {default as ActivityPopUp} from './activityPopUp'
+

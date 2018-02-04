@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {withRouter, NavLink} from 'react-router-dom'
+import {withRouter, NavLink, Link} from 'react-router-dom'
 import {logout} from '../store'
 
 
@@ -16,23 +16,30 @@ const Main = (props) => {
   console.log('main children: ', children)
   return (
     <div>
-      <nav>
-        {
-          isLoggedIn
-            ? <div>
-              {/* The navbar will show these links after you log in */}
-              <NavLink to="/">Home</NavLink>
-              <NavLink to="/createtrip">Create Trip</NavLink>
-              <a href="#" onClick={handleClick}>Logout</a>
-            </div>
-            : <div>
-              {/* The navbar will show these links before you log in */}
-              <NavLink to="/login">Login</NavLink>
-              <NavLink to="/signup">Sign Up</NavLink>
-            </div>
-        }
-      </nav>
-      <hr />
+      <div id="nav-bar">
+        <Link to="/home">
+          <div className="flex-display">
+            <img src="/origami-bird-white.png" id="logo"/>
+            <h2 className="flock-blue" id="flock-name">flock</h2>
+          </div>
+        </Link>
+        <nav className="vertical-align-center">
+          {
+            isLoggedIn
+              ? <div>
+                {/* The navbar will show these links after you log in */}
+                <NavLink to="/" className="nav-links">Dashboard</NavLink>
+                <NavLink to="/createtrip" className="nav-links">Create Trip</NavLink>
+                <a href="#" onClick={handleClick} className="nav-links">Logout</a>
+              </div>
+              : <div>
+                {/* The navbar will show these links before you log in */}
+                <NavLink to="/login" className="nav-links">Login</NavLink>
+                <NavLink to="/signup" className="nav-links">Sign Up</NavLink>
+              </div>
+          }
+        </nav>
+      </div>
       {children}
     </div>
   )

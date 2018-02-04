@@ -1,34 +1,88 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import ActivityPopUp from './activityPopUp'
+import Modal from 'react-responsive-modal'
+import {fetchParticipants} from '../store'
+import {withRouter} from 'react-router-dom'
 
 class DraggableItem extends Component {
+  constructor(){
+    super();
+    this.state = {
+      open: false
+    }
+    this.onOpenModal = this.onOpenModal.bind(this)
+    this.onCloseModal = this.onCloseModal.bind(this)
+  }
+
+  onOpenModal(activity){
+    this.setState({ ...this.state, selectedActivity: activity, open: true });
+    console.log('this.state(open): ', this.state)
+  }
+
+  onCloseModal(){
+    this.setState({ ...this.state, selectedActivity: '', open: false });
+    console.log('this.state(close): ', this.state)
+  }
+
+  componentDidMount(){
+    const { tripId } = this.props
+    if (!this.props.users.length){
+      this.props.getTripUsers(tripId)
+    }
+  }
 
   render() {
-    const { activity, currentUser } = this.props
+    const { activity, currentUser, users } = this.props
     // the 'activity' prop is an object and includes the following:
-    // activityId, date, imageUrl, link, isActive, lat, long, name, time, tripId
+    // activityId, date, imageUrl, link, isActive, lat, long, name, time, tripId, users
+
     let now = new Date
     let time = now.getTime()
     let activityId = activity.activityId || activity.id
-    return (
-      <div id={activityId} className="activity">
-        <img src={activity.imageUrl} className="activity-thumbnail" />
-        <a href={activity.link} target="_blank">{activity.name}</a>
-        <br />
-        placeholder for address<br />
-        placeholder for rating<br />
-        placeholder for cost<br />
-        placeholder for cost<br />
-        Last updated by: { activity.userUpdated }
-      </div>
-    )
+
+    let activityUserNames = []
+
+    if (!this.props.users.length){
+      return <div />
+    } else {
+      users.forEach(user => {
+        if (activity.users['U' + user.user.id]){
+          activityUserNames.push(user.user.firstName)
+        }
+      })
+
+      return (
+        <div id={activityId} className="activity" onClick={() => this.onOpenModal(activity)}>
+          <Modal open={this.state.open} onClose={this.onCloseModal} little>
+              <ActivityPopUp activity={this.state.selectedActivity} />
+          </Modal>
+          <img src={activity.imageUrl} className="activity-thumbnail" />
+          <a href={activity.link} target="_blank">{activity.name}</a>
+          <br />
+          Last updated by: { activity.userUpdated }<br />
+          Selected by: { activityUserNames.map(name => <div key={name}>{name}</div>) }
+        </div>
+      )
+    }
   }
 }
 
-const mapState = (state) => {
+const mapState = (state, ownProps) => {
+  let tripId = ownProps.match.params.tripId
   return {
-    currentUser: state.user
+    currentUser: state.user,
+    users: state.users,
+    tripId: tripId
   }
 }
 
-export default connect(mapState)(DraggableItem)
+const mapDispatch = (dispatch) => {
+  return {
+    getTripUsers(tripId){
+      dispatch(fetchParticipants(tripId))
+    }
+  }
+}
+
+export default withRouter(connect(mapState, mapDispatch)(DraggableItem))

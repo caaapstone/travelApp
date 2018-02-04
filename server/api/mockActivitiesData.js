@@ -8,7 +8,7 @@ let trip1 = [{
     time: 'dinner',
     timeUpdated: 1517514798964,
     userUpdated: 'Alyssa Venere Braun',
-    // users: [1, 2],
+    users: { U1: true, U2: true},
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -21,7 +21,7 @@ let trip1 = [{
     time: 'lunch',
     timeUpdated: 1517514798964,
     userUpdated: 'Alyssa Drobatz',
-    // users: [1],
+    users: { U1: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -34,7 +34,7 @@ let trip1 = [{
     time: 'morning',
     timeUpdated: 1517514798964,
     userUpdated: 'Alexa Billings',
-    // users: [1],
+    users: { U1: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -47,7 +47,7 @@ let trip1 = [{
     time: 'afternoon',
     timeUpdated: 1517514798964,
     userUpdated: 'Pat Noonan',
-    // users: [1, 4],
+    users: { U1: true, U4: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -60,7 +60,7 @@ let trip1 = [{
     isActive: true,
     timeUpdated: 1517514798964,
     userUpdated: 'Alexa Billings',
-    // users: [3, 4],
+    users: { U3: true, U4: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -73,7 +73,7 @@ let trip1 = [{
     time: 'breakfast',
     timeUpdated: 1517514798964,
     userUpdated: 'Alyssa Venere Braun',
-    // users: [1],
+    users: { U1: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   }]
 
@@ -87,7 +87,7 @@ let trip2 = [{
     time: 'morning',
     timeUpdated: 1517514798964,
     userUpdated: 2,
-    // users: [1],
+    users: { U1: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -100,7 +100,7 @@ let trip2 = [{
     time: 'breakfast',
     timeUpdated: 1517514798964,
     userUpdated: 2,
-    // users: [1],
+    users: { U1: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -113,7 +113,7 @@ let trip2 = [{
     time: 'lunch',
     timeUpdated: 1517514798964,
     userUpdated: 1,
-    // users: [1],
+    users: { U1: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -126,7 +126,7 @@ let trip2 = [{
     time: 'evening',
     timeUpdated: 1517514798964,
     userUpdated: 1,
-    // users: [1],
+    users: { U1: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -139,7 +139,7 @@ let trip2 = [{
     time: 'afternoon',
     timeUpdated: 1517514798964,
     userUpdated: 2,
-    // users: [1],
+    users: { U1: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -152,7 +152,7 @@ let trip2 = [{
     time: 'dinner',
     timeUpdated: 1517514798964,
     userUpdated: 2,
-    // users: [1, 2],
+    users: { U1: true, U2: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   }]
 
@@ -165,7 +165,7 @@ let trip3 = [{
     isActive: false,
     timeUpdated: 1517514798964,
     userUpdated: 1,
-    // users: [1],
+    users: { U1: true, U2: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -176,7 +176,7 @@ let trip3 = [{
     isActive: false,
     timeUpdated: 1517514798964,
     userUpdated: 1,
-    // users: [1],
+    users: { U1: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -187,7 +187,7 @@ let trip3 = [{
     isActive: false,
     timeUpdated: 1517514798964,
     userUpdated: 1,
-    // users: [1],
+    users: { U1: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   },
   {
@@ -196,7 +196,7 @@ let trip3 = [{
     long: -87.6553,
     tripId: 3,
     isActive: false,
-    // users: [1],
+    users: { U1: true },
     link: 'http://www.ozarlington.com/wp-content/uploads/2017/04/bar-buffet.jpg'
   }]
 
