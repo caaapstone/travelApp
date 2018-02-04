@@ -75,7 +75,7 @@ class Itinerary extends Component {
     let days = Object.keys(this.state.activities)
     days = days.sort()
     return (
-      <div>
+      <div className="itinerary-page">
       <h1>Itinerary</h1>
       <h2>Activities Schedule</h2>
       {

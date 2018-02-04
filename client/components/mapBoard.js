@@ -131,8 +131,8 @@ class MapBoard extends Component {
       style="mapbox://styles/mapbox/streets-v9"
       center={[-87.6354, 41.8885]}
       containerStyle={{
-        height: "75vh",
-        width: "75vw"
+        height: "100vh",
+        width: "100vw"
       }}>
 
           {
