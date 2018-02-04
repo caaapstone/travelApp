@@ -123,6 +123,7 @@ class MapBoard extends Component {
   render() {
     const Map = reactMapboxGL({accessToken: token})
     let days = Object.keys(this.state.activities)
+    days = days.sort()
 
     return (
       this.state.routesGeoJSON &&
@@ -136,7 +137,6 @@ class MapBoard extends Component {
 
           {
             days.map(day => {
-              {/* console.log('activities[day]', this.state.activities[day]) */}
               let activeTimes = times.filter(time => !!this.state.activities[day][time])
               let singleDay = this.state.activities[day]
               let singleDayActivities
@@ -147,7 +147,7 @@ class MapBoard extends Component {
               singleDay.coordinates.map(coordinate => {
                 return (
                   singleDayActivities.map(singleDayActivity => {
-                    console.log('singleDayActivity', singleDayActivity)
+                    //these are all just repeating activiites..look into that
                       return (
                         <div>
                           <Layer
@@ -173,7 +173,6 @@ class MapBoard extends Component {
                     )
                   })
                 )
-
               })
             })
           }

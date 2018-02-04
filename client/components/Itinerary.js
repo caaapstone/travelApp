@@ -53,7 +53,7 @@ class Itinerary extends Component {
       }
     })
 
-    const days = Object.keys(dates);
+    let days = Object.keys(dates);
 
     days.forEach(day => {
       if (!dates.hasOwnProperty(day)) return;
@@ -73,23 +73,30 @@ class Itinerary extends Component {
 
   render(){
     let days = Object.keys(this.state.activities)
+    days = days.sort()
     return (
       <div>
       <h1>Itinerary</h1>
+      <h2>Activities Schedule</h2>
       {
         days.map(day => {
-          let schedTimes = Object.keys(this.state.activities[day])
+          let schedTimes = times.filter(time => !!this.state.activities[day][time])
+          let singleDayAllActivities = this.state.activities[day]
           return (
           schedTimes.map(schedTime => {
-            let activity = this.state.activities[day][schedTime]
+            let singleSchedActivity = singleDayAllActivities[schedTime]
             return (
-              activity.map(singleActivity => {
-                let location = singleActivity.yelpInfo.location
+              singleSchedActivity.map(activity => {
+                console.log('activity', activity)
+                let location = activity.yelpInfo.location
+                let phone = activity.yelpInfo.phone
+                {/* console.log('activity', activity) */}
                 return (
                   <div>
-                    <h2>{day}</h2>
+                    <h3>Date: {activity.date}</h3>
                     <h3>{schedTime}</h3>
-                    <p>{singleActivity.name}</p>
+                    <p>{activity.name}</p>
+                    <p>Phone Number: {phone}</p>
                     <p>{location.address1}</p>
                     <p>{location.city}, {location.state} {location.zip_code}</p>
                   </div>
