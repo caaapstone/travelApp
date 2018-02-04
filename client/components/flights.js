@@ -323,11 +323,11 @@ class Flights extends Component {
     this.setState({loading: false})
   }
 
-  render() {
+  render () {
     const {tripName, usersOnTrip, possibleCities, userFlights, lastUpdated, trip} = this.props
     let organizer = usersOnTrip.filter(user => user.userId === Number(this.props.match.params.userId))
 
-    if(trip.destinationCity) {
+    if (trip.destinationCity) {
       history.push(`/trip/${this.props.match.params.tripId}`)
     }
 
@@ -399,7 +399,7 @@ class Flights extends Component {
           this.state.loading
           ? <div className="text-align-center">
             <Loading type="puff" width={200} height={200} fill="#7E4E60" className="center-loading"/>
-          </div>
+            </div>
           : possibleCities.length
             ? <div>
               {possibleCities.map(city => (
