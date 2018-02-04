@@ -43,16 +43,3 @@ router.post('/email', (req, res, next)=>{
   })
   .catch(next)
 })
-
-// GET all users for one trip
-router.get('/:tripId', (req, res, next) => {
-  Membership.findAll({
-    attributes: ['userId'],
-    where: {
-      tripId: req.params.tripId
-    },
-    include: [ {model: User}]
-  })
-    .then(users => res.json(users))
-    .catch(next)
-})

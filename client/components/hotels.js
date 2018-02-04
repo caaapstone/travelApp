@@ -71,6 +71,7 @@ class Hotels extends Component {
   hotelSearch(e) {
     const {user, trip} = this.props
     e.preventDefault()
+    document.getElementById('hotel-search').reset()
     axios.get('/api/hotels/possible', {
       params: {
         term: e.target.hotel.value,
@@ -166,11 +167,13 @@ class Hotels extends Component {
             <div id="hotel-options">
               {
                 userHotel.name
-                  ? <div>
-                    <img src={userHotel.photoUrl} className="hotel-search-image" />
-                    <h4>{userHotel.name}</h4>
+                  ? <div className="text-align-center">
+                    <div className="one-pt-border">
+                    <div className="user-hotel-image no-margin" style={{backgroundImage: `url(${userHotel.photoUrl})`}} />
+                    <h4 className="no-margin">{userHotel.name}</h4>
                     <p className="small-no-margin">{`${userHotel.add1}, ${userHotel.city}, ${userHotel.state}`}</p>
-                    <button type="button" onClick={() => this.selectHotel(userHotel.name, userHotel.add1, userHotel.city, userHotel.state, userHotel.long, userHotel.lat, userHotel.url, userHotel.photoUrl)}>See Hotel on Map</button>
+                    </div>
+                    <button type="button" onClick={() => this.selectHotel(userHotel.name, userHotel.add1, userHotel.city, userHotel.state, userHotel.long, userHotel.lat, userHotel.url, userHotel.photoUrl)} className="button center-loading">See Hotel on Map</button>
                   </div>
                   : <div>
                   <form onSubmit={this.hotelSearch}>
@@ -184,8 +187,10 @@ class Hotels extends Component {
                         <form key={hotel.name}>
                           <div className="hotel-search-result">
                             <div className="small-left-margin" style={{backgroundImage: `url(${hotel.photoUrl})`}}>
-                              <a href={hotel.url} target="_blank"><h5 name="hotelName">{hotel.name}</h5></a>
-                              <p className="small-no-margin">{`${hotel.add1}, ${hotel.city}, ${hotel.state}`}</p>
+                              <div className="hotel-information">
+                                <a href={hotel.url} target="_blank"><h5 name="hotelName" className="hotel-name-small">{hotel.name}</h5></a>
+                                <p className="small-no-margin">{`${hotel.add1}, ${hotel.city}, ${hotel.state}`}</p>
+                              </div>
                             </div>
                           </div>
                           <div className="hotel-search-select">
@@ -203,43 +208,51 @@ class Hotels extends Component {
                 {
                   (users.length > 0 && userTripInfo.name)
                     ? userTripInfo.flightBooked
-                      ? <div>
-                        <h5>Arrival Info</h5>
+                      ? <div className="flex-display space-around">
+                        <div>
+                        <h4 className="no-margin">Arrival Info</h4>
                         <p className="small-no-margin"><span className="bold">Airline: </span>{userTripInfo.arrivalAirline}</p>
                         <p className="small-no-margin"><span className="bold">Flight #: </span>{userTripInfo.arrivalFlightNum}</p>
                         <p className="small-no-margin"><span className="bold">Date: </span>{userTripInfo.arrivalDate}</p>
                         <p className="small-no-margin"><span className="bold">Time: </span>{userTripInfo.arrivalTime}</p>
-                        <h5>Departure Info</h5>
+                        </div>
+                        <div>
+                        <h4 className="no-margin">Departure Info</h4>
                         <p className="small-no-margin"><span className="bold">Airline: </span>{userTripInfo.departureAirline}</p>
                         <p className="small-no-margin"><span className="bold">Flight #: </span>{userTripInfo.departureFlightNum}</p>
                         <p className="small-no-margin"><span className="bold">Date: </span>{userTripInfo.departureDate}</p>
                         <p className="small-no-margin"><span className="bold">Time: </span>{userTripInfo.departureTime}</p>
+                        </div>
                       </div>
                       : <form onSubmit={this.flightInfo} id="flight-info-form">
                         <label>Enter Arrival Details</label>
-                        <input placeholder="Airline" name="arrivalairline" />
-                        <input placeholder="Flight #" name="arrivalflight" />
-                        <input placeholder="Date (YYYY-MM-DD)" name="arrivaldate" />
-                        <input placeholder="Arrival Time" name="arrivaltime" />
+                        <input placeholder="Airline" name="arrivalairline" className="airline-input"/>
+                        <input placeholder="Flight #" name="arrivalflight" className="airline-input" />
+                        <input placeholder="Date (YYYY-MM-DD)" name="arrivaldate"  className="airline-input" />
+                        <input placeholder="Arrival Time" name="arrivaltime" className="airline-input" />
                         <label>Enter Departure Details</label>
-                        <input placeholder="Airline" name="departureairline" />
-                        <input placeholder="Flight #" name="departureflight" />
-                        <input placeholder="Date (YYYY-MM-DD)" name="departuredate" />
-                        <input placeholder="Departure Time" name="departuretime" />
-                        <button className="button">Submit</button>
+                        <input placeholder="Airline" name="departureairline" className="airline-input" />
+                        <input placeholder="Flight #" name="departureflight" className="airline-input" />
+                        <input placeholder="Date (YYYY-MM-DD)" name="departuredate" className="airline-input" />
+                        <input placeholder="Departure Time" name="departuretime"  className="airline-input" />
+                        <div className="text-align-center full-width">
+                          <button className="button center-loading">Submit</button>
+                        </div>
                       </form>
                     : <form onSubmit={this.flightInfo} id="flight-info-form">
                       <label>Enter Arrival Details</label>
-                      <input placeholder="Airline" name="arrivalairline" />
-                      <input placeholder="Flight #" name="arrivalflight" />
-                      <input placeholder="Date (YYYY-MM-DD)" name="arrivaldate" />
-                      <input placeholder="Arrival Time" name="arrivaltime" />
+                      <input placeholder="Airline" name="arrivalairline" className="airline-input" />
+                      <input placeholder="Flight #" name="arrivalflight" className="airline-input" />
+                      <input placeholder="Date (YYYY-MM-DD)" name="arrivaldate" className="airline-input" />
+                      <input placeholder="Arrival Time" name="arrivaltime" className="airline-input" />
                       <label>Enter Departure Details</label>
-                      <input placeholder="Airline" name="departureairline" />
-                      <input placeholder="Flight #" name="departureflight" />
-                      <input placeholder="Date (YYYY-MM-DD)" name="departuredate" />
-                      <input placeholder="Departure Time" name="departuretime" />
-                      <button className="button">Submit</button>
+                      <input placeholder="Airline" name="departureairline" className="airline-input" />
+                      <input placeholder="Flight #" name="departureflight" className="airline-input" />
+                      <input placeholder="Date (YYYY-MM-DD)" name="departuredate" className="airline-input" />
+                      <input placeholder="Departure Time" name="departuretime" className="airline-input" />
+                      <div className="text-align-center full-width">
+                        <button className="button center-loading">Submit</button>
+                      </div>
                     </form>
                 }
               </div>

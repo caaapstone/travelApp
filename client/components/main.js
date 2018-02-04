@@ -13,13 +13,12 @@ import {logout} from '../store'
  */
 const Main = (props) => {
   const {children, handleClick, isLoggedIn} = props
-  console.log('main children: ', children)
   return (
     <div>
       <div id="nav-bar">
         <Link to="/home">
           <div className="flex-display">
-            <img src="/origami-bird.png" id="logo"/>
+            <img src="/origami-bird-white.png" id="logo"/>
             <h2 className="flock-blue" id="flock-name">flock</h2>
           </div>
         </Link>
