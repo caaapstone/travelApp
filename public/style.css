@@ -235,9 +235,6 @@ form div {
 .dragula-container {
   min-height: 200px;
   background-color: lightcyan;
-  /* border-style: solid; */
-  /* border-width: 1px; */
-  /* border-color: red; */
 }
 
 .activity-thumbnail {
@@ -259,6 +256,18 @@ form div {
 
 .activity:hover {
   box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2);
+}
+
+.thirty-seconds {
+  color: red;
+}
+
+.hour {
+  color: rgb(201, 85, 85);
+}
+
+.day {
+  color: rgb(68, 26, 26);
 }
 
 /* calendar */
@@ -359,13 +368,25 @@ form div {
 .trip-dashboard-nav {
   overflow: hidden;
   border: 1px solid #ccc;
-  /* background-color: #f1f1f1; */
   display: flex;
 }
 
 .nav-link {
   flex-grow: 1;
   text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: #C4C7D1;
+}
+
+.trip-dashboard-nav a:hover {
+  background-color: #C9CAD9;
+  color: white;
+}
+
+.trip-dashboard-nav a.active {
+  background-color: #AED9E0;
+  color: white;
 }
 
 /* Activity pop up (modal) */
@@ -789,6 +810,10 @@ a{
   color: white;
 }
 
+.light-blue{
+  color: #AED9E0
+}
+
 #nav-bar{
   display: flex;
   justify-content: space-between;
@@ -900,4 +925,48 @@ button:focus {
 .purple-sub-head{
   font-weight: 100;
   color: #7E4E60;
+}
+
+#userpage-welcome {
+  display: flex;
+  padding: 4rem 0;
+}
+
+#map-image{
+  width: 150px;
+  margin-left: 8rem;
+  margin-right: 8rem;
+}
+
+#adventure{
+  padding-left: 8rem;
+  align-self: center;
+}
+
+.raleway{
+  font-family: 'Raleway';
+}
+
+.trip-info{
+  border: 1px solid #C4C7D1;
+  width: 300px;
+  text-align: center;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.trip-info-header{
+  height: 4rem;
+  color: black;
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Raleway';
+  text-align: center;
+  letter-spacing: 1px;
+  padding-top: .8rem;
+}
+
+.line-break{
+  margin: 1rem;
+  border: 1px solid #C4C7D1;
 }

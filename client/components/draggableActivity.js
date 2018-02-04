@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import ActivityPopUp from './activityPopUp'
 import Modal from 'react-responsive-modal'
-import {fetchParticipants} from '../store'
 import {withRouter} from 'react-router-dom'
 
 class DraggableItem extends Component {
@@ -25,13 +24,6 @@ class DraggableItem extends Component {
     console.log('this.state(close): ', this.state)
   }
 
-  componentDidMount(){
-    const { tripId } = this.props
-    if (!this.props.users.length){
-      this.props.getTripUsers(tripId)
-    }
-  }
-
   render() {
     const { activity, currentUser, users } = this.props
     // the 'activity' prop is an object and includes the following:
@@ -39,21 +31,35 @@ class DraggableItem extends Component {
 
     let now = new Date
     let time = now.getTime()
+    let timeDiff = time - activity.timeUpdated
     let activityId = activity.activityId || activity.id
-
+    let newClass = "activity"
     let activityUserNames = []
 
     if (!this.props.users.length){
       return <div />
     } else {
+
+      if (timeDiff <= 30000){
+        newClass = "activity thirty-seconds"
+      } else if (timeDiff > 30000 && timeDiff <= 3600000){
+        newClass = "activity hour"
+      } else if (timeDiff > 3600000 && timeDiff <= 86400000){
+        newClass = "activity day"
+      }
+
       users.forEach(user => {
-        if (activity.users['U' + user.user.id]){
-          activityUserNames.push(user.user.firstName)
+        if (activity.users['U' + user.userId]){
+          activityUserNames.push(user.name)
         }
       })
 
       return (
-        <div id={activityId} className="activity" onClick={() => this.onOpenModal(activity)}>
+        <div
+          id={activityId}
+          className={newClass}
+          onClick={() => this.onOpenModal(activity)}
+        >
           <Modal open={this.state.open} onClose={this.onCloseModal} little>
               <ActivityPopUp activity={this.state.selectedActivity} />
           </Modal>
@@ -79,9 +85,7 @@ const mapState = (state, ownProps) => {
 
 const mapDispatch = (dispatch) => {
   return {
-    getTripUsers(tripId){
-      dispatch(fetchParticipants(tripId))
-    }
+
   }
 }
 

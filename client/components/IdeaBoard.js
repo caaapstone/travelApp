@@ -1,11 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Dragula from 'react-dragula'
-import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchParticipants } from '../store'
+import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchUsersOnTrip } from '../store'
 import DraggableActivity from './draggableActivity'
 import DraggableYelpResult from './draggableYelpResult'
 import Modal from 'react-responsive-modal'
 import {withRouter} from 'react-router-dom'
+import Loading from 'react-loading-components'
+import { setTimeout } from 'timers'
 
 class IdeaBoard extends Component {
   constructor() {
@@ -13,10 +15,12 @@ class IdeaBoard extends Component {
     this.state = {
       drake: Dragula({}),
       selectedActivity: {},
-      open: false
+      open: false,
+      loading: false
     }
     this.onOpenModal = this.onOpenModal.bind(this)
     this.onCloseModal = this.onCloseModal.bind(this)
+    this.toggleLoading = this.toggleLoading.bind(this)
   }
 
   componentWillMount(){
@@ -69,13 +73,15 @@ class IdeaBoard extends Component {
 
   createIdeas = (event) => {
     event.preventDefault();
+    this.setState({loading: true})
     let tripId = this.props.trip.id
     let location = this.props.trip.destinationCity.toLowerCase()
     const search = {
       term: event.target.yelp_search.value,
       location: location
     }
-    this.props.getIdeas(tripId, search)
+    setTimeout(this.toggleLoading, 1900)
+    setTimeout(this.props.getIdeas(tripId, search), 2000)
   }
 
   onOpenModal(activity){
@@ -88,6 +94,9 @@ class IdeaBoard extends Component {
     console.log('this.state(close): ', this.state)
   }
 
+  toggleLoading() {
+    this.setState({loading: false})
+  }
   render() {
     const { user, ideas, activities} = this.props
     let ideaActivities = activities.filter(activity => !activity.isActive)
@@ -104,7 +113,7 @@ class IdeaBoard extends Component {
         userIdeas.push(ideaActivities[activity])
       }
     }
-
+// console.log("before return in render", this.state.loading)
       return (
         <div>
         <Modal open={this.state.open} onClose={this.onCloseModal} little>
@@ -120,21 +129,32 @@ class IdeaBoard extends Component {
               />
               <button type="submit">Search</button>
             </form>
-            <div ref={this.dragulaDecorator}>
+
+              {
+                this.state.loading
+                ? <div className="text-align-center">
+                  <Loading type="puff" width={200} height={200} fill="#7E4E60" className="center-loading"/>
+                  </div>
+                : ideas.length ?
+              <div ref={this.dragulaDecorator}>
             {
-              ideas.length ?
                 ideas.map(idea => {
+              console.log("in ideas", this.state.loading)
                   return (
                       <DraggableYelpResult activity={idea} />
                     )
                   })
-                  : <div />
                 }
                 </div>
+                  : <div />
+
+                }
+
               </div>
             <div id="user">
               <h2>Idea Board</h2>
               <div className="idea-board dragula-container" ref={this.dragulaDecorator}>
+
                 {
                   userIdeas.map(activity => {
                     return (
@@ -142,6 +162,7 @@ class IdeaBoard extends Component {
                     )
                   })
                 }
+
               </div>
             </div>
             <div id="group">
@@ -158,8 +179,9 @@ class IdeaBoard extends Component {
             </div>
           </div>
           </div>
-    )
-  }
+      )
+    }
+
 
   dragulaDecorator = (componentBackingInstance) => {
     if (componentBackingInstance) {
@@ -194,7 +216,7 @@ const mapDispatch = (dispatch) => {
       dispatch(fetchTrip(tripId))
     },
     getTripUsers(tripId){
-      dispatch(fetchParticipants(tripId))
+      dispatch(fetchUsersOnTrip(tripId))
     },
     createActivity(activity) {
       createActivity(activity)
