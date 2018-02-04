@@ -235,9 +235,6 @@ form div {
 .dragula-container {
   min-height: 200px;
   background-color: lightcyan;
-  /* border-style: solid; */
-  /* border-width: 1px; */
-  /* border-color: red; */
 }
 
 .activity-thumbnail {
@@ -259,6 +256,18 @@ form div {
 
 .activity:hover {
   box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2);
+}
+
+.thirty-seconds {
+  color: red;
+}
+
+.hour {
+  color: rgb(201, 85, 85);
+}
+
+.day {
+  color: rgb(68, 26, 26);
 }
 
 /* calendar */

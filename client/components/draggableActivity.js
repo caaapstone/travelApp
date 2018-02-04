@@ -33,16 +33,20 @@ class DraggableItem extends Component {
     let time = now.getTime()
     let timeDiff = time - activity.timeUpdated
     let activityId = activity.activityId || activity.id
-    let newClass = ''
+    let newClass = "activity"
     let activityUserNames = []
 
     if (!this.props.users.length){
       return <div />
     } else {
 
-      // if (timeDiff > 30000){
-      //   newClass = { color: red }
-      // }
+      if (timeDiff <= 30000){
+        newClass = "activity thirty-seconds"
+      } else if (timeDiff > 30000 && timeDiff <= 3600000){
+        newClass = "activity hour"
+      } else if (timeDiff > 3600000 && timeDiff <= 86400000){
+        newClass = "activity day"
+      }
 
       users.forEach(user => {
         if (activity.users['U' + user.userId]){
@@ -53,8 +57,7 @@ class DraggableItem extends Component {
       return (
         <div
           id={activityId}
-          // style={{color: 'red'}}
-          // className={activity.timeUpdated > time ? 'activity updated-activity' : 'activity'}
+          className={newClass}
           onClick={() => this.onOpenModal(activity)}
         >
           <Modal open={this.state.open} onClose={this.onCloseModal} little>
