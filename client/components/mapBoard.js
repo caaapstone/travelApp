@@ -137,31 +137,45 @@ class MapBoard extends Component {
           {
             days.map(day => {
               {/* console.log('activities[day]', this.state.activities[day]) */}
+              let activeTimes = times.filter(time => !!this.state.activities[day][time])
               let singleDay = this.state.activities[day]
-              {/* console.log('singleDay', singleDay) */}
+              let singleDayActivities
+              activeTimes.map(activeTime => {
+                singleDayActivities = singleDay[activeTime]
+              })
               return (
               singleDay.coordinates.map(coordinate => {
-                {/* console.log('coordinate', coordinate) */}
                 return (
-                  <div>
-                  <Layer
-                    type="symbol"
-                    id="marker"
-                    layout={{ "icon-image": "marker-15" }}>
-                    <Feature
-                    coordinates={coordinate}/>
-                  </Layer>
-                  <Popup
-                    coordinates={coordinate}
-                    offset={{
-                      'bottom-left': [12, -38], 'bottom': [0, -38], 'bottom-right': [-12, -38]
-                    }}>
-                    <h1>Popup</h1>
-                  </Popup>
-                  </div>
+                  singleDayActivities.map(singleDayActivity => {
+                    console.log('singleDayActivity', singleDayActivity)
+                      return (
+                        <div>
+                          <Layer
+                            type="symbol"
+                            id="marker"
+                            layout={{ "icon-image": "marker-15" }}>
+                            <Feature
+                            coordinates={coordinate}/>
+                          </Layer>
+                          <Popup
+                            coordinates={coordinate}
+                            offset={{
+                              'bottom-left': [12, -38], 'bottom': [0, -38], 'bottom-right': [-12, -38]
+                            }}>
+                            <div>
+                            <img className="activity-thumbnail" src={singleDayActivity.imageUrl}/>
+                            <p>{singleDayActivity.date}</p>
+                            <p>{singleDayActivity.name}</p>
+                            </div>
+                          </Popup>
+                        </div>
+                      )})
+                    )
+                  })
                 )
+
               })
-            )})
+            })
           }
       </Map>
     )

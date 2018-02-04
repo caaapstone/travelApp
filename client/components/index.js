@@ -18,7 +18,7 @@ export {default as IdeaBoard} from './IdeaBoard'
 export {default as TripDetailsSetUp} from './TripDetailsSetUp'
 export {default as DraggableActivity} from './draggableActivity'
 export {default as DraggableYelpResult} from './draggableYelpResult'
-export {default as CalendarPopUp} from './calendarPopUp'
+// export {default as CalendarPopUp} from './calendarPopUp'
 export {default as Itinerary} from './Itinerary'
 export {default as ActivityPopUp} from './activityPopUp'
 
