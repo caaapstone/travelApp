@@ -6,6 +6,8 @@ import DraggableActivity from './draggableActivity'
 import DraggableYelpResult from './draggableYelpResult'
 import Modal from 'react-responsive-modal'
 import {withRouter} from 'react-router-dom'
+import Loading from 'react-loading-components'
+import { setTimeout } from 'timers'
 
 class IdeaBoard extends Component {
   constructor() {
@@ -13,10 +15,12 @@ class IdeaBoard extends Component {
     this.state = {
       drake: Dragula({}),
       selectedActivity: {},
-      open: false
+      open: false,
+      loading: false
     }
     this.onOpenModal = this.onOpenModal.bind(this)
     this.onCloseModal = this.onCloseModal.bind(this)
+    this.toggleLoading = this.toggleLoading.bind(this)
   }
 
   componentWillMount(){
@@ -39,7 +43,6 @@ class IdeaBoard extends Component {
     }
 
     this.state.drake.on('drop', (el, target, source, sibling) => {
-      console.log('dropped!')
       let now = new Date
       let time = now.getTime()
       const id = el.id
@@ -67,17 +70,6 @@ class IdeaBoard extends Component {
     })
   }
 
-  createIdeas = (event) => {
-    event.preventDefault();
-    let tripId = this.props.trip.id
-    let location = this.props.trip.destinationCity.toLowerCase()
-    const search = {
-      term: event.target.yelp_search.value,
-      location: location
-    }
-    this.props.getIdeas(tripId, search)
-  }
-
   onOpenModal(activity){
     this.setState({ ...this.state, selectedActivity: activity, open: true });
     console.log('this.state(open): ', this.state)
@@ -86,6 +78,24 @@ class IdeaBoard extends Component {
   onCloseModal(){
     this.setState({ ...this.state, selectedActivity: '', open: false });
     console.log('this.state(close): ', this.state)
+  }
+
+  createIdeas = (event) => {
+    this.setState({loading: true})
+    event.preventDefault();
+    let tripId = this.props.trip.id
+    let location = this.props.trip.destinationCity.toLowerCase()
+    const search = {
+      term: event.target.yelp_search.value,
+      location: location
+    }
+    this.props.getIdeas(tripId, search)
+    setTimeout(this.toggleLoading, 1000)
+  }
+
+
+  toggleLoading() {
+    this.setState({loading: false})
   }
 
   render() {
@@ -121,15 +131,27 @@ class IdeaBoard extends Component {
               <button type="submit">Search</button>
             </form>
             <div ref={this.dragulaDecorator}>
-            {
-              ideas.length ?
+
+        {
+          this.state.loading
+          ? <div className="text-align-center">
+            <Loading type="puff" width={200} height={200} fill="#7E4E60" className="center-loading"/>
+            </div>
+          : ideas.length ?
+             <div>
+              {
+
                 ideas.map(idea => {
                   return (
                       <DraggableYelpResult activity={idea} />
                     )
                   })
-                  : <div />
+
                 }
+          </div>
+          : <div />
+          }
+
                 </div>
               </div>
             <div id="user">
@@ -167,7 +189,7 @@ class IdeaBoard extends Component {
       this.state.drake.containers.push(componentBackingInstance)
     }
   }
-}
+
 
  const mapState = (state) => {
   return {
