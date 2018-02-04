@@ -359,13 +359,25 @@ form div {
 .trip-dashboard-nav {
   overflow: hidden;
   border: 1px solid #ccc;
-  /* background-color: #f1f1f1; */
   display: flex;
 }
 
 .nav-link {
   flex-grow: 1;
   text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: #C4C7D1;
+}
+
+.trip-dashboard-nav a:hover {
+  background-color: #C9CAD9;
+  color: white;
+}
+
+.trip-dashboard-nav a.active {
+  background-color: #AED9E0;
+  color: white;
 }
 
 /* Activity pop up (modal) */
