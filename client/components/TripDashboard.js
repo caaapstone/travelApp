@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {CalendarBoard, MapBoard, IdeaBoard, Hotels} from '../components'
+import {CalendarBoard, MapBoard, IdeaBoard, Itinerary, Hotels} from '../components'
 import {fetchTrip} from '../store'
 import {Route, Switch, NavLink} from 'react-router-dom'
 
@@ -30,6 +30,7 @@ class TripDashboard extends Component {
         <Route path="/trip/:tripId/calendar" component={CalendarBoard} />
         <Route path="/trip/:tripId/map" component={MapBoard} />
         <Route path="/trip/:tripId/ideas" component={IdeaBoard} />
+        <Route path="/trip/:tripId/itinerary" component={Itinerary} />
       </Switch>
       </div>
     )
