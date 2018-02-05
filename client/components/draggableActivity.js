@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import ActivityPopUp from './activityPopUp'
 import Modal from 'react-responsive-modal'
 import {withRouter} from 'react-router-dom'
+import Gravatar from 'react-gravatar'
+import ReactTooltip from 'react-tooltip'
 
 class DraggableItem extends Component {
   constructor(){
@@ -34,7 +36,7 @@ class DraggableItem extends Component {
     let timeDiff = time - activity.timeUpdated
     let activityId = activity.activityId || activity.id
     let newClass = "activity"
-    let activityUserNames = []
+    let activityUserEmails = []
 
     if (!this.props.users.length){
       return <div />
@@ -50,7 +52,7 @@ class DraggableItem extends Component {
 
       users.forEach(user => {
         if (activity.users['U' + user.userId]){
-          activityUserNames.push(user.name)
+          activityUserEmails.push(user.userEmail)
         }
       })
 
@@ -61,13 +63,30 @@ class DraggableItem extends Component {
           onClick={() => this.onOpenModal(activity)}
         >
           <Modal open={this.state.open} onClose={this.onCloseModal} little>
-              <ActivityPopUp activity={this.state.selectedActivity} />
+            <ActivityPopUp activity={this.state.selectedActivity} />
           </Modal>
-          <img src={activity.imageUrl} className="activity-thumbnail" />
-          <a href={activity.link} target="_blank">{activity.name}</a>
-          <br />
-          Last updated by: { activity.userUpdated }<br />
-          Selected by: { activityUserNames.map(name => <div key={name}>{name}</div>) }
+          <ReactTooltip />
+
+          <div className="single-activity-container">
+            <div className="single-activity-image">
+              <img src={activity.imageUrl} className="activity-thumbnail" />
+            </div>
+            <div className="single-activity-text">
+              <a className="single-activity-name-link" href={activity.link} target="_blank">{activity.name}</a>
+              <br />
+              Last updated by: <a data-tip={activity.userUpdated}>
+              <Gravatar className="gravatar" email={activity.userUpdated} size={12} />
+            </a>
+            <br />
+            Selected by:
+              {
+                activityUserEmails.map(email =>
+                  <a data-tip={email}>
+                    <Gravatar className="gravatar" email={email} size={12} />
+                  </a>)
+              }
+            </div>
+          </div>
         </div>
       )
     }
