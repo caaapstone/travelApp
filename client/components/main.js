@@ -11,6 +11,7 @@ import history from '../history'
  *  else common to our entire app. The 'picture' inside the frame is the space
  *  rendered out by the component's `children`.
  */
+
  export class Main extends Component {
   submitTrip = (event) =>{
     event.preventDefault()
@@ -19,6 +20,7 @@ import history from '../history'
 render(){
 
   const {children, handleClick, isLoggedIn} = this.props
+
   return (
     <div>
       <div id="nav-bar">

@@ -1,5 +1,65 @@
 @import url('//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
+a{
+  text-decoration: none;
+}
+
+.nav-links{
+  color: #B7B8C6;
+  height: 100%;
+  vertical-align: middle;
+  box-sizing: border-box;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-links:hover{
+  color: #AED9E0;
+  border-bottom-color:#C4C7D1;
+}
+
+.flock-blue{
+  color: #AED9E0;
+}
+
+#nav-bar{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #C4C7D1;
+  box-sizing: border-box;
+  padding: 0 2rem;
+}
+
+#logo{
+  width: 80px;
+  height: 80px;
+  margin-right: 1rem;
+}
+
+.flex-display{
+  display: flex;
+}
+
+.vertical-align-center{
+  align-self: center;
+  height: 100%;
+}
+
+#flock-name{
+  font-size: 2.5rem;
+  font-weight: 100;
+  -webkit-font-smoothing: auto;
+  margin: 0;
+  align-self: center;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+body{
+  margin: 0;
+}
+
 .isa_info, .isa_success, .isa_warning, .isa_error {
   margin: 10px 0px;
   padding:12px;
@@ -628,6 +688,7 @@ form div {
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
+
 #search-for-flights{
   display: flex;
   justify-content: space-between;
@@ -789,6 +850,7 @@ form div {
   margin: 0;
 }
 
+
 .hotel-name-small{
   margin: 0;
   font-family: Raleway;
@@ -828,16 +890,25 @@ a{
   padding: 0 2rem;
 }
 
-#logo{
-  width: 80px;
-  height: 80px;
-  margin-right: 1rem;
-}
 
-.flex-display{
+/*Create Trip */
+.createTrip-container {
+  border-style: solid;
+  border-color: #C4C7D1;
+  border-width: .25px;
   display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: auto;
+  margin-top: 10%;
+  align-items: center;
+  text-align: center;
 }
 
+
+.createTrip-inner-container{
+  padding: 15px;
+}
 h4{
   font-family: 'Raleway';
   font-weight: bold;
@@ -866,6 +937,7 @@ h4{
 
 body{
   margin: 0;
+
 }
 
 .center-header{

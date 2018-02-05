@@ -85,6 +85,7 @@ import history from '../history'
     return (
             <div className="createTrip-container">
               <div className="createTrip-inner-container">
+
               <h1 className="capitalized-header">Trip Details for {this.props.trip.name}</h1>
 
 
@@ -104,7 +105,9 @@ import history from '../history'
                   name="emails"
                   onChange={this.handleChange}
                 />
+
                 <button onClick = {this.addFriend} className="button center-loading">+</button>
+
               {
                 friendEmails.map(friend =>{
                   return (
@@ -112,6 +115,7 @@ import history from '../history'
                           )
                 })
               }
+
 
 
               <h3>The default budget for this trip is {this.props.trip.defaultBudget}</h3>
@@ -143,7 +147,9 @@ import history from '../history'
                 required
               />
               <br/>
+
               <button className="button center-loading" type="submit">Invite your friends!</button>
+
               </form>
               </div>
             </div>
