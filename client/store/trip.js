@@ -26,9 +26,9 @@ export const fetchTrip = (tripId) =>
       .catch(err => console.log(err))
 
 
-export function postTrip(newTrip) {
+export function postTrip(userId, newTrip) {
   return function thunk(dispatch) {
-    return axios.post(`/api/trips`, newTrip)
+    return axios.post(`/api/trips`, {userId, newTrip})
       .then(res => res.data)
       .then(trip => {
         return dispatch(addTrip(trip))
