@@ -71,7 +71,8 @@ class Hotels extends Component {
   hotelSearch(e) {
     const {user, trip} = this.props
     e.preventDefault()
-    document.getElementById('hotel-search').reset()
+
+    document.getElementById('hotel-search-form').reset()
     axios.get('/api/hotels/possible', {
       params: {
         term: e.target.hotel.value,
@@ -88,24 +89,49 @@ class Hotels extends Component {
   flightInfo(e) {
     e.preventDefault()
 
+    let arrivalDate = e.target.arrivaldate.value
+    let departureDate = e.target.departuredate.value
+
+    arrivalDate = arrivalDate.split('-')
+    departureDate = departureDate.split('-')
+
+    let arrivalDateFormat = (arrivalDate[0].length === 4 && arrivalDate[1].length === 2 && arrivalDate[2].length === 2)
+    let departureDateFormat = (departureDate[0].length === 4 && departureDate[1].length === 2 && departureDate[2].length === 2)
+
     const {trip, user, getUsersOnTrip} = this.props
 
-    axios.post('/api/memberships/flightinfo', {
-      arrivalAirline: e.target.arrivalairline.value,
-      arrivalFlightNum: e.target.arrivalflight.value,
-      arrivalDate: e.target.arrivaldate.value,
-      arrivalTime: e.target.arrivaltime.value,
-      departureAirline: e.target.departureairline.value,
-      departureFlightNum: e.target.departureflight.value,
-      departureDate: e.target.departuredate.value,
-      departureTime: e.target.departuretime.value,
-      tripId: trip.id,
-      userId: user.id
-    })
-    .then(() => {
-      getUsersOnTrip(this.props.match.params.tripId)
-      document.getElementById('flight-info-form').reset()
-    })
+    if (arrivalDateFormat && departureDateFormat) {
+      axios.post('/api/memberships/flightinfo', {
+        arrivalAirline: e.target.arrivalairline.value,
+        arrivalFlightNum: e.target.arrivalflight.value,
+        arrivalDate: e.target.arrivaldate.value,
+        arrivalTime: e.target.arrivaltime.value,
+        departureAirline: e.target.departureairline.value,
+        departureFlightNum: e.target.departureflight.value,
+        departureDate: e.target.departuredate.value,
+        departureTime: e.target.departuretime.value,
+        tripId: trip.id,
+        userId: user.id
+      })
+      .then(() => {
+        getUsersOnTrip(this.props.match.params.tripId)
+        document.getElementById('flight-info-form').reset()
+      })
+    } else {
+      let errorPopup = document.getElementById('date_error')
+
+      errorPopup.style.visibility = 'visible'
+      errorPopup.style.opacity = 1
+
+      setTimeout(this.errorClear, 4000)
+    }
+  }
+
+  errorClear() {
+    let errorPopup = document.getElementById('date_error')
+
+    errorPopup.style.visibility = 'hidden'
+    errorPopup.style.opacity = 0
   }
 
   selectHotel(name, add1, city, state, lat, long, url, photoUrl) {
@@ -161,6 +187,7 @@ class Hotels extends Component {
     return (
       <div className="two-rem-padding">
         <h1 className="capitalized-header">MY TRIP INFO</h1>
+        <p>Enter your trip logistics so your travel-buddies know when you arrive and where you're staying.</p>
         <div id="hotel-option-container">
           <div id="hotel-option-sidebar">
             <h2 className="purple-sub-head">Lodging Details</h2>
@@ -176,8 +203,8 @@ class Hotels extends Component {
                     <button type="button" onClick={() => this.selectHotel(userHotel.name, userHotel.add1, userHotel.city, userHotel.state, userHotel.long, userHotel.lat, userHotel.url, userHotel.photoUrl)} className="button center-loading">See Hotel on Map</button>
                   </div>
                   : <div>
-                  <form onSubmit={this.hotelSearch}>
-                  <label>Search for Hotel Details</label>
+                  <form onSubmit={this.hotelSearch} id="hotel-search-form">
+                  <label>Enter Your Hotel Name</label>
                   <input placeholder="Search for your hotel" id="hotel-search" name="hotel"></input>
                 </form>
                 {
@@ -204,6 +231,10 @@ class Hotels extends Component {
               }
             </div>
             <h2 className="purple-sub-head">Flight Details</h2>
+            <div id="date_error">
+              <i className="fa fa-times-circle"/>
+              Please use the correct date format (YYYY-MM-DD)
+            </div>
               <div id="hotel-options">
                 {
                   (users.length > 0 && userTripInfo.name)
