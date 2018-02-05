@@ -2,13 +2,15 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import users from '../store'
 import {updateMembership, fetchTrip} from '../store'
-
+import history from '../history'
 /**
  * COMPONENT
  */
 export class JoinTrip extends Component {
 
   submitMembership = (event) =>{
+    let tripId = this.props.match.params.tripId
+    let userId = this.props.user.id
     event.preventDefault()
     let membership = {
       userCity: event.target.startingCity.value,
@@ -18,6 +20,7 @@ export class JoinTrip extends Component {
       tripId: this.props.trip.id
     }
     this.props.changeMembership(membership)
+    history.push(`/flights/${tripId}/${userId}`)
   }
 
 componentDidMount() {
