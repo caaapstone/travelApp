@@ -128,10 +128,11 @@ class MapBoard extends Component {
     return (
       this.state.routesGeoJSON &&
       <Map
+      className="map-container"
       style="mapbox://styles/mapbox/streets-v9"
       center={[-87.6354, 41.8885]}
       containerStyle={{
-        height: "100vh",
+        height: "90vh",
         width: "100vw"
       }}>
 
@@ -140,25 +141,24 @@ class MapBoard extends Component {
               let activeTimes = times.filter(time => !!this.state.activities[day][time])
               let singleDay = this.state.activities[day]
               let singleDayActivities
-              activeTimes.map(activeTime => {
-                singleDayActivities = singleDay[activeTime]
-              })
-              return (
-              singleDay.coordinates.map(coordinate => {
-                return (
+              return(
+                activeTimes.map(activeTime => {
+                  singleDayActivities = singleDay[activeTime]
+                  return (
                   singleDayActivities.map(singleDayActivity => {
-                    //these are all just repeating activiites..look into that
-                      return (
-                        <div>
+                    console.log('singleDay.coordinates', singleDay.coordinates)
+                    return (
+                      <div>
                           <Layer
                             type="symbol"
                             id="marker"
+                            color="#AED9E0"
                             layout={{ "icon-image": "marker-15" }}>
                             <Feature
-                            coordinates={coordinate}/>
+                            coordinates={[singleDayActivity.long, singleDayActivity.lat]}/>
                           </Layer>
                           <Popup
-                            coordinates={coordinate}
+                            coordinates={[singleDayActivity.long, singleDayActivity.lat]}
                             offset={{
                               'bottom-left': [12, -38], 'bottom': [0, -38], 'bottom-right': [-12, -38]
                             }}>
@@ -169,11 +169,12 @@ class MapBoard extends Component {
                             </div>
                           </Popup>
                         </div>
-                      )})
                     )
                   })
                 )
-              })
+                })
+
+              )
             })
           }
       </Map>

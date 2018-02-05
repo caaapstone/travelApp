@@ -15,32 +15,41 @@ const Main = (props) => {
   const {children, handleClick, isLoggedIn} = props
   return (
     <div>
-      <div id="nav-bar">
+        {
+        isLoggedIn
+        ?
+        <div id="nav-bar">
         <Link to="/home">
           <div className="flex-display">
-            <img src="/origami-bird-white.png" id="logo"/>
+            <img src="/origami-bird-white.png" id="logo" />
             <h2 className="flock-blue" id="flock-name">flock</h2>
           </div>
         </Link>
+        </div>
+        :
+        <div id="nav-bar-logged-out">
+        <Link to="/">
+        <div className="flex-display">
+            <img src="/origami-bird-white.png" id="logo" />
+            <h2 className="flock-blue" id="flock-name">flock</h2>
+          </div>
+        </Link>
+        </div>
+        }
         <nav className="vertical-align-center">
           {
             isLoggedIn
-              ? <div>
+               ? <div>
                 {/* The navbar will show these links after you log in */}
-                <NavLink to="/" className="nav-links">Dashboard</NavLink>
+                <NavLink to="/home" className="nav-links">Dashboard</NavLink>
                 <NavLink to="/createtrip" className="nav-links">Create Trip</NavLink>
                 <a href="#" onClick={handleClick} className="nav-links">Logout</a>
               </div>
-              : <div>
-                {/* The navbar will show these links before you log in */}
-                <NavLink to="/login" className="nav-links">Login</NavLink>
-                <NavLink to="/signup" className="nav-links">Sign Up</NavLink>
-              </div>
+              : <div id="nav-bar-logged-out" />
           }
         </nav>
+        {children}
       </div>
-      {children}
-    </div>
   )
 }
 

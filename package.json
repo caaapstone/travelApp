@@ -42,6 +42,7 @@
     "react-dom": "^16.0.0",
     "react-dragula": "^1.1.17",
     "react-mapbox-gl": "^3.5.0",
+    "react-parallax": "^1.6.0",
     "react-redux": "^5.0.2",
     "react-responsive-modal": "^2.0.0",
     "react-router-dom": "^4.1.1",
