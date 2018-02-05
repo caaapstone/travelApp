@@ -36,17 +36,15 @@ class DraggableYelpResult extends Component {
     if (activity.name){
       return (
         <div id={activityId} className="yelp-result-container" onClick={() => this.onOpenModal(activity)}>
-        <Modal open={this.state.open} onClose={this.onCloseModal} little>
+          <Modal open={this.state.open} onClose={this.onCloseModal} little>
               <YelpPopUp activity={this.state.selectedActivity} />
-          </Modal>  
-        <div className="yelp-result-image">
+          </Modal>
+          <div className="yelp-result-image">
             <img src={activity.image_url} className="activity-thumbnail" />
           </div>
           <div className="yelp-result-text">
-
-          <a href={activity.link} target="_blank">{activity.name}</a>
+            <a href={activity.link} target="_blank">{activity.name}</a>
           </div>
-        </div>
         </div>
       )
     } else {
