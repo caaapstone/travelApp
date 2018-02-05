@@ -81,6 +81,24 @@ body{
   padding: .5rem 1rem;
 }
 
+#date_error {
+  color: #D8000C;
+  background-color: #FFD2D2;
+  text-align: center;
+  text-align: center;
+  position: absolute;
+  z-index: 2;
+  border: 1px solid red;
+  width: 150px;
+  opacity: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s, opacity 2s linear;
+  padding: .5rem 1rem;
+  width: 350px;
+  margin-bottom: 8px;
+}
+
 #where_error {
   color: #D8000C;
   background-color: #FFD2D2;
@@ -89,6 +107,22 @@ body{
   position: fixed;
   z-index: 2;
   border: 1px solid red;
+  width: 150px;
+  opacity: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s, opacity 2s linear;
+  padding: .5rem 1rem;
+}
+
+#upvote-confirmed {
+  color: #7E4E60;
+  background-color: #C4C7D1;
+  text-align: center;
+  text-align: center;
+  position: fixed;
+  z-index: 2;
+  border: 1px solid #7E4E60;
   width: 150px;
   opacity: 0;
   visibility: hidden;
@@ -879,6 +913,7 @@ a{
 
 .nav-links:hover{
   border-bottom-color:white;
+  color: white;
 }
 
 .flock-blue{
@@ -1034,6 +1069,7 @@ button:focus {
 #userpage-welcome {
   display: flex;
   padding: 4rem 0;
+  margin: auto;
 }
 
 #map-image{
@@ -1084,4 +1120,9 @@ button:focus {
   text-align: center;
   padding-bottom: 1rem;
   margin-bottom: 2rem;
+}
+
+.full-page-center{
+  width: 90%;
+  margin: auto;
 }
