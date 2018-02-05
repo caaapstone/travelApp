@@ -1035,3 +1035,12 @@ button:focus {
   display: flex;
   flex-direction: row
 }
+
+/* .map-popup{
+
+} */
+
+.popup-thumbnail {
+  max-width: 150px;
+  max-height: 100px;
+}

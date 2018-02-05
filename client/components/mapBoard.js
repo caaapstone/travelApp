@@ -54,10 +54,14 @@ class MapBoard extends Component {
     this.state = {
       activities: {},
       currentDay: '',
-      routesGeoJSON: {}
+      routesGeoJSON: {},
+      style: {
+        fillColor:'#f03'
+      }
     }
 
-    this.handleClick = this.handleClick.bind(this)
+    this.handleButtonClick = this.handleButtonClick.bind(this)
+    this.handlePopupClick = this.handlePopupClick.bind(this)
   }
 
   componentWillMount(){
@@ -116,12 +120,17 @@ class MapBoard extends Component {
     })
   }
 
-  handleClick(e) {
+  handleButtonClick(e) {
     let selectedDay = e.target.value
     this.setState({currentDay: selectedDay})
   }
 
+  handlePopupClick(e){
+    console.log('this is the popup event: ', e)
+  }
+
   render() {
+    let marker = new mapboxgl.Marker()
     const Map = reactMapboxGL({accessToken: token})
     let days = Object.keys(this.state.activities)
     days = days.sort()
@@ -133,7 +142,7 @@ class MapBoard extends Component {
           {
             days.map(day => {
               return (
-                <button className="button" value={day} onClick={this.handleClick}>{day}</button>
+                <button className="button" value={day} onClick={this.handleButtonClick}>{day}</button>
               )
             })
           }
@@ -154,30 +163,29 @@ class MapBoard extends Component {
                 let activeTimes = times.filter(time => !!this.state.activities[currentDay][time])
                 let filteredDay = this.state.activities[day]
                 return (
-
                 activeTimes.map(activeTime => {
                   singleDayActivities = filteredDay[activeTime]
                   return (
                     singleDayActivities.map(singleDayActivity => {
-                      console.log('singleDayActivity', singleDayActivity)
                       return (
                         <div>
                           <Layer
+                           >
+                            <Feature
                             type="symbol"
                             id="marker"
-                            layout={{ "icon-image": "marker-15" }}>
-                            <Feature
+                            layout={{ "icon-image": "marker-15" }}
                             coordinates={[singleDayActivity.long, singleDayActivity.lat]}/>
                           </Layer>
                           <Popup
                             coordinates={[singleDayActivity.long, singleDayActivity.lat]}
                             offset={{
                               'bottom-left': [12, -38], 'bottom': [0, -38], 'bottom-right': [-12, -38]
-                            }}>
+                            }}
+                            onClick={this.handlePopupClick}
+                            >
                             <div>
-                            <img className="activity-thumbnail" src={singleDayActivity.imageUrl}/>
-                            <p>{singleDayActivity.date}</p>
-                            <p>{singleDayActivity.name}</p>
+                            <img className="popup-thumbnail" src={singleDayActivity.imageUrl}/>
                             </div>
                           </Popup>
                         </div>
@@ -222,3 +230,6 @@ let mapDispatchToProps = dispatch => {
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MapBoard))
+
+
+
