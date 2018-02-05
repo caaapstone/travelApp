@@ -31,6 +31,7 @@ class UserDashboard extends Component {
     let currentDate = Date.now()
     let trips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) > currentDate))
     let pastTrips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) < currentDate))
+    console.log('past trips: ', trips)
     if (userTrips){
       return (
         <div className="two-rem-padding">
@@ -82,14 +83,11 @@ class UserDashboard extends Component {
               return (
                 <div key={trip.id} className="trip-info">
                   <Link to={`/flights/${trip.tripId}/${user.id}`}><div className="trip-info-header"><div className="center-vertically">{trip.trip.name}</div></div></Link>
-                  <p className="no-margin">
-                  Destination:
                   {
-                    trip.destinationCity ?
-                    <p>{trip.destinationCity}, {trip.destinationState}</p>
+                    trip.trip.destinationCity ?
+                    <p className="no-margin">{trip.trip.destinationCity}, {trip.trip.destinationState}</p>
                     : ' TBD'
                   }
-                  </p>
                   <p className="no-margin">{this.dateRange(trip.trip.arrivalDate)} - {this.dateRange(trip.trip.departureDate)}</p>
                   <p>Flight Budget: ${trip.flightBudget}</p>
                   <button className="button" onClick={() => history.push(`/flights/${trip.trip.id}/${trip.trip.userId}`)}>Trip Dashboard</button>
@@ -113,9 +111,9 @@ class UserDashboard extends Component {
                   <p className="no-margin">
                   Destination:
                   {
-                    trip.destinationCity ?
-                    <p>{trip.destinationCity}, {trip.destinationState}</p>
-                    : ' TBD'
+                    trip.trip.destinationCity.length
+                      ? <p>{trip.trip.destinationCity}, {trip.trip.destinationState}</p>
+                      : ' TBD'
                   }
                   </p>
                   <p className="no-margin">{this.dateRange(trip.trip.arrivalDate)} - {this.dateRange(trip.trip.departureDate)}</p>
