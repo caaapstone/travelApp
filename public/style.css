@@ -170,6 +170,12 @@ a {
   width: 85%;
 }
 
+.flex-start{
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
 .center-vertically{
   align-self: center;
 }
@@ -944,6 +950,7 @@ button:focus {
   text-align: center;
   padding-bottom: 1rem;
   margin-bottom: 2rem;
+  margin-right: 2rem;
 }
 
 .trip-info-header{
