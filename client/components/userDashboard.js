@@ -19,21 +19,36 @@ class UserDashboard extends Component {
     this.props.removeMembership(ids)
   }
 
+
   dateRange(trip) {
    let splitDate = trip.split('-')
    let newDate = [splitDate[1], splitDate[2], splitDate[0]]
    return newDate.join('/')
   }
 
+
   render(){
+    const tripDate = new Date()
+    let year = tripDate.getFullYear().toString()
+    let month = (tripDate.getMonth() + 1).toString()
+    let today = tripDate.getDate().toString()
+    if (today.length < 2) {
+      today = '0' + today
+    }
+    if (month.length < 2) {
+      month = '0' + month
+    }
+    let todaysDate = year + '-' + month + '-' + today
     const { user, userTrips } = this.props
+
     let invitations = userTrips.filter(trip => trip.joined === false && !trip.organizer)
     let currentDate = Date.now()
     let trips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) > currentDate))
     let pastTrips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) < currentDate))
+
     if (userTrips){
       return (
-        <div className="two-rem-padding">
+        <div className="two-rem-padding full-page-center">
           <div id="userpage-welcome">
             <div id="adventure">
               <h1 className="raleway">Start your next adventure.</h1>
@@ -57,8 +72,8 @@ class UserDashboard extends Component {
                   <p className="no-margin">
                   Destination:
                   {
-                    trip.destinationCity ?
-                    <p>{trip.destinationCity}, {trip.destinationState}</p>
+                    trip.trip.destinationCity ?
+                    <p>{trip.trip.destinationCity}, {trip.trip.destinationState}</p>
                     : ' TBD'
                   }
                   </p>
@@ -74,21 +89,20 @@ class UserDashboard extends Component {
           }
           <br />
           <div>
+
           <h2 className="raleway light-blue">Upcoming Trips</h2>
+          <div className="flex-start">
           {
             trips.length
             ? trips.map(trip => {
               return (
                 <div key={trip.id} className="trip-info">
                   <Link to={`/flights/${trip.tripId}/${user.id}`}><div className="trip-info-header"><div className="center-vertically">{trip.trip.name}</div></div></Link>
-                  <p className="no-margin">
-                  Destination:
                   {
-                    trip.destinationCity ?
-                    <p>{trip.destinationCity}, {trip.destinationState}</p>
+                    trip.trip.destinationCity ?
+                    <p className="no-margin">{trip.trip.destinationCity}, {trip.trip.destinationState}</p>
                     : ' TBD'
                   }
-                  </p>
                   <p className="no-margin">{this.dateRange(trip.trip.arrivalDate)} - {this.dateRange(trip.trip.departureDate)}</p>
                   <p>Flight Budget: ${trip.flightBudget}</p>
                   <button className="button" onClick={() => history.push(`/flights/${trip.trip.id}/${trip.trip.userId}`)}>Trip Dashboard</button>
@@ -97,10 +111,12 @@ class UserDashboard extends Component {
             })
           : <p>You have no upcoming trips scheduled.</p>
           }
+          </div>
         </div>
         <br />
         <div>
           <h2 className="raleway light-blue">Past Trips</h2>
+          <div className="flex-start">
           {
             pastTrips.length
             ? pastTrips.map(trip => {
@@ -110,9 +126,9 @@ class UserDashboard extends Component {
                   <p className="no-margin">
                   Destination:
                   {
-                    trip.destinationCity ?
-                    <p>{trip.destinationCity}, {trip.destinationState}</p>
-                    : ' TBD'
+                    trip.trip.destinationCity.length
+                      ? <p>{trip.trip.destinationCity}, {trip.trip.destinationState}</p>
+                      : ' TBD'
                   }
                   </p>
                   <p className="no-margin">{this.dateRange(trip.trip.arrivalDate)} - {this.dateRange(trip.trip.departureDate)}</p>
@@ -122,6 +138,7 @@ class UserDashboard extends Component {
             })
           : <p>You haven't been on any trips yet.</p>
           }
+        </div>
         </div>
         </div>
       )

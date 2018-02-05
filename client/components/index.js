@@ -21,4 +21,4 @@ export {default as DraggableYelpResult} from './draggableYelpResult'
 export {default as Itinerary} from './Itinerary'
 export {default as ActivityPopUp} from './activityPopUp'
 export {default as LandingPage} from './landingPage'
-
+export {default as YelpPopUp} from './YelpPopUp'

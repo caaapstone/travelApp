@@ -59,7 +59,8 @@ export const fetchUsersOnTrip = (tripId) => dispatch => {
         departureAirline: member.departureAirline,
         departureFlightNum: member.departureFlightNum,
         departureDate: member.departureDate,
-        departureTime: member.departureTime
+        departureTime: member.departureTime,
+        userEmail: member.user.email
       })
     })
 
