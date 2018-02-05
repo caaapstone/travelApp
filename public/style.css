@@ -986,11 +986,12 @@ button:focus {
 }
 
 .map-container{
+  border: 1px solid #C4C7D1;
   position: absolute;
   margin: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  top: 3rem;
+  right: 3rem;
+  bottom: 3rem;
   left: 0;
 }
 

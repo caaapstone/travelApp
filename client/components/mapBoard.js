@@ -53,15 +53,11 @@ class MapBoard extends Component {
     super(props)
     this.state = {
       activities: {},
-      // style: {
-      //   positon: 'absolute',
-      //   width: '200vh',
-      //   height: '100vh'
-      // },
-      routesGeoJSON: {},
-      color: "#FF00FF",
-      coordinates: []
+      currentDay: '',
+      routesGeoJSON: {}
     }
+
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentWillMount(){
@@ -120,39 +116,55 @@ class MapBoard extends Component {
     })
   }
 
+  handleClick(e) {
+    let selectedDay = e.target.value
+    this.setState({currentDay: selectedDay})
+  }
+
   render() {
     const Map = reactMapboxGL({accessToken: token})
     let days = Object.keys(this.state.activities)
     days = days.sort()
-
+    let currentDay = this.state.currentDay
+    console.log('currentDay', currentDay)
     return (
-      this.state.routesGeoJSON &&
+      <div>
+        <div>
+          {
+            days.map(day => {
+              return (
+                <button className="button" value={day} onClick={this.handleClick}>{day}</button>
+              )
+            })
+          }
+        </div>
       <Map
       className="map-container"
       style="mapbox://styles/mapbox/streets-v9"
       center={[-87.6354, 41.8885]}
       containerStyle={{
         height: "90vh",
-        width: "100vw"
+        width: "90vw"
       }}>
 
           {
             days.map(day => {
-              let activeTimes = times.filter(time => !!this.state.activities[day][time])
-              let singleDay = this.state.activities[day]
               let singleDayActivities
-              return(
+              if (currentDay === day){
+                let activeTimes = times.filter(time => !!this.state.activities[currentDay][time])
+                let filteredDay = this.state.activities[day]
+                return (
+
                 activeTimes.map(activeTime => {
-                  singleDayActivities = singleDay[activeTime]
+                  singleDayActivities = filteredDay[activeTime]
                   return (
-                  singleDayActivities.map(singleDayActivity => {
-                    console.log('singleDay.coordinates', singleDay.coordinates)
-                    return (
-                      <div>
+                    singleDayActivities.map(singleDayActivity => {
+                      console.log('singleDayActivity', singleDayActivity)
+                      return (
+                        <div>
                           <Layer
                             type="symbol"
                             id="marker"
-                            color="#AED9E0"
                             layout={{ "icon-image": "marker-15" }}>
                             <Feature
                             coordinates={[singleDayActivity.long, singleDayActivity.lat]}/>
@@ -169,15 +181,16 @@ class MapBoard extends Component {
                             </div>
                           </Popup>
                         </div>
-                    )
-                  })
-                )
+                      )
+                    })
+                  )
                 })
-
-              )
+                )
+              }
             })
           }
       </Map>
+      </div>
     )
   }
 }
