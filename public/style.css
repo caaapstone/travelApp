@@ -554,14 +554,14 @@ form div {
   -webkit-box-shadow: none;
           box-shadow: none;
   cursor: pointer;
-  color: #4a90e2;
+  color: #7E4E60;
   font-size: 0.875em;
 }
 
 /* Default modifiers */
 
 .DayPicker-Day--today {
-  color: #d0021b;
+  color: #AED9E0;
   font-weight: 700;
 }
 
@@ -589,17 +589,17 @@ form div {
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
   position: relative;
   color: #f0f8ff;
-  background-color: #4a90e2;
+  background-color: #7E4E60;
   border-radius: 100%;
 }
 
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
-  background-color: #51a0fa;
+  background-color: #C9CAD9;
 }
 
 .DayPicker:not(.DayPicker--interactionDisabled)
   .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
-  background-color: #f0f8ff;
+  background-color: #C9CAD9;
   border-radius: 50%;
 }
 
@@ -926,6 +926,24 @@ button:focus {
   font-weight: 100;
   color: #7E4E60;
 }
+
+
+/*Create Trip */
+.createTrip-container {
+  border-style: solid;
+  border-color: #C4C7D1;
+  border-width: .25px;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: auto;
+  margin-top: 10%;
+  align-items: center;
+  text-align: center;
+}
+
+.createTrip-inner-container{
+  padding: 15px;
 
 #userpage-welcome {
   display: flex;
