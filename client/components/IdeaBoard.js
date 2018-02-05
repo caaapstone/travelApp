@@ -77,7 +77,7 @@ class IdeaBoard extends Component {
     let tripId = this.props.trip.id
     let location = this.props.trip.destinationCity.toLowerCase()
     const search = {
-      term: event.target.yelp_search.value,
+      term: event.target.yelp_search.value || event.target.yelp_dropdown.value,
       location: location
     }
     setTimeout(this.toggleLoading, 1900)
@@ -113,7 +113,6 @@ class IdeaBoard extends Component {
         userIdeas.push(ideaActivities[activity])
       }
     }
-// console.log("before return in render", this.state.loading)
       return (
         <div>
         <Modal open={this.state.open} onClose={this.onCloseModal} little>
@@ -127,6 +126,18 @@ class IdeaBoard extends Component {
                 name="yelp_search"
                 id="yelp_search"
               />
+              <select name="yelp_dropdown">
+                <option value="restaurants">restaurants</option>
+                <option value="brunch">brunch</option>
+                <option value="lunch">lunch</option>
+                <option value="dinner">dinner</option>
+                <option value="coffeeshops">coffeeshops</option>
+                <option value="museums">museums</option>
+                <option value="bars">bars</option>
+                <option value="parks">parks</option>
+                <option value="shopping">shopping</option>
+              </select>
+
               <button type="submit">Search</button>
             </form>
 
