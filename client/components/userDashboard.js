@@ -48,7 +48,7 @@ class UserDashboard extends Component {
 
     if (userTrips){
       return (
-        <div className="two-rem-padding">
+        <div className="two-rem-padding full-page-center">
           <div id="userpage-welcome">
             <div id="adventure">
               <h1 className="raleway">Start your next adventure.</h1>
