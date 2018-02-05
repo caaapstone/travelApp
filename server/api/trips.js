@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const {Trip, Membership, User} = require('../db/models')
 const firebaseDb = require('../firebase')
-
+const {isUser} = require('../middleware.js')
 module.exports = router
 
 // GET all trips
@@ -62,7 +62,7 @@ router.put('/:tripId', function (req, res, next) {
 });
 
 // GET all trips for one user
-router.get('/user/:userId', (req, res, next) => {
+router.get('/user/:userId',  isUser, (req, res, next) => {
   Membership.findAll({
     where: {
       userId: req.params.userId

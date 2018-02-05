@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Dragula from 'react-dragula'
-import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchParticipants } from '../store'
+import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchUsersOnTrip } from '../store'
 import DraggableActivity from './draggableActivity'
 import DraggableYelpResult from './draggableYelpResult'
-import CalendarPopUp from './calendarPopUp'
 import Modal from 'react-responsive-modal'
-
+import {withRouter} from 'react-router-dom'
+import Loading from 'react-loading-components'
+import { setTimeout } from 'timers'
 
 class IdeaBoard extends Component {
   constructor() {
@@ -14,10 +15,12 @@ class IdeaBoard extends Component {
     this.state = {
       drake: Dragula({}),
       selectedActivity: {},
-      open: false
+      open: false,
+      loading: false
     }
     this.onOpenModal = this.onOpenModal.bind(this)
     this.onCloseModal = this.onCloseModal.bind(this)
+    this.toggleLoading = this.toggleLoading.bind(this)
   }
 
   componentWillMount(){
@@ -35,7 +38,7 @@ class IdeaBoard extends Component {
     if (!this.props.trip.name) {
       this.props.getTrip(tripId)
     }
-    if (!this.props.users){
+    if (!this.props.users.length){
       this.props.getTripUsers(tripId)
     }
 
@@ -57,7 +60,8 @@ class IdeaBoard extends Component {
         tripId: this.props.trip.id,
         timeUpdated: time,
         userUpdated: userUpdated,
-        userId: this.props.user.id
+        userId: this.props.user.id,
+        yelpInfo: selectedActivity
       }
       this.props.createActivity(activity)
 
@@ -69,23 +73,30 @@ class IdeaBoard extends Component {
 
   createIdeas = (event) => {
     event.preventDefault();
+    this.setState({loading: true})
     let tripId = this.props.trip.id
     let location = this.props.trip.destinationCity.toLowerCase()
     const search = {
       term: event.target.yelp_search.value,
       location: location
     }
-    this.props.getIdeas(tripId, search)
+    setTimeout(this.toggleLoading, 1900)
+    setTimeout(this.props.getIdeas(tripId, search), 2000)
   }
 
   onOpenModal(activity){
     this.setState({ ...this.state, selectedActivity: activity, open: true });
+    console.log('this.state(open): ', this.state)
   }
 
   onCloseModal(){
     this.setState({ ...this.state, selectedActivity: '', open: false });
+    console.log('this.state(close): ', this.state)
   }
 
+  toggleLoading() {
+    this.setState({loading: false})
+  }
   render() {
     const { user, ideas, activities} = this.props
     let ideaActivities = activities.filter(activity => !activity.isActive)
@@ -102,12 +113,12 @@ class IdeaBoard extends Component {
         userIdeas.push(ideaActivities[activity])
       }
     }
-
+// console.log("before return in render", this.state.loading)
       return (
         <div>
         <Modal open={this.state.open} onClose={this.onCloseModal} little>
-            <CalendarPopUp activity={this.state.selectedActivity} />
-        </Modal>
+            {/* need some sort of yelp result pop up */}
+          </Modal>
         <div id="boards">
           <div className="idea-search">
           <h4>Activity Search</h4>
@@ -118,52 +129,59 @@ class IdeaBoard extends Component {
               />
               <button type="submit">Search</button>
             </form>
+
+              {
+                this.state.loading
+                ? <div className="text-align-center">
+                  <Loading type="puff" width={200} height={200} fill="#7E4E60" className="center-loading"/>
+                  </div>
+                : ideas.length ?
+              <div ref={this.dragulaDecorator}>
             {
-              ideas.length ?
                 ideas.map(idea => {
+              console.log("in ideas", this.state.loading)
                   return (
-                    <div key={idea.id} ref={this.dragulaDecorator} onClick={() => this.onOpenModal(idea)}>
                       <DraggableYelpResult activity={idea} />
-                    </div>
-                  )
-                })
-                : <div />
-            }
-          </div>
-            <div id="user">
-              <h2>Idea Board</h2>
-              <div className="idea-board">
-                {
-                  userIdeas.map(activity => {
-                    return (
-                        <div key={activity.id} className="dragula-container" ref={this.dragulaDecorator} onClick={() => this.onOpenModal(activity)}>
-                          <DraggableActivity activity={activity} />
-                        </div>
                     )
                   })
                 }
+                </div>
+                  : <div />
+
+                }
+
+              </div>
+            <div id="user">
+              <h2>Idea Board</h2>
+              <div className="idea-board dragula-container" ref={this.dragulaDecorator}>
+
+                {
+                  userIdeas.map(activity => {
+                    return (
+                      <DraggableActivity activity={activity} />
+                    )
+                  })
+                }
+
               </div>
             </div>
             <div id="group">
               <h2>Group Ideas</h2>
-              <div className="friend-ideas">
+              <div className="friend-ideas dragula-container" ref={this.dragulaDecorator}>
                 {
                   groupIdeas.map(activity => {
                     return (
-                      <div ref={this.dragulaDecorator} className="dragula-container" key={activity.id}>
-                        <div key={activity.id} ref={this.dragulaDecorator} onClick={() => this.onOpenModal(activity)}>
                           <DraggableActivity activity={activity} />
-                        </div>
-                      </div>
-                    )
-                  })
-                }
+                        )
+                      })
+                    }
               </div>
             </div>
           </div>
-        </div>
-    )
-  }
+          </div>
+      )
+    }
+
 
   dragulaDecorator = (componentBackingInstance) => {
     if (componentBackingInstance) {
@@ -178,7 +196,8 @@ class IdeaBoard extends Component {
     user: state.user,
     trip: state.trip,
     activities: state.activities,
-    ideas: state.ideas
+    ideas: state.ideas,
+    users: state.users
   }
 }
 
@@ -197,7 +216,7 @@ const mapDispatch = (dispatch) => {
       dispatch(fetchTrip(tripId))
     },
     getTripUsers(tripId){
-      dispatch(fetchParticipants(tripId))
+      dispatch(fetchUsersOnTrip(tripId))
     },
     createActivity(activity) {
       createActivity(activity)
@@ -205,4 +224,4 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-export default connect(mapState, mapDispatch)(IdeaBoard)
+export default withRouter(connect(mapState, mapDispatch)(IdeaBoard))

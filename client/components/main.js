@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter, NavLink, Link} from 'react-router-dom'
-import {logout} from '../store'
-
+import {logout, postTrip} from '../store'
+import history from '../history'
 
 /**
  * COMPONENT
@@ -11,14 +11,22 @@ import {logout} from '../store'
  *  else common to our entire app. The 'picture' inside the frame is the space
  *  rendered out by the component's `children`.
  */
-const Main = (props) => {
-  const {children, handleClick, isLoggedIn} = props
+
+ export class Main extends Component {
+  submitTrip = (event) =>{
+    event.preventDefault()
+    this.props.createTrip()
+  }
+render(){
+
+  const {children, handleClick, isLoggedIn} = this.props
+
   return (
     <div>
       <div id="nav-bar">
         <Link to="/home">
           <div className="flex-display">
-            <img src="/origami-bird.png" id="logo"/>
+            <img src="/origami-bird-white.png" id="logo"/>
             <h2 className="flock-blue" id="flock-name">flock</h2>
           </div>
         </Link>
@@ -28,7 +36,7 @@ const Main = (props) => {
               ? <div>
                 {/* The navbar will show these links after you log in */}
                 <NavLink to="/" className="nav-links">Dashboard</NavLink>
-                <NavLink to="/createtrip" className="nav-links">Create Trip</NavLink>
+                <NavLink onClick={this.submitTrip} to="/createtrip" className="nav-links">Create Trip</NavLink>
                 <a href="#" onClick={handleClick} className="nav-links">Logout</a>
               </div>
               : <div>
@@ -42,6 +50,7 @@ const Main = (props) => {
       {children}
     </div>
   )
+}
 }
 
 /**
@@ -57,6 +66,13 @@ const mapDispatch = (dispatch) => {
   return {
     handleClick () {
       dispatch(logout())
+    },
+    createTrip: () => {
+      return dispatch(postTrip())
+      .then(trip =>{
+        let tripId = trip.trip.id
+        history.push(`/trips/tripdetails/${tripId}`)
+      })
     }
   }
 }

@@ -85,17 +85,29 @@ import history from '../history'
     return (
             <div className="createTrip-container">
               <div className="createTrip-inner-container">
-              <h1>Trip Details for {this.props.trip.name}</h1>
 
-              <form onSubmit={this.addFriend}>
+              <h1 className="capitalized-header">Trip Details for {this.props.trip.name}</h1>
+
+
+              <form onSubmit={this.changeTrip}>
+              <label>Name your trip:</label>
+                <input
+                  id="tripName"
+                  name="tripName"
+                  className="airline-input"
+                />
+
+
                 <label htmlFor="emails">Invite your friends:</label>
                 <input
+                  className="airline-input"
                   id="emails"
                   name="emails"
                   onChange={this.handleChange}
                 />
-                <button type="submit">+</button>
-              </form>
+
+                <button onClick = {this.addFriend} className="button center-loading">+</button>
+
               {
                 friendEmails.map(friend =>{
                   return (
@@ -103,17 +115,21 @@ import history from '../history'
                           )
                 })
               }
-              <form onSubmit={this.changeTrip}>
+
+
+
               <h3>The default budget for this trip is {this.props.trip.defaultBudget}</h3>
               <label>Update budget:</label>
               <input
               required
+              className="airline-input"
               id="defaultBudget"
               name="defaultBudget"
               />
               <p>(*your friends can adjust their budget once they join the trip!)</p>
               <label>Pick your dates:</label>
               <DayPickerInput
+                className="airline-input"
                 dayPickerProps={{disabledDays: past}}
                 name="startingDate"
                 ref="arrival"
@@ -122,6 +138,7 @@ import history from '../history'
                 required
               />
               <DayPickerInput
+                className="airline-input"
                 disabledDays={{ before: past }}
                 name="endingDate"
                 ref="departure"
@@ -130,7 +147,9 @@ import history from '../history'
                 required
               />
               <br/>
-              <button type="submit">Invite your friends!</button>
+
+              <button className="button center-loading" type="submit">Invite your friends!</button>
+
               </form>
               </div>
             </div>

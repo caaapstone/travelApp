@@ -6,7 +6,7 @@ module.exports = router
 
 // POST because it is not specifying exact URL where stored
 //this updates an already existing activity (re: activityID)
-router.post('/', (req, res, next) => {
+router.post('/update', (req, res, next) => {
   console.log('req.body: ', req.body)
   let tripId = req.body.tripId
   let activityId = req.body.activityId
@@ -26,39 +26,7 @@ router.post('/', (req, res, next) => {
   tripRef.update(updates)
 })
 
-// //new post request but creates a new activity from NOTHING
-// router.post('/new', (req, res, next) =>{
-//   let name = req.body.name
-//   let date = ''
-//   let time = ''
-//   let isActive = false
-//   let lat = req.body.lat
-//   let long = req.body.long
-//   let link = req.body.link
-//   let imageUrl = req.body.imageUrl
-//   let tripId = req.body.tripId
-//   let userId = req.body.userId
-//   let timeUpdated = req.body.timeUpdated
-//   let userUpdated = req.body.userUpdated
-
-//   let tripRef = firebaseDb.ref(`/trips/T${tripId}`)
-//   let newActivity = {
-//     name,
-//     date,
-//     time,
-//     isActive,
-//     lat,
-//     long,
-//     link,
-//     imageUrl,
-//     tripId,
-//     timeUpdated,
-//     userUpdated
-//   }
-//   tripRef.push(newActivity)
-// })
-
-router.post('/new', async (req, res, next) =>{
+router.post('/create', async (req, res, next) =>{
   let name = req.body.name
   let date = ''
   let time = ''
@@ -71,6 +39,7 @@ router.post('/new', async (req, res, next) =>{
   let userId = req.body.userId
   let timeUpdated = req.body.timeUpdated
   let userUpdated = req.body.userUpdated
+  let yelpInfo = req.body.yelpInfo
 
   let newActivity = {
     name,
@@ -83,7 +52,8 @@ router.post('/new', async (req, res, next) =>{
     imageUrl,
     tripId,
     timeUpdated,
-    userUpdated
+    userUpdated,
+    yelpInfo
   }
 
   try {

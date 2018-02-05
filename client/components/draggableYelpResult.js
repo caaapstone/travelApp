@@ -9,16 +9,17 @@ export default class DraggableYelpResult extends Component {
     let now = new Date
     let time = now.getTime()
     let activityId = activity.activityId || activity.id
-    return (
-      <div id={activityId} className="yelp-result">
-        <img src={activity.imageUrl} className="activity-thumbnail" />
-        <a href={activity.link} target="_blank">{activity.name}</a>
-        <br />
-        placeholder for address<br />
-        placeholder for rating<br />
-        placeholder for cost<br />
-        placeholder for cost<br />
-      </div>
-    )
+    if (activity.name){
+      return (
+        <div id={activityId} className="yelp-result">
+          <img src={activity.image_url} className="activity-thumbnail" />
+          <a href={activity.link} target="_blank">{activity.name}</a>
+        </div>
+      )
+    } else {
+      return (
+        <div />
+      )
+    }
   }
 }
