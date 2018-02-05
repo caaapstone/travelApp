@@ -75,6 +75,7 @@ class UserDashboard extends Component {
           <br />
           <div>
           <h2 className="raleway light-blue">Upcoming Trips</h2>
+          <div className="flex-start">
           {
             trips.length
             ? trips.map(trip => {
@@ -97,10 +98,12 @@ class UserDashboard extends Component {
             })
           : <p>You have no upcoming trips scheduled.</p>
           }
+          </div>
         </div>
         <br />
         <div>
           <h2 className="raleway light-blue">Past Trips</h2>
+          <div className="flex-start">
           {
             pastTrips.length
             ? pastTrips.map(trip => {
@@ -122,6 +125,7 @@ class UserDashboard extends Component {
             })
           : <p>You haven't been on any trips yet.</p>
           }
+        </div>
         </div>
         </div>
       )
