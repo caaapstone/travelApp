@@ -72,8 +72,8 @@ class UserDashboard extends Component {
                   <p className="no-margin">
                   Destination:
                   {
-                    trip.destinationCity ?
-                    <p>{trip.destinationCity}, {trip.destinationState}</p>
+                    trip.trip.destinationCity ?
+                    <p>{trip.trip.destinationCity}, {trip.trip.destinationState}</p>
                     : ' TBD'
                   }
                   </p>
