@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Dragula from 'react-dragula'
-import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchUsersOnTrip } from '../store'
+import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchUsersOnTrip, updateActivity } from '../store'
 import DraggableActivity from './draggableActivity'
 import DraggableYelpResult from './draggableYelpResult'
 import Modal from 'react-responsive-modal'
@@ -48,22 +48,40 @@ class IdeaBoard extends Component {
       let time = now.getTime()
       const id = el.id
       let userUpdated = this.props.user.firstName + ' ' + this.props.user.lastName
-      let selectedActivity = this.props.ideas.find(idea => {
-        return idea.id === id
-      })
-      let activity = {
-        name: selectedActivity.name,
-        lat: selectedActivity.coordinates.latitude,
-        long: selectedActivity.coordinates.longitude,
-        link: selectedActivity.url,
-        imageUrl: selectedActivity.image_url,
-        tripId: this.props.trip.id,
-        timeUpdated: time,
-        userUpdated: userUpdated,
-        userId: this.props.user.id,
-        yelpInfo: selectedActivity
+
+      // if a yelp result is dragged to my ideas or friends ideas
+      if ((target.id === 'my-ideas' || target.id === 'friends-ideas') && el.id[0] !== '-'){
+        let selectedActivity = this.props.ideas.find(idea => {
+          return idea.id === id
+        })
+        let activity = {
+          name: selectedActivity.name,
+          lat: selectedActivity.coordinates.latitude,
+          long: selectedActivity.coordinates.longitude,
+          link: selectedActivity.url,
+          imageUrl: selectedActivity.image_url,
+          tripId: this.props.trip.id,
+          timeUpdated: time,
+          userUpdated: userUpdated,
+          userId: this.props.user.id,
+          yelpInfo: selectedActivity
+        }
+        this.props.createActivity(activity)
+
+      // if an idea is dragged to group ideas
+      } else if (target.id === 'my-ideas' && el.id[0] === '-'){
+        let activity = {
+          tripId: this.props.trip.id,
+          activityId: el.id,
+          date: '',
+          time: '',
+          isActive: false,
+          timeUpdated: time,
+          userUpdated: userUpdated,
+          userId: this.props.user.id
+        }
+        this.props.updateActivity(activity)
       }
-      this.props.createActivity(activity)
 
       // prevents strange behavior due to DOM manipulation
       el.setAttribute('style', `${el.style.cssText};display: none;`);
@@ -86,12 +104,10 @@ class IdeaBoard extends Component {
 
   onOpenModal(activity){
     this.setState({ ...this.state, selectedActivity: activity, open: true });
-    console.log('this.state(open): ', this.state)
   }
 
   onCloseModal(){
     this.setState({ ...this.state, selectedActivity: '', open: false });
-    console.log('this.state(close): ', this.state)
   }
 
   toggleLoading() {
@@ -120,7 +136,7 @@ class IdeaBoard extends Component {
           </Modal>
         <div id="boards">
           <div className="idea-search">
-          <h4>Activity Search</h4>
+          <h2 className="purple-sub-head">Activity Search</h2>
             <form onSubmit={this.createIdeas}>
               <input
                 name="yelp_search"
@@ -150,7 +166,6 @@ class IdeaBoard extends Component {
               <div ref={this.dragulaDecorator}>
             {
                 ideas.map(idea => {
-              console.log("in ideas", this.state.loading)
                   return (
                       <DraggableYelpResult activity={idea} />
                     )
@@ -163,8 +178,8 @@ class IdeaBoard extends Component {
 
               </div>
             <div id="user">
-              <h2>Idea Board</h2>
-              <div className="idea-board dragula-container" ref={this.dragulaDecorator}>
+              <h1 className="capitalized-header">MY IDEA BOARD</h1>
+              <div id="my-ideas" className="idea-board dragula-container" ref={this.dragulaDecorator}>
 
                 {
                   userIdeas.map(activity => {
@@ -177,8 +192,9 @@ class IdeaBoard extends Component {
               </div>
             </div>
             <div id="group">
-              <h2>Group Ideas</h2>
-              <div className="friend-ideas dragula-container" ref={this.dragulaDecorator}>
+            <h1 className="purple-sub-head">GROUP IDEAS</h1>
+            <p>Take a look at your friends' ideas! You can also drag and drop them into your own idea bank.</p>
+              <div id="friends-ideas" className="friend-ideas dragula-container" ref={this.dragulaDecorator}>
                 {
                   groupIdeas.map(activity => {
                     return (
@@ -231,6 +247,9 @@ const mapDispatch = (dispatch) => {
     },
     createActivity(activity) {
       createActivity(activity)
+    },
+    updateActivity(activity){
+      updateActivity(activity)
     }
   }
 }

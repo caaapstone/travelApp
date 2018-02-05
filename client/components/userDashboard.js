@@ -48,7 +48,7 @@ class UserDashboard extends Component {
 
     if (userTrips){
       return (
-        <div className="two-rem-padding">
+        <div className="two-rem-padding full-page-center">
           <div id="userpage-welcome">
             <div id="adventure">
               <h1 className="raleway">Start your next adventure.</h1>
@@ -72,8 +72,8 @@ class UserDashboard extends Component {
                   <p className="no-margin">
                   Destination:
                   {
-                    trip.destinationCity ?
-                    <p>{trip.destinationCity}, {trip.destinationState}</p>
+                    trip.trip.destinationCity ?
+                    <p>{trip.trip.destinationCity}, {trip.trip.destinationState}</p>
                     : ' TBD'
                   }
                   </p>

@@ -9,12 +9,14 @@ module.exports = router
 router.post('/update', (req, res, next) => {
   console.log('req.body: ', req.body)
   let tripId = req.body.tripId
+  console.log('api tripId: ', tripId)
   let activityId = req.body.activityId
   let date = req.body.date
   let time = req.body.time
   let isActive = req.body.isActive
   let timeUpdated = req.body.timeUpdated
   let userUpdated = req.body.userUpdated
+  let userId = req.body.userId
   let tripRef = firebaseDb.ref(`/trips/T${tripId}/${activityId}`)
   let updates = {
     date,
@@ -24,6 +26,10 @@ router.post('/update', (req, res, next) => {
     userUpdated
   }
   tripRef.update(updates)
+  if (userId){
+    console.log('got to the right spot!')
+    firebaseDb.ref(`/trips/T${tripId}/${activityId}/users/U${userId}`).set(true)
+  }
 })
 
 router.post('/create', async (req, res, next) =>{

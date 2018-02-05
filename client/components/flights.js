@@ -128,6 +128,8 @@ class Flights extends Component {
     this.whereError = this.whereError.bind(this)
     this.whereClear = this.whereClear.bind(this)
     this.toggleLoading = this.toggleLoading.bind(this)
+    this.upVoteMessage = this.upVoteMessage.bind(this)
+    this.upVoteMessageClear = this.upVoteMessageClear.bind(this)
 
   }
 
@@ -235,15 +237,18 @@ class Flights extends Component {
 
   upVote(e) {
     const {getUsersOnTrip} = this.props
+    let city = e.target.value
     axios.post('/api/destinations/upvote', {
       airport: e.target.value,
       userId: this.props.match.params.userId,
       tripId: this.props.match.params.tripId
     })
     .then(result => {
+      console.log(result)
       if(result.status === 401) {
         this.upVoteError()
       } else{
+        this.upVoteMessage(city)
         setTimeout(this.getDestinationCities, 1000)
       }
     })
@@ -323,12 +328,33 @@ class Flights extends Component {
     this.setState({loading: false})
   }
 
+  upVoteMessage(city) {
+    let upvote = document.getElementById('upvote-confirmed')
+    upvote.innerText = `You voted for ${city}!`
+
+    upvote.style.visibility = 'visible'
+    upvote.style.opacity = 1
+
+    setTimeout(this.upVoteMessageClear, 3000)
+  }
+
+  upVoteMessageClear() {
+    let upvote = document.getElementById('upvote-confirmed')
+
+    upvote.style.visibility = 'hidden'
+    upvote.style.opacity = 0
+  }
+
   render () {
-    const {tripName, usersOnTrip, possibleCities, userFlights, lastUpdated, trip} = this.props
+    const {tripName, usersOnTrip, possibleCities, userFlights, lastUpdated, trip, getUserFlights} = this.props
     let organizer = usersOnTrip.filter(user => user.userId === Number(this.props.match.params.userId))
 
     if (trip.destinationCity) {
       history.push(`/trip/${this.props.match.params.tripId}`)
+    }
+
+    if (userFlights.length === 0) {
+      getUserFlights(this.props.match.params.tripId, this.props.match.params.userId)
     }
 
     return (
@@ -376,6 +402,9 @@ class Flights extends Component {
         <div id="where_error">
           <i className="fa fa-times-circle"/>
            Waiting for all users to join this trip.
+        </div>
+        <div id="upvote-confirmed">
+          You voted for ~CITY~ :)
         </div>
         {
           possibleCities.length

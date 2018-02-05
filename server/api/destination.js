@@ -70,7 +70,9 @@ router.post('/upvote', (req, res, next) => {
     }
   })
   .then(result => {
+    console.log('upVote results: ', result.dataValues.upVotes)
     if (result.dataValues.upVotes === 0) {
+      console.log('401 error being hit :(')
       res.status(401).send('You\'ve reached your max votes!')
     } else {
       result.update({
