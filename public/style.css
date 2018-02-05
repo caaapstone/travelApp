@@ -240,7 +240,6 @@ form div {
 
 .dragula-container {
   min-height: 200px;
-  background-color: lightcyan;
 }
 
 .activity-thumbnail {
@@ -337,25 +336,33 @@ form div {
   background-color: red;
 }
 
-#user {
-  max-width: 40%;
-  padding: 20px;
-}
-
-#group {
-  max-width: 30%;
-  padding: 20px;
-}
-
-.idea-search {
-  box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
-  width: 250px;
-}
-
 #boards {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+}
+
+#user {
+  max-width: 60%;
+  padding: 20px;
+  flex-grow: 3;
+}
+
+#group {
+  max-width: 20%;
+  min-width: 20%;
+  padding: 20px;
+  background-color: #C9CAD9;
+  flex-grow: 1;
+}
+
+.idea-search {
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
+  max-width: 30%;
+  min-width: 250px;
+  flex-grow: 1;
+  padding-left: 50px;
+  padding-right: 30px;
 }
 
 .yelp-result {

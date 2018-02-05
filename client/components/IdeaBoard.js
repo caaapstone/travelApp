@@ -137,7 +137,7 @@ class IdeaBoard extends Component {
           </Modal>
         <div id="boards">
           <div className="idea-search">
-          <h4>Activity Search</h4>
+          <h2 className="purple-sub-head">Activity Search</h2>
             <form onSubmit={this.createIdeas}>
               <input
                 name="yelp_search"
@@ -167,7 +167,7 @@ class IdeaBoard extends Component {
 
               </div>
             <div id="user">
-              <h2>Idea Board</h2>
+              <h1 className="capitalized-header">MY IDEA BOARD</h1>
               <div id="my-ideas" className="idea-board dragula-container" ref={this.dragulaDecorator}>
 
                 {
@@ -181,7 +181,8 @@ class IdeaBoard extends Component {
               </div>
             </div>
             <div id="group">
-              <h2>Group Ideas</h2>
+            <h1 className="purple-sub-head">GROUP IDEAS</h1>
+            <p>Take a look at your friends' ideas! You can also drag and drop them into your own idea bank.</p>
               <div id="friends-ideas" className="friend-ideas dragula-container" ref={this.dragulaDecorator}>
                 {
                   groupIdeas.map(activity => {
