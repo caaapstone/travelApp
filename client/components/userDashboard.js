@@ -19,19 +19,33 @@ class UserDashboard extends Component {
     this.props.removeMembership(ids)
   }
 
+
   dateRange(trip) {
    let splitDate = trip.split('-')
    let newDate = [splitDate[1], splitDate[2], splitDate[0]]
    return newDate.join('/')
   }
 
+
   render(){
+    const tripDate = new Date()
+    let year = tripDate.getFullYear().toString()
+    let month = (tripDate.getMonth() + 1).toString()
+    let today = tripDate.getDate().toString()
+    if (today.length < 2) {
+      today = '0' + today
+    }
+    if (month.length < 2) {
+      month = '0' + month
+    }
+    let todaysDate = year + '-' + month + '-' + today
     const { user, userTrips } = this.props
+
     let invitations = userTrips.filter(trip => trip.joined === false && !trip.organizer)
     let currentDate = Date.now()
     let trips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) > currentDate))
     let pastTrips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) < currentDate))
-    console.log('past trips: ', trips)
+
     if (userTrips){
       return (
         <div className="two-rem-padding">
@@ -75,6 +89,7 @@ class UserDashboard extends Component {
           }
           <br />
           <div>
+
           <h2 className="raleway light-blue">Upcoming Trips</h2>
           <div className="flex-start">
           {

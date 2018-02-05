@@ -29,7 +29,7 @@ class Routes extends Component {
               <Switch>
               {/* Routes placed here are only available after logging in */}
                 <Route exact path="/createtrip" component={CreateTrip} />
-                <Route exact path={'/trips/tripdetailsetup/:tripId'} component={TripDetailsSetUp} />
+                <Route exact path={'/trips/tripdetails/:tripId'} component={TripDetailsSetUp} />
                 <Route exact path={'/trips/jointrip/:tripId'} component={JoinTrip} />
                 <Route exact path ="/" component={UserDashboard} />
                 <Route exact path ="/home" component={UserDashboard} />
