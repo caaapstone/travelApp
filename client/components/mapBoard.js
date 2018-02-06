@@ -78,7 +78,7 @@ class MapBoard extends Component {
   componentDidMount(){
     //if there are no activities when this mounts, we need to get the activities
     let activities = this.props.activities.filter(activity => {
-      return activity.isActive
+      return activity.isActive && activity.date.length > 0
     })
 
     let dates = {}
@@ -125,7 +125,7 @@ class MapBoard extends Component {
     let coordinates = this.state.activities[selectedDay].coordinates.join(';')
     axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${coordinates}?geometries=geojson&overview=full&steps=true&access_token=pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw`)
       .then(res => {
-        // console.log('routes data', res.data)
+        console.log('routes data', res.data)
         this.setState({currentDay: selectedDay, directions: res.data.routes[0].geometry.coordinates })
       })
       .catch(err => console.error(err))
@@ -141,7 +141,7 @@ class MapBoard extends Component {
     let days = Object.keys(this.state.activities)
     days = days.sort()
     let currentDay = this.state.currentDay
-    console.log('this.state.directions', this.state.directions)
+    if (this.state.activities[currentDay]) console.log(this.state.activities[currentDay].coordinates[0]);
     return (
       <div>
         <h1 className="capitalized-header">MAP</h1>
@@ -157,8 +157,7 @@ class MapBoard extends Component {
       <Map
       className="map-container"
       style="mapbox://styles/mapbox/streets-v9"
-      center={
-        this.state.activities[currentDay] ?
+      center={this.state.activities[currentDay] ?
         this.state.activities[currentDay].coordinates[0] : [-98.35, 39.50]
       }
       containerStyle={{
@@ -211,7 +210,7 @@ class MapBoard extends Component {
             <Layer
               type="line"
               layout={{ "line-cap": "round", "line-join": "round" }}
-              paint={{ "line-color": "#4790E5", "line-width": 1 }}>
+              paint={{ "line-color": "#4790E5", "line-width": 2 }}>
               <Feature coordinates={this.state.directions}/>
             </Layer>
           }
