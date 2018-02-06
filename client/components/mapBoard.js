@@ -135,10 +135,11 @@ class MapBoard extends Component {
     let days = Object.keys(this.state.activities)
     days = days.sort()
     let currentDay = this.state.currentDay
-    console.log('currentDay', currentDay)
+    console.log('this.state.activities', this.state.activities)
     return (
       <div>
-        <div>
+        <h1 className="capitalized-header">MAP</h1>
+        <div className="button-container">
           {
             days.map(day => {
               return (
@@ -150,7 +151,10 @@ class MapBoard extends Component {
       <Map
       className="map-container"
       style="mapbox://styles/mapbox/streets-v9"
-      center={[-87.6354, 41.8885]}
+      center={
+        this.state.activities[currentDay] &&
+        this.state.activities[currentDay].coordinates[0]
+      }
       containerStyle={{
         height: "90vh",
         width: "90vw"

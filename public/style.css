@@ -972,9 +972,9 @@ a{
   background-color: #AED9E0;
   box-sizing: border-box;
   padding: 0 2rem;
-  position: fixed;
+  /* position: fixed;
   z-index: 99;
-  width: 100%;
+  width: 100%; */
 }
 
 #nav-bar-logged-out{
@@ -1197,8 +1197,8 @@ button:focus {
   color: #AED9E0;
   opacity: 1;
   animation: fadeIn 9s ease;
-  height: 15rem;
-  width: 15rem
+  height: 25rem;
+  width: 25rem
 }
 
 .landing-logo-text{
@@ -1232,3 +1232,10 @@ button:focus {
   margin: auto;
 }
 
+.landing-header{
+  font-family: 'Raleway', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  letter-spacing: .2rem;
+  color: rgb(255, 255, 255);
+}
