@@ -24,7 +24,6 @@ a{
 #nav-bar{
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #C4C7D1;
   box-sizing: border-box;
   padding: 0 2rem;
 }
@@ -1224,6 +1223,96 @@ button:focus {
   background-color: #B9CDDA;
   cursor: pointer;
 }
+
+/* Center the contents of the bubble chart */
+.bubble-chart-container {
+  flex: 1;
+  position: relative;
+  display: flex;
+  user-select: none;
+  justify-content: center;
+}
+
+/* Center text in the circle, and hide any overflow */
+.bubble-chart-container .bubble-chart-text .bubble-label {
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 50%;
+  will-change: left, top, height, width;
+}
+
+/* Show the overflow when hovering over a label */
+.bubble-chart-container .bubble-chart-text .bubble-label:hover {
+  overflow: visible;
+  font-weight: bold;
+}
+
+/* Optional, but recommended - reduce the size of text on medium bubbles */
+.bubble-chart-container .bubble-chart-text .bubble-label.medium {
+  font-size: 0.8em;
+}
+
+/* Optional, but recommended - hide the text on small bubbles */
+.bubble-chart-container .bubble-chart-text .bubble-label.small {
+  font-size: 0;
+}
+/* Make sure to unhide the text when hovering */
+.bubble-chart-container .bubble-chart-text .bubble-label.small:hover {
+  font-size: 0.8em;
+}
+
+#stats-container{
+  width: 100%;
+  border: 1px solid #C4C7D1;
+  display: flex;
+  justify-content: space-around
+}
+
+.stats-label{
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.top-destinations-label{
+  width: 570px;
+}
+
+.top-activities{
+  width: 650px;
+}
+
+.topLabel:hover{
+  cursor: pointer;
+}
+
+.top-city-image{
+  width: 100px;
+  transform: translate(0, -20px);
+}
+
+.top-city-result{
+  display: flex;
+  height: 50px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 1px solid #C4C7D1;
+  margin-right: 8px;
+}
+
+.top-city-caption{
+  font-size: .75rem;
+}
+
+.top-city-details{
+  padding-left: .5rem;
+}
+
+.top-city-link{
+  color: black;
 
 .map-button {
   border: none;

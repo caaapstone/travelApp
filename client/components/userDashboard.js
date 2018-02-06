@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
 import { fetchUserTrips, deleteMembership } from '../store'
 import history from '../history'
+import BasicPieCart from './insights'
 
 class UserDashboard extends Component {
 
@@ -39,7 +40,7 @@ class UserDashboard extends Component {
       month = '0' + month
     }
     let todaysDate = year + '-' + month + '-' + today
-    const { user, userTrips } = this.props
+    const { user, userTrips, topCityActivities } = this.props
 
     let invitations = userTrips.filter(trip => trip.joined === false && !trip.organizer)
     let currentDate = Date.now()
@@ -88,6 +89,42 @@ class UserDashboard extends Component {
             </div>
           }
           <br />
+          <div>
+            <h2 className="raleway light-blue">Need Some Inspiration?</h2>
+            <p>Explore the top activities from our most travelled to cities.</p>
+            <div id="stats-container">
+              <div>
+                <BasicPieCart />
+              </div>
+              <div className="top-activities">
+                  {
+                    topCityActivities.length
+                      ? <div>
+                        <p className="stats-label raleway">{`Top Activities in ${topCityActivities[0].location.city}`}</p>
+                        {
+                          topCityActivities.map(activity => (
+                            <a href={activity.url} target="_blank" className="top-city-link">
+                            <div className="top-city-result">
+                              <div>
+                                <img src={activity.image_url} className="top-city-image"/>
+                              </div>
+                              <div className="top-city-details">
+                                <h3 className="no-margin raleway">{activity.name}</h3>
+                                <p className="no-margin top-city-caption">{activity.categories[0].title}</p>
+                              </div>
+                            </div>
+                            </a>
+                          ))
+                        }
+                      </div>
+                      : <div>
+                        <p className="stats-label raleway">Top Activities</p>
+                        <p>Select a top city from the graph on the left.</p>
+                      </div>
+                  }
+              </div>
+            </div>
+          </div>
           <div>
 
           <h2 className="raleway light-blue">Upcoming Trips</h2>
@@ -151,7 +188,8 @@ class UserDashboard extends Component {
 const mapState = (state) => {
   return {
     user: state.user,
-    userTrips: state.userTrips
+    userTrips: state.userTrips,
+    topCityActivities: state.topCityActivities
   }
 }
 
