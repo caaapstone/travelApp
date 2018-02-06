@@ -128,7 +128,7 @@ export class CalendarBoard extends React.Component {
       let dinner = calendarActivities.filter(activity => activity.time === 'dinner')
       let evening = calendarActivities.filter(activity => activity.time === 'evening')
       return (
-        <div>
+        <div className="scheduler-outermost-div">
           <Modal open={this.state.open} onClose={this.onCloseModal} little>
             <ActivityPopUp activity={this.state.selectedActivity} />
           </Modal>

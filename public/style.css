@@ -389,6 +389,10 @@ form div {
 
 /* calendar */
 
+.scheduler-outermost-div {
+  height: 50%;
+}
+
 .scheduler-buttons {
   margin: 5px;
 }
@@ -402,17 +406,33 @@ form div {
   /* background-color: blue; */
   width: 300px;
   flex-grow: 1;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 40rem;
+}
+
+.group-ideas-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  overflow-y: scroll;
+  height: 30rem;
 }
 
 .calendar-container-and-header {
   /* background-color: green; */
   min-width: 100px;
   flex-grow: 3;
+  padding-left: 20px;
 }
 
 .calendar-container {
   display: flex;
   flex-direction: row;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  height: 23%;
 }
 
 .calendar-day-container {
@@ -426,21 +446,18 @@ form div {
   height: 75px;
   width: 325px;
   overflow-y: scroll;
-  /* background-color: red; */
+  background-color: #C9CAD9;
+  border-left: red;
+  border-width: 20px;
 }
 
 .dragula-container#morning, .dragula-container#afternoon, .dragula-container#evening {
   height: 200px;
   width: 325px;
   overflow-y: scroll;
-  background-color: pink;
+  background-color: #AED9E0;
 }
 
-.group-ideas-container {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-}
 
 /* Idea board */
 
