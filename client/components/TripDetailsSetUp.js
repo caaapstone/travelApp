@@ -4,6 +4,8 @@ import users from '../store'
 import { fetchTrip, getUsersByEmail, updateTrip} from '../store'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import history from '../history'
+import axios from 'axios'
+import Loading from 'react-loading-components'
 
 /**
  * COMPONENT
@@ -22,8 +24,12 @@ import history from '../history'
       arrival: '',
       departure: '',
       city: '',
-      state: ''
+      state: '',
+      airports: [],
+      isLoading: false
     }
+    this.airportAutoComplete = this.airportAutoComplete.bind(this)
+    this.airportSelected = this.airportSelected.bind(this)
   }
 
   componentDidMount() {
@@ -39,6 +45,7 @@ import history from '../history'
 /*Update Trip Details*/
   changeTrip = (event) => {
     event.preventDefault()
+    console.log(event.target)
     let tripId = this.props.match.params.tripId
     let userId = this.props.user.id
     let trip = {
@@ -50,7 +57,6 @@ import history from '../history'
     }
     var organizer = {
       userCity: event.target.startingCity.value,
-      userState: event.target.startingState.value,
       flightBudget: event.target.defaultBudget.value,
       email: this.props.user.email,
       id: Number(this.props.match.params.tripId),
@@ -67,8 +73,11 @@ handleNameChange = (evt) => this.setState({ name: evt.target.value })
 handleBudgetChange = (evt) => this.setState({ budget: evt.target.value })
 handleArrivalChange = (evt) => this.setState({ arrival: evt.target.value })
 handleDepartureChange = (evt) => this.setState({ departure: evt.target.value })
-handleCityChange = (evt) => this.setState({ city: evt.target.value })
-handleStateChange = (evt) => this.setState({ state: evt.target.value })
+handleCityChange = (evt) => {
+  this.setState({ city: evt.target.value })
+  this.airportAutoComplete(evt.target.value)
+}
+// handleStateChange = (evt) => this.setState({ state: evt.target.value })
 
 
 
@@ -91,6 +100,31 @@ handleStateChange = (evt) => this.setState({ state: evt.target.value })
         })
     }
     this.setState({email: ''})
+  }
+
+  airportAutoComplete(str) {
+    const airportSearch = str
+    if(airportSearch.length >= 3){
+      this.setState({isLoading: true})
+      axios.get('https://api.sandbox.amadeus.com/v1.2/airports/autocomplete', {
+        params: {
+          apikey: 'oVskbtEyd75zVOEaxQ0qR5ZvpOejXExA',
+          term: airportSearch
+        }
+      })
+      .then(results => {
+        console.log(results.data.slice(0,5))
+        let airportResults = results.data.slice(0,5)
+        this.setState({airports: airportResults, isLoading: false})
+      })
+    } else {
+      this.setState({isLoading: false, airports: []})
+    }
+  }
+
+  airportSelected(airport) {
+    document.getElementById('startingCity').value = airport
+    this.setState({airports: []})
   }
 
 
@@ -164,24 +198,37 @@ handleStateChange = (evt) => this.setState({ state: evt.target.value })
                 onChange={this.handleDepartureChange}
               />
               <br/>
-
-              <label>Add your starting city and state below:</label>
+              <label>Where are you flying from?</label>
+              <div id="airport-search-container">
               <input
                 required
                 className="airline-input"
                 id="startingCity"
                 name="startingCity"
                 onChange={this.handleCityChange}
+                autocomplete="new-password"
               />
-              <input
-                required
-                className="airline-input"
-                id="startingState"
-                name="startingState"
-                onChange={this.handleStateChange}
-              />
+              {
+                this.state.isLoading
+                  ? <div>
+                    <Loading type="puff" width={80} height={80}fill="#7E4E60" className="center-loading" />
+                  </div>
+                  : this.state.airports.length
+                    ? <div className="no-margin three-hundred">
+                      {
+                        this.state.airports.map(airport => (
+                          <div onClick={() => this.airportSelected(airport.value)} className="airport-search-result">
+                            <p className="no-margin airport-result-text bold">{airport.value}</p>
+                            <p className="no-margin airport-result-text">{airport.label}</p>
+                          </div>
+                        ))
+                      }
+                    </div>
+                    : <div />
+              }
+              </div>
               <h4>Your friends will add their cities when they join the trip</h4>
-              <button id="submitTrip" disabled={!isEnabled} className="button center-loading" type="submit">Invite your friends!</button>
+              <button id="submitTrip" className="button center-loading" type="submit">Invite your friends!</button>
 
               </form>
               </div>
