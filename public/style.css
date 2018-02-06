@@ -1276,4 +1276,21 @@ button:focus {
   cursor: pointer;
 }
 
+.map-button {
+  border: none;
+  padding: .5rem 2rem;
+  color: white;
+  font-size: .8rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 8px;
+  margin-left: 1px;
+  margin-right: 1px
+}
 
+.button-container {
+  flex-direction: row;
+  justify-content: center;
+  display: flex;
+}
