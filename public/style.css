@@ -354,6 +354,11 @@ form div {
   max-height: 100px;
 }
 
+.activity:hover {
+  position: relative;
+  top: -5px;
+}
+
 .single-activity-container {
   display: flex;
 }
@@ -388,7 +393,6 @@ form div {
 }
 
 /* calendar */
-
 
 .date {
   color: #7E4E60;
