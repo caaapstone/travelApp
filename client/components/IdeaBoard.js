@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Dragula from 'react-dragula'
-import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchUsersOnTrip, updateActivity } from '../store'
+import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchUsersOnTrip, updateActivity, updateOrDeleteActivity } from '../store'
 import DraggableActivity from './draggableActivity'
 import DraggableYelpResult from './draggableYelpResult'
 import {withRouter} from 'react-router-dom'
@@ -42,16 +42,15 @@ class IdeaBoard extends Component {
       this.props.getTripUsers(tripId)
     }
 
+    // when activity is dragged over trash icon
     this.state.drake.on('over', (el, target, source, sibling) => {
-      console.log('i am hovering!')
       if (el.id[0] === '-' && target.id === 'trash'){
         this.setState({...this.state, trashImg: '/006-trash.svg'})
       }
-      console.log('this.state: ', this.state)
     })
 
+    // when activity leaves trash icon
     this.state.drake.on('out', (el, target, source, sibling) => {
-      console.log('this.state: ', this.state)
       if (el.id[0] === '-'){
         this.setState({...this.state, trashImg: '/005-trash.svg'})
       }
@@ -83,7 +82,7 @@ class IdeaBoard extends Component {
         }
         this.props.createActivity(activity)
 
-      // if an idea is dragged from group ideas
+      // if an idea is dragged from group ideas to my ideas
       } else if (target.id === 'my-ideas' && el.id[0] === '-'){
         let activity = {
           tripId: this.props.trip.id,
@@ -97,22 +96,19 @@ class IdeaBoard extends Component {
         }
         this.props.updateActivity(activity)
 
-      // if an idea is deleted from the idea board (cannot delete from group ideas)
-      // } else if (target.id === 'trash' && el.id[0] === '-'){
-      } else if (target.id === 'trash'){
-        // let activity = {
-        //   tripId: this.props.trip.id,
-        //   activityId: el.id,
-        //   date: '',
-        //   time: '',
-        //   isActive: false,
-        //   timeUpdated: time,
-        //   userUpdated: userUpdated,
-        //   userId: this.props.user.id
-        // }
-        // this.props.updateActivity(activity)
-        console.log('el.id: ', el.id)
-        console.log('target.id: ', target.id)
+      // if an idea is dragged to trash icon from the idea board (cannot delete from group ideas)
+      } else if (target.id === 'trash' && el.id[0] === '-'){
+        let activity = {
+          tripId: this.props.trip.id,
+          activityId: el.id,
+          date: '',
+          time: '',
+          timeUpdated: time,
+          userUpdated: userUpdated,
+          userId: this.props.user.id,
+
+        }
+        this.props.removeFromIdeaBoard(activity)
       }
 
       // prevents strange behavior due to DOM manipulation
@@ -273,6 +269,9 @@ const mapDispatch = (dispatch) => {
     },
     updateActivity(activity){
       updateActivity(activity)
+    },
+    removeFromIdeaBoard(activity){
+      updateOrDeleteActivity(activity)
     }
   }
 }

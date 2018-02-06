@@ -87,3 +87,61 @@ router.post('/create', async (req, res, next) =>{
     next(error)
   }
 })
+
+// // update or delete an activity from idea board, depending on whether other users have also 'selected' it
+// router.post('/update-or-delete', (req, res, next) => {
+//   console.log('req.body: ', req.body)
+
+//   let tripId = req.body.tripId
+//   let activityId = req.body.activityId
+//   let date = req.body.date
+//   let time = req.body.time
+//   let timeUpdated = req.body.timeUpdated
+//   let userUpdated = req.body.userUpdated
+//   let userId = req.body.userId
+
+//   let tripRef = firebaseDb.ref(`/trips/T${tripId}/${activityId}`)
+
+//   let onlyOneUser =
+
+//   let updates = {
+//     date,
+//     time,
+//     isActive,
+//     timeUpdated,
+//     userUpdated
+//   }
+//   tripRef.update(updates)
+//   if (userId){
+//     console.log('got to the right spot!')
+//     firebaseDb.ref(`/trips/T${tripId}/${activityId}/users/U${userId}`).set(true)
+//   }
+// })
+
+
+router.post('/update-or-delete', async (req, res, next) => {
+
+  let tripId = req.body.tripId
+  let activityId = req.body.activityId
+  let date = req.body.date
+  let time = req.body.time
+  let timeUpdated = req.body.timeUpdated
+  let userUpdated = req.body.userUpdated
+  let userId = req.body.userId
+
+  try {
+    const snapshot = await firebaseDb.ref(`/trips/T${tripId}/${activityId}`).once('value')
+    const activity = snapshot.val()
+    const usersArr = Object.entries(activity.users)
+    const numUsers = usersArr.filter(user => user[1] === true).length
+
+    if (numUsers > 1) {
+      firebaseDb.ref(`/trips/T${tripId}/${activityId}/users/U${userId}`).set(false)
+    } else {
+      firebaseDb.ref(`/trips/T${tripId}/${activityId}`).set(null)
+    }
+  }
+  catch (error){
+    next(error)
+  }
+})
