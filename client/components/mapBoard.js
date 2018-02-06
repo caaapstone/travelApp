@@ -134,10 +134,6 @@ class MapBoard extends Component {
       style="mapbox://styles/mapbox/streets-v9"
       zoom={[4]}
       center={[-98.35, 39.50]
-        /*
-        this.state.activities[currentDay] ?
-        this.state.activities[currentDay].coordinates[0] : [-98.35, 39.50]
-        */
       }
       containerStyle={{
         height: "90vh",
