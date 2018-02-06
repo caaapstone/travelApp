@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Membership} = require('../db/models')
+const {Membership, User} = require('../db/models')
 const firebaseDb = require('../firebase')
 const {isUser, isTripUser} = require('../middleware.js')
 
@@ -17,7 +17,9 @@ router.get('/:tripId', (req, res, next) => {
   Membership.findAll({
     where: {
       tripId: tripId
-    }
+    }, include: [{
+      model: User
+    }]
   })
   .then(memberships => res.json(memberships))
   .catch(next)

@@ -53,7 +53,7 @@ router.post('/', (req, res, next) => {
 })
 
 router.get('/possiblecities', (req, res, next) => {
-  console.log(req.query.tripId)
+  console.log('tripid:', req.query.tripId)
   Destination.findAll({
     where: {
       tripId: req.query.tripId

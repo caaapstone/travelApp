@@ -332,7 +332,7 @@ form div {
 }
 
 .dragula-container {
-  min-height: 200px;
+  min-height: 120px;
 }
 
 .activity-thumbnail {
@@ -351,6 +351,11 @@ form div {
   background-color: white;
   width: 250px;
   max-height: 100px;
+}
+
+.activity:hover {
+  position: relative;
+  top: -5px;
 }
 
 .single-activity-container {
@@ -388,45 +393,114 @@ form div {
 
 /* calendar */
 
-.calendar-container {
-  max-width: 80%;
+.date {
+  color: #7E4E60;
+}
+
+.time-of-day {
+  color: #7E4E60;
+  -ms-transform: rotate(270deg); /* IE 9 */
+  -moz-transform: rotate(270deg); /* Firefox */
+  -webkit-transform: rotate(270deg); /* Safari and Chrome */
+  -o-transform: rotate(270deg); /* Opera */
+}
+
+.scheduler-outermost-div {
+  height: 50%;
+}
+
+.scheduler-buttons {
+  margin: 5px;
+}
+
+.full-scheduler-container {
   display: flex;
   flex-direction: row;
 }
 
-.calendar-day-container {
-  /* border-style: solid; */
-  /* border-width: 1px; */
-  /* border-color: green; */
-  width: 250px;
-  background-color: white;
-}
-
-.dragula-container#breakfast, .dragula-container#lunch, .dragula-container#dinner {
-  height: 125px;
-  overflow-y: scroll;
-  margin: 5px;
-}
-
-.dragula-container#morning, .dragula-container#afternoon, .dragula-container#evening {
-  height: 325px;
-  overflow-y: scroll;
-  margin: 5px;
+.group-ideas-container-and-header {
+  /* background-color: blue; */
+  width: 300px;
+  flex-grow: 1;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 40rem;
 }
 
 .group-ideas-container {
-  max-width: 100%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  /* background-color: red; */
+  overflow-y: scroll;
+  height: 30rem;
 }
 
-.dragula-container#ideas {
-  width: 250px;
+.calendar-container-and-header {
+  /* background-color: green; */
+  min-width: 100px;
+  flex-grow: 3;
+  padding-left: 20px;
+  height: 40rem;
 }
+
+.calendar-container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  height: 35rem;
+}
+
+.calendar-day-container {
+  width: 275px;
+  background-color: white;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.dragula-container#breakfast, .dragula-container#lunch, .dragula-container#dinner {
+  height: 75px;
+  /* width: 250px; */
+  overflow-y: scroll;
+  background-color: rgb(227, 228, 238);
+  border-left: red;
+  border-width: 20px;
+}
+
+.dragula-container#morning, .dragula-container#afternoon, .dragula-container#evening {
+  height: 200px;
+  /* width: 325px; */
+  overflow-y: scroll;
+  background-color: rgb(215, 234, 236);
+}
+
 
 /* Idea board */
+
+.header-and-trash {
+  display: flex;
+  flex-direction: row;
+}
+
+.trash {
+  height: 50px;
+  flex-grow: 1;
+  z-index: 1;
+}
+
+.idea-header {
+  flex-grow: 7;
+}
+
+.icon {
+  width: 60px;
+  margin: 10px;
+}
+
+.idea-search-button {
+  margin: 10px;
+}
 
 .friend-ideas {
   display: flex;
@@ -472,11 +546,10 @@ form div {
 
 .idea-search {
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
-  max-width: 30%;
-  min-width: 250px;
+  width: 300px;
   flex-grow: 1;
-  padding-left: 50px;
-  padding-right: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
   height: 45rem;
   overflow-y: scroll;
 }
@@ -545,229 +618,6 @@ form div {
 
 .modal {
 
-}
-
-  /* DayPicker styles */
-
-.DayPicker {
-  display: inline-block;
-}
-
-.DayPicker-wrapper {
-  position: relative;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  padding-bottom: 1rem;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-}
-
-.DayPicker-Months {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.DayPicker-Month {
-  display: table;
-  border-collapse: collapse;
-  border-spacing: 0;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  margin: 0 1rem;
-  margin-top: 1rem;
-}
-
-.DayPicker-NavBar {
-}
-
-.DayPicker-NavButton {
-  position: absolute;
-  cursor: pointer;
-  top: 1rem;
-  right: 1.5rem;
-  margin-top: 2px;
-  color: #8b9898;
-  width: 1.25rem;
-  height: 1.25rem;
-  display: inline-block;
-  background-size: 50%;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.DayPicker-NavButton:hover {
-  opacity: 0.8;
-}
-
-.DayPicker-NavButton--prev {
-  margin-right: 1.5rem;
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAwCAYAAAB5R9gVAAAABGdBTUEAALGPC/xhBQAAAVVJREFUWAnN2G0KgjAYwPHpGfRkaZeqvgQaK+hY3SUHrk1YzNLay/OiEFp92I+/Mp2F2Mh2lLISWnflFjzH263RQjzMZ19wgs73ez0o1WmtW+dgA01VxrE3p6l2GLsnBy1VYQOtVSEH/atCCgqpQgKKqYIOiq2CBkqtggLKqQIKgqgCBjpJ2Y5CdJ+zrT9A7HHSTA1dxUdHgzCqJIEwq0SDsKsEg6iqBIEoq/wEcVRZBXFV+QJxV5mBtlDFB5VjYTaGZ2sf4R9PM7U9ZU+lLuaetPP/5Die3ToO1+u+MKtHs06qODB2zBnI/jBd4MPQm1VkY79Tb18gB+C62FdBFsZR6yeIo1YQiLJWMIiqVjQIu1YSCLNWFgijVjYIuhYYCKoWKAiiFgoopxYaKLUWOii2FgkophYp6F3r42W5A9s9OcgNvva8xQaysKXlFytoqdYmQH6tF3toSUo0INq9AAAAAElFTkSuQmCC');
-}
-
-.DayPicker-NavButton--next {
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAwCAYAAAB5R9gVAAAABGdBTUEAALGPC/xhBQAAAXRJREFUWAnN119ugjAcwPHWzJ1gnmxzB/BBE0n24m4xfNkTaOL7wOtsl3AXMMb+Vjaa1BG00N8fSEibPpAP3xAKKs2yjzTPH9RAjhEo9WzPr/Vm8zgE0+gXATAxxuxtqeJ9t5tIwv5AtQAApsfT6TPdbp+kUBcgVwvO51KqVhMkXKsVJFXrOkigVhCIs1Y4iKlWZxB1rX4gwlpRIIpa8SDkWmggrFq4IIRaJKCYWnSgnrXIQV1r8YD+1Vrn+bReagysIFfLABRt31v8oBu1xEBttfRbltmfjgEcWh9snUS2kNdBK6WN1vrOWxObWsz+fjxevsxmB1GQDfINWiev83nhaoiB/CoOU438oPrhXS0WpQ9xc1ZQWxWHqUYe0I0qrKCQKjygDlXIQV2r0IF6ViEBxVTBBSFUQQNhVYkHIVeJAtkNsbQ7c1LtzP6FsObhb2rCKv7NBIGoq4SDmKoEgTirXAcJVGkFSVVpgoSrXICGUMUH/QBZNSUy5XWUhwAAAABJRU5ErkJggg==');
-}
-
-.DayPicker-NavButton--interactionDisabled {
-  display: none;
-}
-
-.DayPicker-Caption {
-  padding: 0 0.5rem;
-  display: table-caption;
-  text-align: left;
-  margin-bottom: 0.5rem;
-}
-
-.DayPicker-Caption > div {
-  font-size: 1.15rem;
-  font-weight: 500;
-}
-
-.DayPicker-Weekdays {
-  margin-top: 1rem;
-  display: table-header-group;
-}
-
-.DayPicker-WeekdaysRow {
-  display: table-row;
-}
-
-.DayPicker-Weekday {
-  display: table-cell;
-  padding: 0.5rem;
-  font-size: 0.875em;
-  text-align: center;
-  color: #8b9898;
-}
-
-.DayPicker-Weekday abbr[title] {
-  border-bottom: none;
-  text-decoration: none;
-}
-
-.DayPicker-Body {
-  display: table-row-group;
-}
-
-.DayPicker-Week {
-  display: table-row;
-}
-
-.DayPicker-Day {
-  display: table-cell;
-  padding: 0.5rem;
-  text-align: center;
-  cursor: pointer;
-  vertical-align: middle;
-  outline: none;
-}
-
-.DayPicker-WeekNumber {
-  display: table-cell;
-  padding: 0.5rem;
-  text-align: right;
-  vertical-align: middle;
-  min-width: 1rem;
-  font-size: 0.75em;
-  cursor: pointer;
-  color: #8b9898;
-  border-right: 1px solid #eaecec;
-}
-
-.DayPicker--interactionDisabled .DayPicker-Day {
-  cursor: default;
-}
-
-.DayPicker-Footer {
-  padding-top: 0.5rem;
-}
-
-.DayPicker-TodayButton {
-  border: none;
-  background-image: none;
-  background-color: transparent;
-  -webkit-box-shadow: none;
-          box-shadow: none;
-  cursor: pointer;
-  color: #7E4E60;
-  font-size: 0.875em;
-}
-
-/* Default modifiers */
-
-.DayPicker-Day--today {
-  color: #AED9E0;
-  font-weight: 700;
-}
-
-.DayPicker-Day--outside {
-  cursor: default;
-  color: #8b9898;
-}
-
-.DayPicker-Day--disabled {
-  color: #dce0e0;
-  cursor: default;
-  /* background-color: #eff1f1; */
-}
-
-/* Example modifiers */
-
-.DayPicker-Day--sunday {
-  background-color: #f7f8f8;
-}
-
-.DayPicker-Day--sunday:not(.DayPicker-Day--today) {
-  color: #dce0e0;
-}
-
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
-  position: relative;
-  color: #f0f8ff;
-  background-color: #7E4E60;
-  border-radius: 100%;
-}
-
-.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
-  background-color: #C9CAD9;
-}
-
-.DayPicker:not(.DayPicker--interactionDisabled)
-  .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
-  background-color: #C9CAD9;
-  border-radius: 50%;
-}
-
-/* DayPickerInput */
-
-.DayPickerInput {
-  display: inline-block;
-}
-
-.DayPickerInput-OverlayWrapper {
-  position: relative;
-}
-
-.DayPickerInput-Overlay {
-  left: 0;
-  z-index: 1;
-  position: absolute;
-  background: white;
-  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -971,6 +821,20 @@ a{
   background-color: #AED9E0;
   box-sizing: border-box;
   padding: 0 2rem;
+  /* position: fixed;
+  z-index: 99;
+  width: 100%; */
+}
+
+#nav-bar-logged-out{
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(174, 217, 224, 0);
+  box-sizing: border-box;
+  padding: 0 2rem;
+  position: fixed;
+  z-index: 99;
+  width: 100%;
 }
 
 
@@ -1153,8 +1017,24 @@ button:focus {
   border: 1px solid #C4C7D1;
 }
 
-.itinerary-page{
+.full-page-center{
+  width: 90%;
+  margin: auto;
+}
+
+/*ITINERARY START */
+
+.map-container{
   border: 1px solid #C4C7D1;
+  position: absolute;
+  margin: auto;
+  top: 3rem;
+  right: 3rem;
+  bottom: 3rem;
+  left: 0;
+}
+
+.itinerary-page{
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -1163,9 +1043,165 @@ button:focus {
   margin-bottom: 2rem;
 }
 
+.city-title{
+     overflow: hidden;
+     text-align: center;
+ }
+.city-title > span{
+    position: relative;
+    display: inline-block;
+}
+.city-title > span:before, .city-title > span:after{
+    content: '';
+    position: absolute;
+    top: 50%;
+    border-bottom: 4px solid #C4C7D1;
+    width: 591px; /* half of limiter*/
+    margin: 0 20px;
+}
+.city-title > span:before{
+    right: 100%;
+}
+.city-title > span:after{
+    left: 100%;
+}
+
+.user-itinerary-info-section {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    border-bottom: 1px solid #C4C7D1;
+
+}
+
+.user-itinerary-info{
+  width: 33%;
+}
+
+.itinerary-activities{
+  display: flex;
+   align-items: center;
+   justify-content: center;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.itinerary-date {
+  width: 50%;
+  align-self: flex-start;
+  background-color: rgba(174, 217, 224, 0.5);
+  text-align: right;
+      padding-right: 5%;
+}
+.activity-info-group {
+  width: 50%;
+  border-left: 1px solid #C4C7D1;
+  border-bottom: 1px solid #C4C7D1;
+
+}
+
+.activity-by-time {
+    width: 100%;
+    text-align: left;
+    padding-left: 5%;
+    line-height: 1.25rem;
+    margin-top: 5%;
+    margin-bottom: 10%;
+}
+
+.activity-by-time h3 {
+    font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.individual-activity {
+  width: 50%;
+  background-color: rgba(174, 217, 224, 0.5);
+  padding: 2%;
+  margin: 2%;
+}
+
+
+
+/*.individual-activity{
+     overflow: hidden;
+     text-align: center;
+ }
+.individual-activity > span{
+    position: relative;
+    display: inline-block;
+}*/
+.individual-activity > span:before{
+    content: '';
+    position: absolute;
+    top: 50%;
+    border-bottom: 4px solid #C4C7D1;
+    width: 591px; /* half of limiter*/
+    margin: 0 20px;
+}
+.individual-activity > span:before{
+    right: 100%;
+}
+
+
+
+.individual-activity h4 {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+/*ITINERARY END*/
+=======
+@keyframes fadeIn {
+	0% { opacity: 0 }
+	100% { opacity: 1 }
+}
+
+.landing-logo-icon{
+  color: #AED9E0;
+  opacity: 1;
+  animation: fadeIn 9s ease;
+  height: 25rem;
+  width: 25rem
+}
+
+.landing-logo-text{
+  opacity: 1;
+  animation: fadeIn 9s ease
+}
+
+.landing-logo{
+  font-family: 'Raleway', sans-serif;
+  color: #AED9E0;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -100px;
+  animation-name: fadeIn;
+  display: flex;
+  flex-direction: row
+}
+
+/* .map-popup{
+
+} */
+
+.popup-thumbnail {
+  max-width: 150px;
+  max-height: 100px;
+}
 .full-page-center{
   width: 90%;
   margin: auto;
+}
+
+
+.landing-header{
+  font-family: 'Raleway', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  letter-spacing: .2rem;
+  color: rgb(255, 255, 255);
 }
 
 #airport-search-container{
@@ -1292,4 +1328,22 @@ button:focus {
 
 .top-city-link{
   color: black;
+
+.map-button {
+  border: none;
+  padding: .5rem 2rem;
+  color: white;
+  font-size: .8rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 8px;
+  margin-left: 1px;
+  margin-right: 1px
+}
+
+.button-container {
+  flex-direction: row;
+  justify-content: center;
+  display: flex;
 }

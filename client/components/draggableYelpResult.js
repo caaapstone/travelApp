@@ -3,7 +3,8 @@ import {connect} from 'react-redux'
 import YelpPopUp from './YelpPopUp'
 import Modal from 'react-responsive-modal'
 import {withRouter} from 'react-router-dom'
-//
+import StarRating from 'react-star-rating'
+
 class DraggableYelpResult extends Component {
   constructor(){
     super()
@@ -23,6 +24,7 @@ class DraggableYelpResult extends Component {
     this.setState({ ...this.state, selectedActivity: '', open: false });
     console.log('this.state(close): ', this.state)
   }
+
 
   render() {
     const { activity, currentUser } = this.props
@@ -71,3 +73,4 @@ const mapDispatch = (dispatch) => {
 }
 
 export default withRouter(connect(mapState, mapDispatch)(DraggableYelpResult))
+
