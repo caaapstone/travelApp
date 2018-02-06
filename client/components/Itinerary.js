@@ -83,7 +83,7 @@ class Itinerary extends Component {
       bgImage={bgImage}
       bgImageAlt="plane"
       strength={300}
-      bgStyle ={{width: '100%', opacity: .7}}
+      bgStyle ={{height: '100%', opacity: .7}}
     >
       <div className="itinerary-page">
       <h1>Itinerary</h1>
@@ -124,12 +124,12 @@ class Itinerary extends Component {
                   let phone = activity.yelpInfo.phone
                   return (
                       <div className="individual-activity">
-                        <span>
+                        <div className="circle-div">
                         <h4 key={activity.name}>{activity.name}</h4>
                         <p key={phone}>Phone Number: {phone}</p>
                         <p key={location.address1}>{location.address1}</p>
                         <p key={location.zip_code}>{location.city}, {location.state} {location.zip_code}</p>
-                        </span>
+                        </div>
                       </div>
                       )
                   })}
