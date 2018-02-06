@@ -26,6 +26,8 @@ class MapBoard extends Component {
       directions: [],
       colors: ['#56aee2', '#5568e2', '#8a55e2', '#cf56e2', '#e256ae', '#e25668', '#e28956', '#e2d055', '#aee255', '#68e256', '#56e289'],
       lineStyle: ''
+      // open: false,
+      // selectedActivity: activityData
     }
 
     this.handleButtonClick = this.handleButtonClick.bind(this)
@@ -103,9 +105,7 @@ class MapBoard extends Component {
   }
 
   handlePopupClick(e){
-    return(
-      <h1>Test</h1>
-    )
+    console.log('e.target.value')
   }
 
   render() {
@@ -117,8 +117,7 @@ class MapBoard extends Component {
     let currentDay = this.state.currentDay
     let colors = this.state.colors
     return (
-      <div>
-        <h1 className="capitalized-header">MAP</h1>
+      <div className="whole-map-container">
         <div className="button-container">
           {
             days.map(day => {
@@ -129,19 +128,17 @@ class MapBoard extends Component {
             })
           }
         </div>
+      <div className="actual-map">
       <this.Map
-      className="map-container"
       style="mapbox://styles/mapbox/streets-v9"
-      zoom={[4]}
+      zoom={[3]}
       center={[-98.35, 39.50]
-        /*
-        this.state.activities[currentDay] ?
-        this.state.activities[currentDay].coordinates[0] : [-98.35, 39.50]
-        */
       }
       containerStyle={{
-        height: "90vh",
-        width: "90vw"
+        height: '100vh',
+        width: '100vw',
+        textAlign: 'left',
+        position: 'fixed'
       }}>
 
           {
@@ -194,6 +191,7 @@ class MapBoard extends Component {
             </Layer>
           }
       </this.Map>
+      </div>
       </div>
     )
   }

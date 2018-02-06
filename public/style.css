@@ -1025,16 +1025,6 @@ button:focus {
 
 /*ITINERARY START */
 
-.map-container{
-  border: 1px solid #C4C7D1;
-  position: absolute;
-  margin: auto;
-  top: 3rem;
-  right: 3rem;
-  bottom: 3rem;
-  left: 0;
-}
-
 .itinerary-page{
   display: flex;
   flex-direction: column;
@@ -1122,8 +1112,6 @@ button:focus {
   margin: 2%;
 }
 
-
-
 /*.individual-activity{
      overflow: hidden;
      text-align: center;
@@ -1143,8 +1131,6 @@ button:focus {
 .individual-activity > span:before{
     right: 100%;
 }
-
-
 
 .individual-activity h4 {
   font-weight: bold;
@@ -1196,7 +1182,6 @@ button:focus {
   margin: auto;
 }
 
-
 .landing-header{
   font-family: 'Raleway', sans-serif;
   font-style: normal;
@@ -1242,19 +1227,47 @@ button:focus {
 
 .map-button {
   border: none;
-  padding: .5rem 2rem;
   color: white;
   font-size: .8rem;
   border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 8px;
-  margin-left: 1px;
-  margin-right: 1px
+  /* margin-left: 1px;
+  margin-right: 1px; */
+  margin: auto;
+  padding: .5rem 2rem;
+}
+
+.whole-map-container{
+  display: flex;
+  flex-direction: row;
+  position: fixed
+  /* border: 1px solid #C4C7D1;
+  display: flex;
+  position: fixed;
+  margin: auto;
+  flex-direction: row;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: space-between;
+  height: 50%;
+  width: 50% */
 }
 
 .button-container {
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
   display: flex;
+  z-index: 99;
+  /* padding: auto;
+  position: fixed */
+}
+
+.actual-map {
+  position: fixed;
+  align-items: center
+  /* margin: 2.5% 2.5% 2.5% 2.5%; */
+  /* z-index: -4 */
+  /* height: 50%;
+  width: 50%;
+  margin: auto */
 }
