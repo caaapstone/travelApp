@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getRoutes, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, setMapActionCreator } from '../store'
+import { subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, setMapActionCreator } from '../store'
 import reactMapboxGL, {Layer, Feature, GeoJSONLayer, Popup} from 'react-mapbox-gl'
 import mapboxgl from 'mapbox-gl'
 import firebase from '../firebase'
 import {withRouter} from 'react-router-dom'
+import axios from 'axios'
 
 const times = ['breakfast',
   'morning',
@@ -16,7 +17,7 @@ const times = ['breakfast',
 
 let token = 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw'
 
-let getRoutesGeoJSON = (activities, routes) => {
+let getRoutesGeoJSON = (routes) => {
   const routesGeoJSON = {
     "type": "FeatureCollection",
     "features": []
@@ -54,7 +55,7 @@ class MapBoard extends Component {
     this.state = {
       activities: {},
       currentDay: '',
-      routesGeoJSON: {},
+      directions: [],
       style: {
         fillColor:'#f03'
       }
@@ -115,14 +116,19 @@ class MapBoard extends Component {
       })
       let routes = dates[day].coordinates
       // this.props.getRoutes(routes)
-      this.setState({routesGeoJSON: getRoutesGeoJSON(activities, routes)})
       this.setState({activities: dates})
     })
   }
 
   handleButtonClick(e) {
     let selectedDay = e.target.value
-    this.setState({currentDay: selectedDay})
+    let coordinates = this.state.activities[selectedDay].coordinates.join(';')
+    axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${coordinates}?geometries=geojson&overview=full&steps=true&access_token=pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw`)
+      .then(res => {
+        // console.log('routes data', res.data)
+        this.setState({currentDay: selectedDay, directions: res.data.routes[0].geometry.coordinates })
+      })
+      .catch(err => console.error(err))
   }
 
   handlePopupClick(e){
@@ -135,7 +141,7 @@ class MapBoard extends Component {
     let days = Object.keys(this.state.activities)
     days = days.sort()
     let currentDay = this.state.currentDay
-    console.log('this.state.activities', this.state.activities)
+    console.log('this.state.directions', this.state.directions)
     return (
       <div>
         <h1 className="capitalized-header">MAP</h1>
@@ -152,8 +158,8 @@ class MapBoard extends Component {
       className="map-container"
       style="mapbox://styles/mapbox/streets-v9"
       center={
-        this.state.activities[currentDay] &&
-        this.state.activities[currentDay].coordinates[0]
+        this.state.activities[currentDay] ?
+        this.state.activities[currentDay].coordinates[0] : [-98.35, 39.50]
       }
       containerStyle={{
         height: "90vh",
@@ -201,6 +207,14 @@ class MapBoard extends Component {
               }
             })
           }
+          { this.state.directions.length &&
+            <Layer
+              type="line"
+              layout={{ "line-cap": "round", "line-join": "round" }}
+              paint={{ "line-color": "#4790E5", "line-width": 1 }}>
+              <Feature coordinates={this.state.directions}/>
+            </Layer>
+          }
       </Map>
       </div>
     )
@@ -209,7 +223,8 @@ class MapBoard extends Component {
 
 let mapStateToProps = state => {
   return {
-    activities: state.activities
+    activities: state.activities,
+    routes: state.routes
   };
 }
 
@@ -223,12 +238,6 @@ let mapDispatchToProps = dispatch => {
     },
     getTripInfo(tripId){
       dispatch(fetchTrip(tripId))
-    },
-    getRoutes(coordinates, numRoutes){
-      dispatch(getRoutes(coordinates, numRoutes))
-    },
-    setMapActionCreator(map) {
-      dispatch(setMapActionCreator(map))
     }
   };
 }
