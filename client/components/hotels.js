@@ -15,7 +15,7 @@ class Hotels extends Component {
     super(props)
 
     this.state = {
-      centerCoordinates: [-87.6354, 41.8885],
+      centerCoordinates: [41.8885, -87.6354],
       possibleHotels: [],
       selectedHotel: {},
       hotelMarkerSet: false,
@@ -186,8 +186,7 @@ class Hotels extends Component {
 
     return (
       <div className="two-rem-padding">
-        <h1 className="capitalized-header">MY TRIP INFO</h1>
-        <p>Enter your trip logistics so your travel-buddies know when you arrive and where you're staying.</p>
+        <p>Enter your trip logistics so your friends know when you arrive and where you're staying.</p>
         <div id="hotel-option-container">
           <div id="hotel-option-sidebar">
             <h2 className="purple-sub-head">Lodging Details</h2>
