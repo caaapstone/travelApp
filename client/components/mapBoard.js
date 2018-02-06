@@ -35,6 +35,7 @@ class MapBoard extends Component {
   componentWillMount(){
     let tripId = this.props.match.params.tripId
     this.props.subscribeToFirebase(this, tripId)
+    this.Map = reactMapboxGL({accessToken: token})
   }
 
   componentWillUnmount(){
@@ -107,10 +108,10 @@ class MapBoard extends Component {
 
   render() {
     let counter = 0
+
     let currentColor
     console.log('currentColor', currentColor)
     let marker = new mapboxgl.Marker()
-    const Map = reactMapboxGL({accessToken: token})
     let days = Object.keys(this.state.activities)
     days = days.sort()
     let currentDay = this.state.currentDay
@@ -128,11 +129,15 @@ class MapBoard extends Component {
             })
           }
         </div>
-      <Map
+      <this.Map
       className="map-container"
       style="mapbox://styles/mapbox/streets-v9"
-      center={this.state.activities[currentDay] ?
+      zoom={[5]}
+      center={[-98.35, 39.50]
+        /*
+        this.state.activities[currentDay] ?
         this.state.activities[currentDay].coordinates[0] : [-98.35, 39.50]
+        */
       }
       containerStyle={{
         height: "90vh",
@@ -188,7 +193,7 @@ class MapBoard extends Component {
               <Feature coordinates={this.state.directions} />
             </Layer>
           }
-      </Map>
+      </this.Map>
       </div>
     )
   }
