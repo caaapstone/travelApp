@@ -389,6 +389,10 @@ form div {
 
 /* calendar */
 
+.scheduler-buttons {
+  margin: 5px;
+}
+
 .full-scheduler-container {
   display: flex;
   flex-direction: row;

@@ -16,10 +16,13 @@ export class CalendarBoard extends React.Component {
         // containers: []
       }),
       open: false,
-      selectedActivity: {}
+      selectedActivity: {},
+      ideasToggle: 'all'
     }
     this.onOpenModal = this.onOpenModal.bind(this)
     this.onCloseModal = this.onCloseModal.bind(this)
+    this.toggleMyIdeas = this.toggleMyIdeas.bind(this)
+    this.toggleAllIdeas = this.toggleAllIdeas.bind(this)
   }
 
   dragulaDecorator = (componentBackingInstance) => {
@@ -90,15 +93,32 @@ export class CalendarBoard extends React.Component {
     this.setState({ ...this.state, selectedActivity: '', open: false });
   }
 
+  toggleAllIdeas(){
+    this.setState({ ...this.state, ideasToggle: 'all' })
+  }
+
+  toggleMyIdeas(){
+    this.setState({ ...this.state, ideasToggle: 'mine' })
+  }
+
   render() {
     if (!this.props.trip.allDates || !this.props.activities.length) {
       return <div />
     } else {
       // this cuts off unnecessary date data
       let dates = this.props.trip.allDates.map(date => date.slice(0, 10))
-
+      let user = this.props.user.id
       let calendarActivities = this.props.activities.filter(activity => activity.isActive === true)
-      let ideaActivities = this.props.activities.filter(activity => activity.isActive === false)
+      let ideaActivities = []
+      if (this.state.ideasToggle === 'mine'){
+        ideaActivities = this.props.activities.filter(activity => {
+          return activity.isActive === false && activity.users['U' + user] === true
+        })
+      } else if (this.state.ideasToggle === 'all'){
+        ideaActivities = this.props.activities.filter(activity => {
+          return activity.isActive
+        })
+      }
 
       // separate all activities into arrays based on time of day
       let breakfast = calendarActivities.filter(activity => activity.time === 'breakfast')
@@ -115,7 +135,9 @@ export class CalendarBoard extends React.Component {
           <h1 className="capitalized-header">SCHEDULER</h1>
           <div className="full-scheduler-container">
             <div className="group-ideas-container-and-header">
-              <h3>Group Ideas</h3>
+              <h2 className="purple-sub-head">Ideas</h2>
+              <button className="button scheduler-buttons" onClick={this.toggleAllIdeas}>All Ideas</button>
+              <button className="button scheduler-buttons" onClick={this.toggleMyIdeas}>My Ideas</button>
               <div
                 className="group-ideas-container dragula-container"
                 ref={this.dragulaDecorator}
@@ -126,15 +148,14 @@ export class CalendarBoard extends React.Component {
                       return (
                         <DraggableActivity activity={activity} key={activity.id} />
                       )
-                    }
-                    )
+                    })
                     : <div>All out of ideas!</div>
                 }
               </div>
             </div>
 
             <div className="calendar-container-and-header">
-              <h3>Scheduler</h3>
+            <h2 className="purple-sub-head">Calendar</h2>
               <div className="calendar-container">
                 {
                   dates.map(day => {
