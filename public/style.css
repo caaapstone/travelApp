@@ -1127,3 +1127,38 @@ button:focus {
   margin: auto;
 }
 
+#airport-search-container{
+  width: 300px;
+  margin: auto;
+}
+
+.airport-result-text{
+  font-size: .5rem;
+  margin: 0;
+  width: 100%;
+}
+
+#startingCity{
+  width: 300px;
+  text-align: center;
+  margin: 0;
+}
+
+.airport-search-result{
+  width: 100%;
+  padding: 8px 0px;
+  border-bottom: 1px solid #C4C7D1;
+  border-left: 1px solid #C4C7D1;
+  border-right: 1px solid #C4C7D1;
+  margin: 0;
+}
+
+.three-hundred{
+  width: 300px;
+}
+
+.airport-search-result:hover{
+  background-color: #B9CDDA;
+  cursor: pointer;
+}
+
