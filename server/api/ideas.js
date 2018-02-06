@@ -26,3 +26,11 @@ router.get('/trip/:tripId', (req, res, next) => {
     console.log(e);
   })
 })
+
+router.get('/topactivities', (req, res, next) => {
+  client.search({location: req.query.city, sort_by: 'rating', limit: 5})
+    .then(response => {
+      res.json(response.jsonBody.businesses)
+    })
+    .catch(e => console.log(e))
+})

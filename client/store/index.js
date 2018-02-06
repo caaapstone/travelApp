@@ -14,8 +14,9 @@ import activities from './activities'
 import possibleHotels from './possibleHotels'
 import userHotel from './userHotel'
 import ideas from './ideas'
+import topCityActivities from './statsCity'
 
-const reducer = combineReducers({user, users, trip, membership, maps, destinations, userFlights, activities, ideas, userTrips, possibleHotels, userHotel})
+const reducer = combineReducers({user, users, trip, membership, maps, destinations, userFlights, activities, ideas, userTrips, possibleHotels, userHotel, topCityActivities})
 const middleware = composeWithDevTools(applyMiddleware(
   thunkMiddleware,
   createLogger({collapsed: true})
@@ -35,3 +36,4 @@ export * from './activities'
 export * from './possibleHotels'
 export * from './userHotel'
 export * from './ideas'
+export * from './statsCity'
