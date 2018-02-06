@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getRoutes, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, setMapActionCreator } from '../store'
+import { subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, fetchTrip, setMapActionCreator } from '../store'
 import reactMapboxGL, {Layer, Feature, GeoJSONLayer, Popup} from 'react-mapbox-gl'
 import mapboxgl from 'mapbox-gl'
 import firebase from '../firebase'
 import {withRouter} from 'react-router-dom'
+import axios from 'axios'
 
 const times = ['breakfast',
   'morning',
@@ -16,52 +17,19 @@ const times = ['breakfast',
 
 let token = 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw'
 
-let getRoutesGeoJSON = (activities, routes) => {
-  const routesGeoJSON = {
-    "type": "FeatureCollection",
-    "features": []
-  }
-
-  if (routes.length > 0) {
-    routesGeoJSON.features.push({
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "properties": {},
-        "coordinates": [routes] //put coordinates in there
-      }
-    })
-  }
-
-  routes.forEach(route => {
-    routesGeoJSON.features.push({
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "properties": {},
-        "coordinates": [routes]
-      }
-    })
-  })
-
-  return routesGeoJSON
-}
-
-
 class MapBoard extends Component {
   constructor(props) {
     super(props)
     this.state = {
       activities: {},
-      // style: {
-      //   positon: 'absolute',
-      //   width: '200vh',
-      //   height: '100vh'
-      // },
-      routesGeoJSON: {},
-      color: "#FF00FF",
-      coordinates: []
+      currentDay: '',
+      directions: [],
+      colors: ['#56aee2', '#5568e2', '#8a55e2', '#cf56e2', '#e256ae', '#e25668', '#e28956', '#e2d055', '#aee255', '#68e256', '#56e289'],
+      lineStyle: ''
     }
+
+    this.handleButtonClick = this.handleButtonClick.bind(this)
+    this.handlePopupClick = this.handlePopupClick.bind(this)
   }
 
   componentWillMount(){
@@ -77,7 +45,7 @@ class MapBoard extends Component {
   componentDidMount(){
     //if there are no activities when this mounts, we need to get the activities
     let activities = this.props.activities.filter(activity => {
-      return activity.isActive
+      return activity.isActive && activity.date.length > 0
     })
 
     let dates = {}
@@ -115,75 +83,121 @@ class MapBoard extends Component {
       })
       let routes = dates[day].coordinates
       // this.props.getRoutes(routes)
-      this.setState({routesGeoJSON: getRoutesGeoJSON(activities, routes)})
       this.setState({activities: dates})
     })
   }
 
+  handleButtonClick(e) {
+    let selectedDay = e.target.value
+    let style = e.target.style.backgroundColor
+    let coordinates = this.state.activities[selectedDay].coordinates.join(';')
+    axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${coordinates}?geometries=geojson&overview=full&steps=true&access_token=pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw`)
+      .then(res => {
+        this.setState({currentDay: selectedDay, directions: res.data.routes[0].geometry.coordinates, lineStyle: style })
+      })
+      .catch(err => console.error(err))
+
+  }
+
+  handlePopupClick(e){
+    return(
+      <h1>Test</h1>
+    )
+  }
+
   render() {
+    let counter = 0
+    let currentColor
+    console.log('currentColor', currentColor)
+    let marker = new mapboxgl.Marker()
     const Map = reactMapboxGL({accessToken: token})
     let days = Object.keys(this.state.activities)
     days = days.sort()
-
+    let currentDay = this.state.currentDay
+    let colors = this.state.colors
     return (
-      this.state.routesGeoJSON &&
+      <div>
+        <h1 className="capitalized-header">MAP</h1>
+        <div className="button-container">
+          {
+            days.map(day => {
+              currentColor = colors[counter++ % colors.length]
+              return (
+                <button style={{'background-color': currentColor}} className="map-button" value={day} onClick={this.handleButtonClick}>{day}</button>
+              )
+            })
+          }
+        </div>
       <Map
+      className="map-container"
       style="mapbox://styles/mapbox/streets-v9"
-      center={[-87.6354, 41.8885]}
+      center={this.state.activities[currentDay] ?
+        this.state.activities[currentDay].coordinates[0] : [-98.35, 39.50]
+      }
       containerStyle={{
-        height: "100vh",
-        width: "100vw"
+        height: "90vh",
+        width: "90vw"
       }}>
 
           {
             days.map(day => {
-              let activeTimes = times.filter(time => !!this.state.activities[day][time])
-              let singleDay = this.state.activities[day]
               let singleDayActivities
-              activeTimes.map(activeTime => {
-                singleDayActivities = singleDay[activeTime]
-              })
-              return (
-              singleDay.coordinates.map(coordinate => {
+              if (currentDay === day){
+                let activeTimes = times.filter(time => !!this.state.activities[currentDay][time])
+                let filteredDay = this.state.activities[day]
                 return (
-                  singleDayActivities.map(singleDayActivity => {
-                    //these are all just repeating activiites..look into that
+                activeTimes.map(activeTime => {
+                  singleDayActivities = filteredDay[activeTime]
+                  return (
+                    singleDayActivities.map(singleDayActivity => {
                       return (
                         <div>
                           <Layer
+                           >
+                            <Feature
                             type="symbol"
                             id="marker"
-                            layout={{ "icon-image": "marker-15" }}>
-                            <Feature
-                            coordinates={coordinate}/>
+                            layout={{ "icon-image": "marker-15" }}
+                            coordinates={[singleDayActivity.long, singleDayActivity.lat]}/>
                           </Layer>
                           <Popup
-                            coordinates={coordinate}
+                            coordinates={[singleDayActivity.long, singleDayActivity.lat]}
                             offset={{
                               'bottom-left': [12, -38], 'bottom': [0, -38], 'bottom-right': [-12, -38]
-                            }}>
+                            }}
+                            onClick={this.handlePopupClick}
+                            >
                             <div>
-                            <img className="activity-thumbnail" src={singleDayActivity.imageUrl}/>
-                            <p>{singleDayActivity.date}</p>
-                            <p>{singleDayActivity.name}</p>
+                            <img className="popup-thumbnail" src={singleDayActivity.imageUrl}/>
                             </div>
                           </Popup>
                         </div>
-                      )})
-                    )
-                  })
+                      )
+                    })
+                  )
+                })
                 )
-              })
+              }
             })
           }
+          { this.state.directions.length &&
+            <Layer
+              type="line"
+              layout={{ "line-cap": "round", "line-join": "round" }}
+              paint={{ "line-color": this.state.lineStyle, "line-width": 4 }}>
+              <Feature coordinates={this.state.directions} />
+            </Layer>
+          }
       </Map>
+      </div>
     )
   }
 }
 
 let mapStateToProps = state => {
   return {
-    activities: state.activities
+    activities: state.activities,
+    routes: state.routes
   };
 }
 
@@ -197,14 +211,11 @@ let mapDispatchToProps = dispatch => {
     },
     getTripInfo(tripId){
       dispatch(fetchTrip(tripId))
-    },
-    getRoutes(coordinates, numRoutes){
-      dispatch(getRoutes(coordinates, numRoutes))
-    },
-    setMapActionCreator(map) {
-      dispatch(setMapActionCreator(map))
     }
   };
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MapBoard))
+
+
+

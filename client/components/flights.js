@@ -113,7 +113,8 @@ class Flights extends Component {
         YX:	'Midwest',
         ZK:	'Great Lakes'
       },
-      loading: false
+      loading: false,
+      userFlightLoad: true
     }
 
     this.findFlights = this.findFlights.bind(this)
@@ -346,15 +347,20 @@ class Flights extends Component {
   }
 
   render () {
-    const {tripName, usersOnTrip, possibleCities, userFlights, lastUpdated, trip, getUserFlights} = this.props
+    const {tripName, usersOnTrip, possibleCities, userFlights, lastUpdated, trip, getUserFlights, getUsersOnTrip} = this.props
     let organizer = usersOnTrip.filter(user => user.userId === Number(this.props.match.params.userId))
 
     if (trip.destinationCity) {
       history.push(`/trip/${this.props.match.params.tripId}/mytrip`)
     }
 
-    if (userFlights.length === 0) {
+    if (userFlights.length === 0 && this.state.userFlightLoad === true) {
       getUserFlights(this.props.match.params.tripId, this.props.match.params.userId)
+      this.setState({userFlightLoad: false})
+    }
+
+    if(usersOnTrip.filter(user => user.userId === Number(this.props.match.params.userId)).length === 0) {
+      getUsersOnTrip(this.props.match.params.tripId)
     }
 
     return (

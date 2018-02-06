@@ -24,6 +24,7 @@ class DraggableYelpResult extends Component {
     console.log('this.state(close): ', this.state)
   }
 
+
   render() {
     const { activity, currentUser } = this.props
     // the 'activity' prop is an object and includes the following:
@@ -71,3 +72,4 @@ const mapDispatch = (dispatch) => {
 }
 
 export default withRouter(connect(mapState, mapDispatch)(DraggableYelpResult))
+

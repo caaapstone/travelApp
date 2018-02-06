@@ -333,7 +333,7 @@ form div {
 }
 
 .dragula-container {
-  min-height: 200px;
+  min-height: 120px;
 }
 
 .activity-thumbnail {
@@ -352,6 +352,11 @@ form div {
   background-color: white;
   width: 250px;
   max-height: 100px;
+}
+
+.activity:hover {
+  position: relative;
+  top: -5px;
 }
 
 .single-activity-container {
@@ -389,43 +394,88 @@ form div {
 
 /* calendar */
 
-.calendar-container {
-  max-width: 80%;
+.date {
+  color: #7E4E60;
+}
+
+.time-of-day {
+  color: #7E4E60;
+  -ms-transform: rotate(270deg); /* IE 9 */
+  -moz-transform: rotate(270deg); /* Firefox */
+  -webkit-transform: rotate(270deg); /* Safari and Chrome */
+  -o-transform: rotate(270deg); /* Opera */
+}
+
+.scheduler-outermost-div {
+  height: 50%;
+}
+
+.scheduler-buttons {
+  margin: 5px;
+}
+
+.full-scheduler-container {
   display: flex;
   flex-direction: row;
 }
 
-.calendar-day-container {
-  /* border-style: solid; */
-  /* border-width: 1px; */
-  /* border-color: green; */
-  width: 250px;
-  background-color: white;
-}
-
-.dragula-container#breakfast, .dragula-container#lunch, .dragula-container#dinner {
-  height: 125px;
-  overflow-y: scroll;
-  margin: 5px;
-}
-
-.dragula-container#morning, .dragula-container#afternoon, .dragula-container#evening {
-  height: 325px;
-  overflow-y: scroll;
-  margin: 5px;
+.group-ideas-container-and-header {
+  /* background-color: blue; */
+  width: 300px;
+  flex-grow: 1;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 40rem;
 }
 
 .group-ideas-container {
-  max-width: 100%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  /* background-color: red; */
+  overflow-y: scroll;
+  height: 30rem;
 }
 
-.dragula-container#ideas {
-  width: 250px;
+.calendar-container-and-header {
+  /* background-color: green; */
+  min-width: 100px;
+  flex-grow: 3;
+  padding-left: 20px;
+  height: 40rem;
 }
+
+.calendar-container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  height: 35rem;
+}
+
+.calendar-day-container {
+  width: 275px;
+  background-color: white;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.dragula-container#breakfast, .dragula-container#lunch, .dragula-container#dinner {
+  height: 75px;
+  /* width: 250px; */
+  overflow-y: scroll;
+  background-color: rgb(227, 228, 238);
+  border-left: red;
+  border-width: 20px;
+}
+
+.dragula-container#morning, .dragula-container#afternoon, .dragula-container#evening {
+  height: 200px;
+  /* width: 325px; */
+  overflow-y: scroll;
+  background-color: rgb(215, 234, 236);
+}
+
 
 /* Idea board */
 
@@ -749,6 +799,20 @@ a{
   background-color: #AED9E0;
   box-sizing: border-box;
   padding: 0 2rem;
+  /* position: fixed;
+  z-index: 99;
+  width: 100%; */
+}
+
+#nav-bar-logged-out{
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(174, 217, 224, 0);
+  box-sizing: border-box;
+  padding: 0 2rem;
+  position: fixed;
+  z-index: 99;
+  width: 100%;
 }
 
 
@@ -931,14 +995,22 @@ button:focus {
   border: 1px solid #C4C7D1;
 }
 
-
-
 .full-page-center{
   width: 90%;
   margin: auto;
 }
 
 /*ITINERARY START */
+
+.map-container{
+  border: 1px solid #C4C7D1;
+  position: absolute;
+  margin: auto;
+  top: 3rem;
+  right: 3rem;
+  bottom: 3rem;
+  left: 0;
+}
 
 .itinerary-page{
   display: flex;
@@ -1056,3 +1128,110 @@ button:focus {
   font-size: 1.1rem;
 }
 /*ITINERARY END*/
+=======
+@keyframes fadeIn {
+	0% { opacity: 0 }
+	100% { opacity: 1 }
+}
+
+.landing-logo-icon{
+  color: #AED9E0;
+  opacity: 1;
+  animation: fadeIn 9s ease;
+  height: 25rem;
+  width: 25rem
+}
+
+.landing-logo-text{
+  opacity: 1;
+  animation: fadeIn 9s ease
+}
+
+.landing-logo{
+  font-family: 'Raleway', sans-serif;
+  color: #AED9E0;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -100px;
+  animation-name: fadeIn;
+  display: flex;
+  flex-direction: row
+}
+
+/* .map-popup{
+
+} */
+
+.popup-thumbnail {
+  max-width: 150px;
+  max-height: 100px;
+}
+.full-page-center{
+  width: 90%;
+  margin: auto;
+}
+
+
+.landing-header{
+  font-family: 'Raleway', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  letter-spacing: .2rem;
+  color: rgb(255, 255, 255);
+}
+
+#airport-search-container{
+  width: 300px;
+  margin: auto;
+}
+
+.airport-result-text{
+  font-size: .5rem;
+  margin: 0;
+  width: 100%;
+}
+
+#startingCity{
+  width: 300px;
+  text-align: center;
+  margin: 0;
+}
+
+.airport-search-result{
+  width: 100%;
+  padding: 8px 0px;
+  border-bottom: 1px solid #C4C7D1;
+  border-left: 1px solid #C4C7D1;
+  border-right: 1px solid #C4C7D1;
+  margin: 0;
+}
+
+.three-hundred{
+  width: 300px;
+}
+
+.airport-search-result:hover{
+  background-color: #B9CDDA;
+  cursor: pointer;
+}
+
+.map-button {
+  border: none;
+  padding: .5rem 2rem;
+  color: white;
+  font-size: .8rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 8px;
+  margin-left: 1px;
+  margin-right: 1px
+}
+
+.button-container {
+  flex-direction: row;
+  justify-content: center;
+  display: flex;
+}
