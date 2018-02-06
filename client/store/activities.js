@@ -55,14 +55,18 @@ export const unsubscribeToTripThunkCreator = (component, tripId) =>
 
 export const updateActivity = (activityObj) =>
   axios.post('/api/activities/update', activityObj)
-    .then(() => { console.log('it worked?')})
+    .then(() => {console.log('it worked?')})
     .catch(err => console.log(err))
 
-export const createActivity = (activityObject) =>
-  axios.post('/api/activities/create', activityObject)
+export const createActivity = (activityObj) =>
+  axios.post('/api/activities/create', activityObj)
     .then(() => {console.log('success')})
     .catch(err => console.error(err))
 
+export const updateOrDeleteActivity = (activityObj) =>
+  axios.post('/api/activities/update-or-delete', activityObj)
+    .then(() => console.log('success'))
+    .catch(err => console.error(err))
 /**
  * REDUCER
  */

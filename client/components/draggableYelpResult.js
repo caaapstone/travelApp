@@ -3,7 +3,8 @@ import {connect} from 'react-redux'
 import YelpPopUp from './YelpPopUp'
 import Modal from 'react-responsive-modal'
 import {withRouter} from 'react-router-dom'
-//
+import StarRating from 'react-star-rating'
+
 class DraggableYelpResult extends Component {
   constructor(){
     super()
