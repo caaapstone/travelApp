@@ -479,6 +479,30 @@ form div {
 
 /* Idea board */
 
+.header-and-trash {
+  display: flex;
+  flex-direction: row;
+}
+
+.trash {
+  height: 50px;
+  flex-grow: 1;
+  z-index: 1;
+}
+
+.idea-header {
+  flex-grow: 7;
+}
+
+.icon {
+  width: 60px;
+  margin: 10px;
+}
+
+.idea-search-button {
+  margin: 10px;
+}
+
 .friend-ideas {
   display: flex;
   flex-wrap: wrap;
@@ -523,11 +547,10 @@ form div {
 
 .idea-search {
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.4);
-  max-width: 30%;
-  min-width: 250px;
+  width: 300px;
   flex-grow: 1;
-  padding-left: 50px;
-  padding-right: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
   height: 45rem;
   overflow-y: scroll;
 }

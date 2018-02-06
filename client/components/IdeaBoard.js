@@ -4,7 +4,6 @@ import Dragula from 'react-dragula'
 import { fetchIdeas, fetchTrip, subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, createActivity, fetchUsersOnTrip, updateActivity } from '../store'
 import DraggableActivity from './draggableActivity'
 import DraggableYelpResult from './draggableYelpResult'
-import Modal from 'react-responsive-modal'
 import {withRouter} from 'react-router-dom'
 import Loading from 'react-loading-components'
 import { setTimeout } from 'timers'
@@ -16,7 +15,8 @@ class IdeaBoard extends Component {
       drake: Dragula({}),
       selectedActivity: {},
       open: false,
-      loading: false
+      loading: false,
+      trashImg: '/005-trash.svg'
     }
     this.onOpenModal = this.onOpenModal.bind(this)
     this.onCloseModal = this.onCloseModal.bind(this)
@@ -41,6 +41,21 @@ class IdeaBoard extends Component {
     if (!this.props.users.length){
       this.props.getTripUsers(tripId)
     }
+
+    this.state.drake.on('over', (el, target, source, sibling) => {
+      console.log('i am hovering!')
+      if (el.id[0] === '-' && target.id === 'trash'){
+        this.setState({...this.state, trashImg: '/006-trash.svg'})
+      }
+      console.log('this.state: ', this.state)
+    })
+
+    this.state.drake.on('out', (el, target, source, sibling) => {
+      console.log('this.state: ', this.state)
+      if (el.id[0] === '-'){
+        this.setState({...this.state, trashImg: '/005-trash.svg'})
+      }
+    })
 
     this.state.drake.on('drop', (el, target, source, sibling) => {
       console.log('dropped!')
@@ -68,7 +83,7 @@ class IdeaBoard extends Component {
         }
         this.props.createActivity(activity)
 
-      // if an idea is dragged to group ideas
+      // if an idea is dragged from group ideas
       } else if (target.id === 'my-ideas' && el.id[0] === '-'){
         let activity = {
           tripId: this.props.trip.id,
@@ -81,6 +96,23 @@ class IdeaBoard extends Component {
           userId: this.props.user.id
         }
         this.props.updateActivity(activity)
+
+      // if an idea is deleted from the idea board (cannot delete from group ideas)
+      // } else if (target.id === 'trash' && el.id[0] === '-'){
+      } else if (target.id === 'trash'){
+        // let activity = {
+        //   tripId: this.props.trip.id,
+        //   activityId: el.id,
+        //   date: '',
+        //   time: '',
+        //   isActive: false,
+        //   timeUpdated: time,
+        //   userUpdated: userUpdated,
+        //   userId: this.props.user.id
+        // }
+        // this.props.updateActivity(activity)
+        console.log('el.id: ', el.id)
+        console.log('target.id: ', target.id)
       }
 
       // prevents strange behavior due to DOM manipulation
@@ -89,13 +121,13 @@ class IdeaBoard extends Component {
     })
   }
 
-  createIdeas = (event) => {
+  createIdeas = (event, category) => {
     event.preventDefault();
     this.setState({loading: true})
     let tripId = this.props.trip.id
     let location = this.props.trip.destinationCity.toLowerCase()
     const search = {
-      term: event.target.yelp_search.value || event.target.yelp_dropdown.value,
+      term: category || event.target.yelp_search.value,
       location: location
     }
     setTimeout(this.toggleLoading, 1900)
@@ -113,6 +145,7 @@ class IdeaBoard extends Component {
   toggleLoading() {
     this.setState({loading: false})
   }
+
   render() {
     const { user, ideas, activities} = this.props
     let ideaActivities = activities.filter(activity => !activity.isActive)
@@ -122,96 +155,87 @@ class IdeaBoard extends Component {
     let userIdeas = []
     let groupIdeas = []
 
-    for ( let activity in ideaActivities){
-      if (!ideaActivities[activity].users['U' + user.id]){
+    for (let activity in ideaActivities) {
+      if (!ideaActivities[activity].users['U' + user.id]) {
         groupIdeas.push(ideaActivities[activity])
-      } else if (ideaActivities[activity].users['U' + user.id] === true){
+      } else if (ideaActivities[activity].users['U' + user.id] === true) {
         userIdeas.push(ideaActivities[activity])
       }
     }
-      return (
-        <div>
-        <Modal open={this.state.open} onClose={this.onCloseModal} little>
-            {/* need some sort of yelp result pop up */}
-        </Modal>
+    return (
+      <div>
         <div id="boards">
           <div className="idea-search">
-          <h2 className="purple-sub-head">Activity Search</h2>
+            <h2 className="purple-sub-head">Activity Search</h2>
+            <p>Click on a popular category below, or search on your own.</p>
+            <div className="search-icons">
+              <img onClick={(event) => this.createIdeas(event, 'museums')} src="/001-banks.svg" className="icon" />
+              <img onClick={(event) => this.createIdeas(event, 'coffee')} src="/002-coffee.svg" className="icon" />
+              <img onClick={(event) => this.createIdeas(event, 'restaurants')} src="/003-pizza.svg" className="icon" />
+              <img onClick={(event) => this.createIdeas(event, 'bars')} src="/004-pint.svg" className="icon" />
+            </div>
             <form onSubmit={this.createIdeas}>
               <input
                 name="yelp_search"
                 id="yelp_search"
               />
-              <select name="yelp_dropdown">
-                <option value="restaurants">restaurants</option>
-                <option value="brunch">brunch</option>
-                <option value="lunch">lunch</option>
-                <option value="dinner">dinner</option>
-                <option value="coffeeshops">coffeeshops</option>
-                <option value="museums">museums</option>
-                <option value="bars">bars</option>
-                <option value="parks">parks</option>
-                <option value="shopping">shopping</option>
-              </select>
-
-              <button type="submit">Search</button>
+              <button className="button idea-search-button" type="submit">Search</button>
             </form>
-
-              {
-                this.state.loading
-                ? <div className="text-align-center">
-                  <Loading type="puff" width={200} height={200} fill="#7E4E60" className="center-loading"/>
-                  </div>
-                : ideas.length ?
-              <div ref={this.dragulaDecorator}>
             {
-                ideas.map(idea => {
-                  return (
-                      <DraggableYelpResult activity={idea} />
-                    )
-                  })
-                }
+              this.state.loading
+                ? <div className="text-align-center">
+                  <Loading type="puff" width={200} height={200} fill="#7E4E60" className="center-loading" />
                 </div>
-                  : <div />
-
-                }
-
-              </div>
-            <div id="user">
-              <h1 className="capitalized-header">MY IDEA BOARD</h1>
-              <div id="my-ideas" className="idea-board dragula-container" ref={this.dragulaDecorator}>
-
-                {
-                  userIdeas.map(activity => {
-                    return (
-                      <DraggableActivity activity={activity} />
-                    )
-                  })
-                }
-              </div>
-            </div>
-            <div id="group">
-            <h1 className="purple-sub-head">GROUP IDEAS</h1>
-            <p>Take a look at your friends' ideas! You can even drag them into your own idea board.</p>
-              <div id="friends-ideas" className="friend-ideas dragula-container" ref={this.dragulaDecorator}>
-                {
-                  groupIdeas.map(activity => {
-                    return (
-                          <DraggableActivity activity={activity} />
+                : ideas.length ?
+                  <div ref={this.dragulaDecorator}>
+                    {
+                      ideas.map(idea => {
+                        return (
+                          <DraggableYelpResult activity={idea} />
                         )
                       })
                     }
-              </div>
+                  </div>
+                  : <div />
+            }
+          </div>
+          <div id="user">
+            <div className="header-and-trash">
+              <h1 className="idea-header capitalized-header">MY IDEA BOARD</h1>
+              <img id="trash" className="trash" src={this.state.trashImg} ref={this.dragulaDecorator} />
+            </div>
+            <div id="my-ideas" className="idea-board dragula-container" ref={this.dragulaDecorator}>
+              {
+                userIdeas.map(activity => {
+                  return (
+                    <DraggableActivity activity={activity} />
+                  )
+                })
+              }
             </div>
           </div>
+          <div id="group">
+            <h1 className="purple-sub-head">GROUP IDEAS</h1>
+            <p>Take a look at your friends' ideas! You can even drag them into your own idea board.</p>
+            <div id="friends-ideas" className="friend-ideas dragula-container" ref={this.dragulaDecorator}>
+              {
+                groupIdeas.map(activity => {
+                  return (
+                    <DraggableActivity activity={activity} />
+                  )
+                })
+              }
+            </div>
           </div>
-      )
-    }
+        </div>
+      </div>
+    )
+  }
 
 
   dragulaDecorator = (componentBackingInstance) => {
     if (componentBackingInstance) {
-      let options = { };
+      let options = {};
       this.state.drake.containers.push(componentBackingInstance)
     }
   }
