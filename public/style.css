@@ -941,18 +941,14 @@ button:focus {
 /*ITINERARY START */
 
 .itinerary-page{
-  /*border: 1px solid #C4C7D1;*/
   display: flex;
   flex-direction: column;
   width: 100%;
   text-align: center;
   padding-bottom: 1rem;
   margin-bottom: 2rem;
-/*  background-image: url('/images/itinerary.jpg');
-  background-repeat: no-repeat;*/
 }
 
-/* headlines with lines */
 .city-title{
      overflow: hidden;
      text-align: center;
@@ -1000,11 +996,14 @@ button:focus {
   width: 50%;
   align-self: flex-start;
   background-color: rgba(174, 217, 224, 0.5);
+  text-align: right;
+      padding-right: 5%;
 }
 .activity-info-group {
   width: 50%;
   border-left: 1px solid #C4C7D1;
   border-bottom: 1px solid #C4C7D1;
+
 }
 
 .activity-by-time {
