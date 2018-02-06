@@ -132,7 +132,6 @@ export class CalendarBoard extends React.Component {
           <Modal open={this.state.open} onClose={this.onCloseModal} little>
             <ActivityPopUp activity={this.state.selectedActivity} />
           </Modal>
-          <h1 className="capitalized-header">SCHEDULER</h1>
           <div className="full-scheduler-container">
             <div className="group-ideas-container-and-header">
               <h2 className="purple-sub-head">Ideas</h2>
@@ -155,13 +154,13 @@ export class CalendarBoard extends React.Component {
             </div>
 
             <div className="calendar-container-and-header">
-            <h2 className="purple-sub-head">Calendar</h2>
-              <div className="calendar-container">
+            <h1 className="capitalized-header">SCHEDULER</h1>
+            <div className="calendar-container">
                 {
                   dates.map(day => {
                     return (
                       <div className="calendar-day-container">
-                        <h3 className="calendar-day">{day}</h3>
+                        <h3 className="calendar-day date">{day}</h3>
                         <div
                           id="breakfast"
                           ref={this.dragulaDecorator}

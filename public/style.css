@@ -389,6 +389,19 @@ form div {
 
 /* calendar */
 
+
+.date {
+  color: #7E4E60;
+}
+
+.time-of-day {
+  color: #7E4E60;
+  -ms-transform: rotate(270deg); /* IE 9 */
+  -moz-transform: rotate(270deg); /* Firefox */
+  -webkit-transform: rotate(270deg); /* Safari and Chrome */
+  -o-transform: rotate(270deg); /* Opera */
+}
+
 .scheduler-outermost-div {
   height: 50%;
 }
@@ -425,6 +438,7 @@ form div {
   min-width: 100px;
   flex-grow: 3;
   padding-left: 20px;
+  height: 40rem;
 }
 
 .calendar-container {
@@ -432,7 +446,7 @@ form div {
   flex-direction: row;
   overflow-x: scroll;
   overflow-y: scroll;
-  height: 23%;
+  height: 35rem;
 }
 
 .calendar-day-container {
@@ -444,18 +458,18 @@ form div {
 
 .dragula-container#breakfast, .dragula-container#lunch, .dragula-container#dinner {
   height: 75px;
-  width: 325px;
+  /* width: 250px; */
   overflow-y: scroll;
-  background-color: #C9CAD9;
+  background-color: rgb(227, 228, 238);
   border-left: red;
   border-width: 20px;
 }
 
 .dragula-container#morning, .dragula-container#afternoon, .dragula-container#evening {
   height: 200px;
-  width: 325px;
+  /* width: 325px; */
   overflow-y: scroll;
-  background-color: #AED9E0;
+  background-color: rgb(215, 234, 236);
 }
 
 
