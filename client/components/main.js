@@ -15,7 +15,8 @@ import history from '../history'
  export class Main extends Component {
   submitTrip = (event) =>{
     event.preventDefault()
-    this.props.createTrip()
+    const userId = this.props.user.id
+    this.props.createTrip(userId)
   }
 render(){
 
@@ -58,7 +59,8 @@ render(){
  */
 const mapState = (state) => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    user: state.user
   }
 }
 
@@ -67,8 +69,8 @@ const mapDispatch = (dispatch) => {
     handleClick () {
       dispatch(logout())
     },
-    createTrip: () => {
-      return dispatch(postTrip())
+    createTrip: (userId, trip) => {
+      return dispatch(postTrip(userId, trip))
       .then(trip =>{
         let tripId = trip.trip.id
         history.push(`/trips/tripdetails/${tripId}`)

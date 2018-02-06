@@ -133,7 +133,7 @@ class IdeaBoard extends Component {
         <div>
         <Modal open={this.state.open} onClose={this.onCloseModal} little>
             {/* need some sort of yelp result pop up */}
-          </Modal>
+        </Modal>
         <div id="boards">
           <div className="idea-search">
           <h2 className="purple-sub-head">Activity Search</h2>
@@ -188,12 +188,11 @@ class IdeaBoard extends Component {
                     )
                   })
                 }
-
               </div>
             </div>
             <div id="group">
             <h1 className="purple-sub-head">GROUP IDEAS</h1>
-            <p>Take a look at your friends' ideas! You can also drag and drop them into your own idea bank.</p>
+            <p>Take a look at your friends' ideas! You can even drag them into your own idea board.</p>
               <div id="friends-ideas" className="friend-ideas dragula-container" ref={this.dragulaDecorator}>
                 {
                   groupIdeas.map(activity => {

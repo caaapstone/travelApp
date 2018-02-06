@@ -53,7 +53,7 @@ export class CalendarBoard extends React.Component {
       console.log('dropped!')
       let now = new Date
       let timeUpdated = now.getTime()
-      let userUpdated = this.props.user.firstName + ' ' + this.props.user.lastName
+      let userUpdated = this.props.user.email
       let activityObj;
       if (target.id === 'ideas'){
         activityObj = {
@@ -112,7 +112,8 @@ export class CalendarBoard extends React.Component {
           <Modal open={this.state.open} onClose={this.onCloseModal} little>
             <ActivityPopUp activity={this.state.selectedActivity} />
           </Modal>
-          <h3>Group Idea Bank</h3>
+          <h1 className="capitalized-header">SCHEDULER</h1>
+          <h3>Group Ideas</h3>
           <div className="group-ideas-container">
             {
               ideaActivities.length ?

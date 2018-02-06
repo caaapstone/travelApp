@@ -17,7 +17,8 @@ router.get('/:tripId', (req, res, next) => {
     .then(trip => res.json(trip))
     .catch(next)
 })
-
+//create trip in firebase
+//add current user
 // POST new trip
 router.post('/', function (req, res, next) {
   let name = req.body.name || 'New Trip'
@@ -26,6 +27,8 @@ router.post('/', function (req, res, next) {
   let destinationState = req.body.destinationState || null
   let arrivalDate = req.body.arrivalDate || null
   let departureDate = req.body.departureDate || null
+  let userId = req.body.userId
+  // console.log("api user id", userId)
   let newTrip = {
     name,
     defaultBudget,
@@ -34,10 +37,36 @@ router.post('/', function (req, res, next) {
     arrivalDate,
     departureDate
   }
+
+
+  let newActivity = {
+    name: "I'm an activity",
+    date: '',
+    time: '',
+    isActive: '',
+    lat: '',
+    long: '',
+    link: '',
+    imageUrl: '',
+    tripId: '',
+    timeUpdated: '',
+    userUpdated: '',
+    yelpInfo: ''
+  }
+
   Trip.create(newTrip)
-  .then(trip => res.json(trip))
+  .then(trip => {
+    res.json(trip)
+    firebaseDb.ref(`/trips/T${trip.id}`).push({
+        ...newActivity,
+        users: {
+          ['U' + userId]: true,
+        }
+    })
+  })
   .catch(next);
 });
+
 
 // update a trip
 router.put('/:tripId', function (req, res, next) {
