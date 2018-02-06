@@ -333,7 +333,7 @@ form div {
 }
 
 .dragula-container {
-  min-height: 200px;
+  min-height: 120px;
 }
 
 .activity-thumbnail {
@@ -389,42 +389,53 @@ form div {
 
 /* calendar */
 
+.full-scheduler-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.group-ideas-container-and-header {
+  /* background-color: blue; */
+  width: 300px;
+  flex-grow: 1;
+}
+
+.calendar-container-and-header {
+  /* background-color: green; */
+  min-width: 100px;
+  flex-grow: 3;
+}
+
 .calendar-container {
-  max-width: 80%;
   display: flex;
   flex-direction: row;
 }
 
 .calendar-day-container {
-  /* border-style: solid; */
-  /* border-width: 1px; */
-  /* border-color: green; */
-  width: 250px;
+  width: 275px;
   background-color: white;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .dragula-container#breakfast, .dragula-container#lunch, .dragula-container#dinner {
-  height: 125px;
+  height: 75px;
+  width: 325px;
   overflow-y: scroll;
-  margin: 5px;
-}
-
-.dragula-container#morning, .dragula-container#afternoon, .dragula-container#evening {
-  height: 325px;
-  overflow-y: scroll;
-  margin: 5px;
-}
-
-.group-ideas-container {
-  max-width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
   /* background-color: red; */
 }
 
-.dragula-container#ideas {
-  width: 250px;
+.dragula-container#morning, .dragula-container#afternoon, .dragula-container#evening {
+  height: 200px;
+  width: 325px;
+  overflow-y: scroll;
+  background-color: pink;
+}
+
+.group-ideas-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 /* Idea board */
