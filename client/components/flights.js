@@ -350,7 +350,7 @@ class Flights extends Component {
     let organizer = usersOnTrip.filter(user => user.userId === Number(this.props.match.params.userId))
 
     if (trip.destinationCity) {
-      history.push(`/trip/${this.props.match.params.tripId}`)
+      history.push(`/trip/${this.props.match.params.tripId}/mytrip`)
     }
 
     if (userFlights.length === 0) {

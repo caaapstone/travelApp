@@ -19,7 +19,7 @@ class TripDashboard extends Component {
       <div>
       <h1>{this.props.trip.name}</h1>
       <div className="trip-dashboard-nav">
-        <NavLink to={`/trip/${trip.id}/mytrip`} className="nav-link active">My Trip</NavLink>
+        <NavLink to={`/trip/${trip.id}/mytrip`} className="nav-link">My Trip</NavLink>
         <NavLink to={`/trip/${trip.id}/ideas`} className="nav-link">Idea Board</NavLink>
         <NavLink to={`/trip/${trip.id}/calendar`} className="nav-link">Schedule</NavLink>
         <NavLink to={`/trip/${trip.id}/map`} className="nav-link">Map</NavLink>
