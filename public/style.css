@@ -948,8 +948,8 @@ button:focus {
   text-align: center;
   padding-bottom: 1rem;
   margin-bottom: 2rem;
-  background-image: url('/images/itinerary.jpg');
-  background-repeat: no-repeat;
+/*  background-image: url('/images/itinerary.jpg');
+  background-repeat: no-repeat;*/
 }
 
 /* headlines with lines */
@@ -965,7 +965,7 @@ button:focus {
     content: '';
     position: absolute;
     top: 50%;
-    border-bottom: 4px dotted #C4C7D1;
+    border-bottom: 4px solid #C4C7D1;
     width: 591px; /* half of limiter*/
     margin: 0 20px;
 }
@@ -993,11 +993,13 @@ button:focus {
   display: flex;
    align-items: center;
    justify-content: center;
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .itinerary-date {
   width: 50%;
   align-self: flex-start;
+  background-color: rgba(174, 217, 224, 0.5);
 }
 .activity-info-group {
   width: 50%;
@@ -1021,7 +1023,34 @@ button:focus {
 
 .individual-activity {
   width: 50%;
+  background-color: rgba(174, 217, 224, 0.5);
+  padding: 2%;
+  margin: 2%;
 }
+
+
+
+/*.individual-activity{
+     overflow: hidden;
+     text-align: center;
+ }
+.individual-activity > span{
+    position: relative;
+    display: inline-block;
+}*/
+.individual-activity > span:before{
+    content: '';
+    position: absolute;
+    top: 50%;
+    border-bottom: 4px solid #C4C7D1;
+    width: 591px; /* half of limiter*/
+    margin: 0 20px;
+}
+.individual-activity > span:before{
+    right: 100%;
+}
+
+
 
 .individual-activity h4 {
   font-weight: bold;

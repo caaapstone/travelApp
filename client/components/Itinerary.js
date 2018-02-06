@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { subscribeToTripThunkCreator, unsubscribeToTripThunkCreator, getMembership, updateActivity } from '../store';
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-
+import { Parallax, Background } from 'react-parallax';
 //Itinerary should have flight info
 //lodging info if available
 //destination info
@@ -73,35 +73,33 @@ class Itinerary extends Component {
   }
 
   render(){
-    console.log("this.props", this.props)
-    if (!this.props.activities.length) {return <div />} else {
+    const bgImage = 'https://images.unsplash.com/photo-1508669232496-137b159c1cdb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5e05e923eadbc20a00da3a1a441dd3e3&auto=format&fit=crop&w=934&q=80'
     let days = Object.keys(this.state.activities)
     days = days.sort()
+    let {membership} = this.props
+    if (!membership.length) return <div />
     return (
+      <Parallax
+      bgImage={bgImage}
+      bgImageAlt="plane"
+      strength={300}
+      bgStyle ={{width: '100%', opacity: .7}}
+    >
       <div className="itinerary-page">
       <h1>Itinerary</h1>
-      <h2>Hypothetical Users Section</h2>
+      <h2>Friends on Trip</h2>
       <div className="user-itinerary-info-section">
-        <div className="user-itinerary-info">
-          <h3>User Name 1</h3>
-          <p>Flight Info</p>
-          <p>Hotel Info</p>
-        </div>
-        <div className="user-itinerary-info">
-          <h3>User Name 2</h3>
-          <p>Flight Info</p>
-          <p>Hotel Info</p>
-        </div>
-        <div className="user-itinerary-info">
-          <h3>User Name 3</h3>
-          <p>Flight Info</p>
-          <p>Hotel Info</p>
-        </div>
-        <div className="user-itinerary-info">
-          <h3>User Name 3</h3>
-          <p>Flight Info</p>
-          <p>Hotel Info</p>
-        </div>
+      {
+        membership.map(person =>{
+          return(
+            <div className="user-itinerary-info">
+              <h3>{person.user.firstName} {person.user.lastName}</h3>
+              <p>{person.arrivalAirline} | {person.arrivalFlightNum} | {person.arrivalDate} | {person.arrivalTime}</p>
+              <p>{person.departureAirline} | {person.departureFlightNum} | {person.departureDate} | {person.departureTime}</p>
+            </div>
+                 )
+      })
+      }
       </div>
       <h1 className="city-title"><span>{this.props.trip.destinationCity}, {this.props.trip.destinationState}</span></h1>
       <h2>Activities Schedule</h2>
@@ -120,16 +118,18 @@ class Itinerary extends Component {
               let singleSchedActivity = singleDayAllActivities[schedTime]
               return (
                       <div className="activity-by-time">
-                      <h3 key={schedTime}>{schedTime}</h3>
+                      <h3>{schedTime}</h3>
 {                singleSchedActivity.map(activity => {
                   let location = activity.yelpInfo.location
                   let phone = activity.yelpInfo.phone
                   return (
                       <div className="individual-activity">
+                        <span>
                         <h4 key={activity.name}>{activity.name}</h4>
                         <p key={phone}>Phone Number: {phone}</p>
                         <p key={location.address1}>{location.address1}</p>
                         <p key={location.zip_code}>{location.city}, {location.state} {location.zip_code}</p>
+                        </span>
                       </div>
                       )
                   })}
@@ -142,15 +142,16 @@ class Itinerary extends Component {
           )})
       }
       </div>
+      </Parallax>
     )
   }
-}
 }
 
 let mapStateToProps = state => {
   return {
     activities: state.activities,
-    trip: state.trip
+    trip: state.trip,
+    membership: state.membership
   }
 }
 
