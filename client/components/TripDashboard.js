@@ -1,23 +1,74 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {CalendarBoard, MapBoard, IdeaBoard, Hotels, Itinerary} from '../components'
-import {fetchTrip} from '../store'
+import {fetchTrip, fetchUsersOnTrip} from '../store'
 import {Route, Switch, NavLink} from 'react-router-dom'
 
 class TripDashboard extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.dateRange = this.dateRange.bind(this)
+  }
   componentDidMount(){
+    const {getUsersOnTrip} = this.props
     let tripId = this.props.match.params.tripId
     if (!this.props.trip.name){
       this.props.getTripInfo(tripId)
     }
+    getUsersOnTrip(this.props.match.params.tripId)
+  }
+
+  dateRange(arrival, departure) {
+    arrival = arrival.split('-')
+    departure = departure.split('-')
+
+    return `${arrival[1]}/${arrival[2]}/${arrival[0]} - ${departure[1]}/${departure[2]}/${departure[0]}`
   }
 
   render(){
-    const { trip } = this.props;
+    const { trip, usersOnTrip } = this.props;
+
     return (
       <div>
-      <h1>{this.props.trip.name}</h1>
+      <div id="trip-dashboard-flex-header">
+      {
+        this.props.trip.arrivalDate
+          ? <h1>{`${this.props.trip.name} (${this.dateRange(this.props.trip.arrivalDate, this.props.trip.departureDate)})`}</h1>
+          : <h1>{this.props.trip.name}</h1>
+      }
+      <div>
+      <div id="flight-page-members">
+            {
+              usersOnTrip
+              ? usersOnTrip.map(user => (
+                <div className="flight-page-member-icon" key={user.name}>
+                  {user.name}
+                  <span className="member-info-text">
+                    <p><span className="bold">Origin: </span>{user.origin}</p>
+                    <p><span className="bold">Joined Group: </span>
+                      {
+                        user.joined
+                          ? <span className="green bold">&#10004;</span>
+                          : <span className="red bold">&#10007;</span>
+                      }
+                    </p>
+                    <p><span className="bold">Flight Booked: </span>
+                      {
+                        user.flightBooked
+                          ? <span className="green bold">&#10004;</span>
+                          : <span className="red bold">&#10007;</span>
+                      }
+                    </p>
+                </span>
+                </div>
+              ))
+              : <div />
+            }
+          </div>
+          </div>
+        </div>
       <div className="trip-dashboard-nav">
         <NavLink to={`/trip/${trip.id}/mytrip`} className="nav-link">My Trip</NavLink>
         <NavLink to={`/trip/${trip.id}/ideas`} className="nav-link">Idea Board</NavLink>
@@ -40,7 +91,8 @@ class TripDashboard extends Component {
 
 let mapStateToProps = state => {
   return {
-    trip: state.trip
+    trip: state.trip,
+    usersOnTrip: state.users
   }
 }
 
@@ -48,6 +100,9 @@ let mapDispatchToProps = dispatch => {
   return {
     getTripInfo(tripId){
       dispatch(fetchTrip(tripId))
+    },
+    getUsersOnTrip(tripId){
+      dispatch(fetchUsersOnTrip(tripId))
     }
   }
 }
