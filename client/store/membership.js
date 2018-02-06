@@ -6,8 +6,6 @@ import history from '../history'
  */
 const CREATE_MEMBERSHIP = 'CREATE_MEMBERSHIP'
 const GET_TRIP_MEMBERSHIP = 'GET_TRIP_MEMBERSHIP'
-
-
 const UPDATE_MEMBERSHIP = 'UPDATE_MEMBERSHIP'
 
 /**
