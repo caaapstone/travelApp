@@ -53,15 +53,15 @@ class MapBoard extends Component {
     super(props)
     this.state = {
       activities: {},
-      // style: {
-      //   positon: 'absolute',
-      //   width: '200vh',
-      //   height: '100vh'
-      // },
+      currentDay: '',
       routesGeoJSON: {},
-      color: "#FF00FF",
-      coordinates: []
+      style: {
+        fillColor:'#f03'
+      }
     }
+
+    this.handleButtonClick = this.handleButtonClick.bind(this)
+    this.handlePopupClick = this.handlePopupClick.bind(this)
   }
 
   componentWillMount(){
@@ -120,63 +120,89 @@ class MapBoard extends Component {
     })
   }
 
+  handleButtonClick(e) {
+    let selectedDay = e.target.value
+    this.setState({currentDay: selectedDay})
+  }
+
+  handlePopupClick(e){
+    console.log('this is the popup event: ', e)
+  }
+
   render() {
+    let marker = new mapboxgl.Marker()
     const Map = reactMapboxGL({accessToken: token})
     let days = Object.keys(this.state.activities)
     days = days.sort()
-
+    let currentDay = this.state.currentDay
+    console.log('this.state.activities', this.state.activities)
     return (
-      this.state.routesGeoJSON &&
+      <div>
+        <h1 className="capitalized-header">MAP</h1>
+        <div className="button-container">
+          {
+            days.map(day => {
+              return (
+                <button className="button" value={day} onClick={this.handleButtonClick}>{day}</button>
+              )
+            })
+          }
+        </div>
       <Map
+      className="map-container"
       style="mapbox://styles/mapbox/streets-v9"
-      center={[-87.6354, 41.8885]}
+      center={
+        this.state.activities[currentDay] &&
+        this.state.activities[currentDay].coordinates[0]
+      }
       containerStyle={{
-        height: "100vh",
-        width: "100vw"
+        height: "90vh",
+        width: "90vw"
       }}>
 
           {
             days.map(day => {
-              let activeTimes = times.filter(time => !!this.state.activities[day][time])
-              let singleDay = this.state.activities[day]
               let singleDayActivities
-              activeTimes.map(activeTime => {
-                singleDayActivities = singleDay[activeTime]
-              })
-              return (
-              singleDay.coordinates.map(coordinate => {
+              if (currentDay === day){
+                let activeTimes = times.filter(time => !!this.state.activities[currentDay][time])
+                let filteredDay = this.state.activities[day]
                 return (
-                  singleDayActivities.map(singleDayActivity => {
-                    //these are all just repeating activiites..look into that
+                activeTimes.map(activeTime => {
+                  singleDayActivities = filteredDay[activeTime]
+                  return (
+                    singleDayActivities.map(singleDayActivity => {
                       return (
                         <div>
                           <Layer
+                           >
+                            <Feature
                             type="symbol"
                             id="marker"
-                            layout={{ "icon-image": "marker-15" }}>
-                            <Feature
-                            coordinates={coordinate}/>
+                            layout={{ "icon-image": "marker-15" }}
+                            coordinates={[singleDayActivity.long, singleDayActivity.lat]}/>
                           </Layer>
                           <Popup
-                            coordinates={coordinate}
+                            coordinates={[singleDayActivity.long, singleDayActivity.lat]}
                             offset={{
                               'bottom-left': [12, -38], 'bottom': [0, -38], 'bottom-right': [-12, -38]
-                            }}>
+                            }}
+                            onClick={this.handlePopupClick}
+                            >
                             <div>
-                            <img className="activity-thumbnail" src={singleDayActivity.imageUrl}/>
-                            <p>{singleDayActivity.date}</p>
-                            <p>{singleDayActivity.name}</p>
+                            <img className="popup-thumbnail" src={singleDayActivity.imageUrl}/>
                             </div>
                           </Popup>
                         </div>
-                      )})
-                    )
-                  })
+                      )
+                    })
+                  )
+                })
                 )
-              })
+              }
             })
           }
       </Map>
+      </div>
     )
   }
 }
@@ -208,3 +234,6 @@ let mapDispatchToProps = dispatch => {
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MapBoard))
+
+
+

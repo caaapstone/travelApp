@@ -972,6 +972,20 @@ a{
   background-color: #AED9E0;
   box-sizing: border-box;
   padding: 0 2rem;
+  /* position: fixed;
+  z-index: 99;
+  width: 100%; */
+}
+
+#nav-bar-logged-out{
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(174, 217, 224, 0);
+  box-sizing: border-box;
+  padding: 0 2rem;
+  position: fixed;
+  z-index: 99;
+  width: 100%;
 }
 
 
@@ -1154,6 +1168,16 @@ button:focus {
   border: 1px solid #C4C7D1;
 }
 
+.map-container{
+  border: 1px solid #C4C7D1;
+  position: absolute;
+  margin: auto;
+  top: 3rem;
+  right: 3rem;
+  bottom: 3rem;
+  left: 0;
+}
+
 .itinerary-page{
   border: 1px solid #C4C7D1;
   display: flex;
@@ -1164,9 +1188,57 @@ button:focus {
   margin-bottom: 2rem;
 }
 
+@keyframes fadeIn {
+	0% { opacity: 0 }
+	100% { opacity: 1 }
+}
+
+.landing-logo-icon{
+  color: #AED9E0;
+  opacity: 1;
+  animation: fadeIn 9s ease;
+  height: 25rem;
+  width: 25rem
+}
+
+.landing-logo-text{
+  opacity: 1;
+  animation: fadeIn 9s ease
+}
+
+.landing-logo{
+  font-family: 'Raleway', sans-serif;
+  color: #AED9E0;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -100px;
+  animation-name: fadeIn;
+  display: flex;
+  flex-direction: row
+}
+
+/* .map-popup{
+
+} */
+
+.popup-thumbnail {
+  max-width: 150px;
+  max-height: 100px;
+}
 .full-page-center{
   width: 90%;
   margin: auto;
+}
+
+
+.landing-header{
+  font-family: 'Raleway', sans-serif;
+  font-style: normal;
+  font-weight: 100;
+  letter-spacing: .2rem;
+  color: rgb(255, 255, 255);
 }
 
 #airport-search-container{
@@ -1203,4 +1275,5 @@ button:focus {
   background-color: #B9CDDA;
   cursor: pointer;
 }
+
 

@@ -1,28 +1,29 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import YelpPopUp from './YelpPopUp'
-import Modal from 'react-responsive-modal'
-import {withRouter} from 'react-router-dom'
-//
-class DraggableYelpResult extends Component {
-  constructor(){
-    super()
-    this.state = {
-      open: false
-    }
-    this.onOpenModal = this.onOpenModal.bind(this)
-    this.onCloseModal = this.onCloseModal.bind(this)
-  }
+// import React, {Component} from 'react'
+// import {connect} from 'react-redux'
+// import YelpPopUp from './YelpPopUp'
+// import Modal from 'react-responsive-modal'
+// import {withRouter} from 'react-router-dom'
+// //
+// class DraggableYelpResult extends Component {
+//   constructor(){
+//     super()
+//     this.state = {
+//       open: false
+//     }
+//     this.onOpenModal = this.onOpenModal.bind(this)
+//     this.onCloseModal = this.onCloseModal.bind(this)
+//   }
 
-  onOpenModal(activity){
-    this.setState({ ...this.state, selectedActivity: activity, open: true });
-    console.log('this.state(open): ', this.state)
-  }
+//   onOpenModal(activity){
+//     this.setState({ ...this.state, selectedActivity: activity, open: true });
+//     console.log('this.state(open): ', this.state)
+//   }
 
-  onCloseModal(){
-    this.setState({ ...this.state, selectedActivity: '', open: false });
-    console.log('this.state(close): ', this.state)
-  }
+//   onCloseModal(){
+//     this.setState({ ...this.state, selectedActivity: '', open: false });
+//     console.log('this.state(close): ', this.state)
+//   }
+
 
   render() {
     const { activity, currentUser } = this.props
@@ -55,19 +56,19 @@ class DraggableYelpResult extends Component {
   }
 }
 
-const mapState = (state, ownProps) => {
-  let tripId = ownProps.match.params.tripId
-  return {
-    currentUser: state.user,
-    users: state.users,
-    tripId: tripId
-  }
-}
+// const mapState = (state, ownProps) => {
+//   let tripId = ownProps.match.params.tripId
+//   return {
+//     currentUser: state.user,
+//     users: state.users,
+//     tripId: tripId
+//   }
+// }
 
-const mapDispatch = (dispatch) => {
-  return {
+// const mapDispatch = (dispatch) => {
+//   return {
 
-  }
-}
+//   }
+// }
 
-export default withRouter(connect(mapState, mapDispatch)(DraggableYelpResult))
+// export default withRouter(connect(mapState, mapDispatch)(DraggableYelpResult))

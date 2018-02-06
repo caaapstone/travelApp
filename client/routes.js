@@ -4,7 +4,7 @@ import {Route, Switch, Router} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
 import {me} from './store'
-import {Main, Login, Signup, UserHome, Flights, CreateTrip, JoinTrip, MapBoard, CalendarBoard, IdeaBoard, TripDetailsSetUp, UserDashboard, TripDashboard, Hotels} from './components'
+import {Main, Login, Signup, UserHome, Flights, CreateTrip, JoinTrip, MapBoard, CalendarBoard, IdeaBoard, TripDetailsSetUp, UserDashboard, TripDashboard, Hotels, LandingPage} from './components'
 
 /**
  * COMPONENT
@@ -22,6 +22,7 @@ class Routes extends Component {
         <Main>
           <Switch>
             {/* Routes placed here are available to all visitors */}
+            <Route exact path="/" component={LandingPage} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             {
@@ -31,7 +32,7 @@ class Routes extends Component {
                 <Route exact path="/createtrip" component={CreateTrip} />
                 <Route exact path={'/trips/tripdetails/:tripId'} component={TripDetailsSetUp} />
                 <Route exact path={'/trips/jointrip/:tripId'} component={JoinTrip} />
-                <Route exact path ="/" component={UserDashboard} />
+                {/* <Route exact path ="/home" component={UserDashboard} /> */}
                 <Route exact path ="/home" component={UserDashboard} />
                 <Route exact path="/flights/:tripId/:userId" component={Flights} />
                 <Route exact path="/hotels/:tripId" component={Hotels} />
