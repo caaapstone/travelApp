@@ -1415,3 +1415,8 @@ button:focus {
 .relative-container{
   position: relative;
 }
+
+.login-signup-form {
+  border-radius: 10px;
+  top: 35%
+}
