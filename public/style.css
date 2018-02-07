@@ -992,9 +992,9 @@ button:focus {
   font-family: 'Raleway';
 }
 
-.trip-info{
+.trip-info {
   border: 1px solid #C4C7D1;
-  width: 300px;
+  width: 270px;
   text-align: center;
   padding-bottom: 1rem;
   margin-bottom: 2rem;
