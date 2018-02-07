@@ -23,6 +23,7 @@ export class CalendarBoard extends React.Component {
     this.onCloseModal = this.onCloseModal.bind(this)
     this.toggleMyIdeas = this.toggleMyIdeas.bind(this)
     this.toggleAllIdeas = this.toggleAllIdeas.bind(this)
+    this.dateRange = this.dateRange.bind(this)
   }
 
   dragulaDecorator = (componentBackingInstance) => {
@@ -100,6 +101,12 @@ export class CalendarBoard extends React.Component {
   toggleMyIdeas(){
     this.setState({ ...this.state, ideasToggle: 'mine' })
   }
+
+  dateRange(date) {
+    let splitDate = date.split('-')
+    let newDate = [splitDate[1], splitDate[2], splitDate[0]]
+    return newDate.join('/')
+   }
 
   render() {
     if (!this.props.trip.allDates || !this.props.activities.length) {

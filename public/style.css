@@ -1058,7 +1058,6 @@ button:focus {
 }
 /*ITINERARY START */
 
-
 .itinerary-page{
   display: flex;
   flex-direction: column;
@@ -1152,6 +1151,7 @@ button:focus {
   margin: 2%;
 }
 
+
 /*.individual-activity > span:before{
     content: '';
     position: absolute;
@@ -1177,16 +1177,13 @@ button:focus {
 }
 
 .landing-logo-icon{
-  color: #AED9E0;
-  opacity: 1;
   animation: fadeIn 9s ease;
-  height: 25rem;
-  width: 25rem
-}
-
-.landing-logo-text{
   opacity: 1;
-  animation: fadeIn 9s ease
+  top: 35%;
+  left: 42%;
+  display: block;
+  bottom: 50%;
+  position: absolute
 }
 
 .landing-logo{
@@ -1199,11 +1196,19 @@ button:focus {
   margin-left: -100px;
   animation-name: fadeIn;
   display: flex;
-  flex-direction: row
+  flex-direction: row;
 }
 
-/* .map-popup{
-} */
+
+.landing-video {
+  display: block
+}
+
+.landing-container{
+  display: flex;
+  flex-direction: column;
+}
+
 
 .popup-thumbnail {
   max-width: 150px;
@@ -1213,7 +1218,6 @@ button:focus {
   width: 90%;
   margin: auto;
 }
-
 
 .landing-header{
   font-family: 'Raleway', sans-serif;
@@ -1351,21 +1355,53 @@ button:focus {
 
 .map-button {
   border: none;
-  padding: .5rem 2rem;
   color: white;
   font-size: .8rem;
   border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
-  margin-top: 8px;
-  margin-left: 1px;
-  margin-right: 1px
+  /* margin-left: 1px;
+  margin-right: 1px; */
+  margin-bottom: .5rem;
+  padding: .5rem 2rem;
+}
+
+.whole-map-container{
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  /* border: 1px solid #C4C7D1;
+  display: flex;
+  position: fixed;
+  margin: auto;
+  flex-direction: row;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: space-between;
+  height: 50%;
+  width: 50% */
 }
 
 .button-container {
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
   display: flex;
+  z-index: 99;
+  justify-content: space-around;
+  padding-left: 2rem;
+  padding-top: 2rem
+  /* padding: auto;
+  position: fixed */
+}
+
+.actual-map {
+  position: fixed;
+  align-items: center;
+  z-index: -99
+  /* margin: 2.5% 2.5% 2.5% 2.5%; */
+  /* z-index: -4 */
+  /* height: 50%;
+  width: 50%;
+  margin: auto */
 }
 
 #trip-dashboard-flex-header{

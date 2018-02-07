@@ -13,8 +13,11 @@ const image2 = "https://images.unsplash.com/photo-1497302347632-904729bc24aa?ixl
 let LandingPage = () => {
 
   return (
-    <div>
+    <div className="landing-container">
+    <div className="landing-video">
     <LandingVideo />
+    </div>
+    <div className="parallax-container">
     <Parallax bgImage={image1}
       strength={500}>
       <div style={{height: "100vh"}}>
@@ -23,10 +26,7 @@ let LandingPage = () => {
         </div>
       </div>
     </Parallax>
-    <Parallax>
-      <Login />
-      <Signup />
-    </Parallax>
+    </div>
     </div>
   )
 }

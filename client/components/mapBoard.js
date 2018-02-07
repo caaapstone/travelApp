@@ -6,6 +6,8 @@ import mapboxgl from 'mapbox-gl'
 import firebase from '../firebase'
 import {withRouter} from 'react-router-dom'
 import axios from 'axios'
+import Gravatar from 'react-gravatar'
+import ReactTooltip from 'react-tooltip'
 
 const times = ['breakfast',
   'morning',
@@ -29,11 +31,16 @@ class MapBoard extends Component {
       currentDay: '',
       directions: [],
       colors: ['#56aee2', '#5568e2', '#8a55e2', '#cf56e2', '#e256ae', '#e25668', '#e28956', '#e2d055', '#aee255', '#68e256', '#56e289'],
-      lineStyle: ''
+      lineStyle: '',
+      open: false,
+      selectedActivity: {}
     }
 
     this.handleButtonClick = this.handleButtonClick.bind(this)
-    this.handlePopupClick = this.handlePopupClick.bind(this)
+    // this.handlePopupClick = this.handlePopupClick.bind(this)
+    this.dateRange = this.dateRange.bind(this)
+    this.onOpenModal = this.onOpenModal.bind(this)
+    this.onCloseModal = this.onCloseModal.bind(this)
   }
 
   componentWillMount(){
@@ -90,7 +97,13 @@ class MapBoard extends Component {
       // this.props.getRoutes(routes)
       this.setState({activities: dates})
     })
+
   }
+  dateRange(day) {
+    let splitDate = day.split('-')
+    let newDate = [splitDate[1], splitDate[2], splitDate[0]]
+    return newDate.join('/')
+   }
 
   handleButtonClick(e) {
     let selectedDay = e.target.value
@@ -98,7 +111,7 @@ class MapBoard extends Component {
     let coordinates = this.state.activities[selectedDay].coordinates.join(';')
     this.setState({currentDay: selectedDay, directions: [], lineStyle: style})
     if (this.state.activities[selectedDay].coordinates.length > 1){
-    axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${coordinates}?geometries=geojson&overview=full&steps=true&access_token=pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw`)
+    axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${coordinates}?geometries=geojson&overview=full&annotations=distance&steps=true&access_token=pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw`)
       .then(res => {
         this.setState({directions: res.data.routes[0].geometry.coordinates})
       })
@@ -106,42 +119,44 @@ class MapBoard extends Component {
     }
   }
 
-  handlePopupClick(e){
-    return(
-      <h1>Test</h1>
-    )
+  onOpenModal(){
+    this.setState({ ...this.state, open: true });
+  }
+
+  onCloseModal(){
+    this.setState({ ...this.state, open: false });
   }
 
   render() {
     let counter = 0
     let currentColor
-    let marker = new mapboxgl.Marker()
     let days = Object.keys(this.state.activities)
     days = days.sort()
     let currentDay = this.state.currentDay
     let colors = this.state.colors
     return (
-      <div>
-        <h1 className="capitalized-header">MAP</h1>
+      <div className="whole-map-container">
         <div className="button-container">
           {
             days.map(day => {
               currentColor = colors[counter++ % colors.length]
               return (
-                <button style={{backgroundColor: currentColor}} className="map-button" value={day} onClick={this.handleButtonClick}>{day}</button>
+                <button style={{backgroundColor: currentColor}} className="map-button" value={day} onClick={this.handleButtonClick}>{this.dateRange(day)}</button>
               )
             })
           }
         </div>
+      <div className="actual-map">
       <this.Map
-      className="map-container"
       style="mapbox://styles/mapbox/streets-v9"
-      zoom={[4]}
-      center={[-98.35, 39.50]
+      zoom={[5]}
+      center={currentDay ? this.state.activities[currentDay].coordinates[0] : [-98.35, 39.50]
       }
       containerStyle={{
-        height: "90vh",
-        width: "90vw"
+        height: '100vh',
+        width: '100vw',
+        textAlign: 'left',
+        position: 'fixed'
       }}>
 
           {
@@ -166,14 +181,22 @@ class MapBoard extends Component {
                             coordinates={[singleDayActivity.long, singleDayActivity.lat]}/>
                           </Layer>
                           <Popup
+                            value={singleDayActivity.name}
                             coordinates={[singleDayActivity.long, singleDayActivity.lat]}
                             offset={{
                               'bottom-left': [12, -38], 'bottom': [0, -38], 'bottom-right': [-12, -38]
                             }}
-                            onClick={this.handlePopupClick}
+                            onClick={this.onOpenModal}
                             >
                             <div>
-                            <img className="popup-thumbnail" src={singleDayActivity.imageUrl}/>
+                            <em>{singleDayActivity.time}</em>
+                            <br />
+                            <b>{singleDayActivity.name}</b>
+                            <ReactTooltip />
+                            <br />
+                            Last updated by: <a data-tip={singleDayActivity.userUpdated}>
+                              <Gravatar className="gravatar" email={singleDayActivity.userUpdated} size={12} />
+                            </a>
                             </div>
                           </Popup>
                         </div>
@@ -194,6 +217,7 @@ class MapBoard extends Component {
             </Layer>
           }
       </this.Map>
+      </div>
       </div>
     )
   }
@@ -221,6 +245,3 @@ let mapDispatchToProps = dispatch => {
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MapBoard))
-
-
-
