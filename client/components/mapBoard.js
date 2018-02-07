@@ -17,11 +17,7 @@ const times = ['breakfast',
   'evening'
 ]
 
-if (process.env.NODE_ENV !== 'production') require('../../secrets')
-console.log('process.env', process.env.NODE_ENV)
-
-
-let token = process.env.MAPBOX
+let token = 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw'
 
 class MapBoard extends Component {
   constructor(props) {
@@ -94,11 +90,11 @@ class MapBoard extends Component {
         return coordinate
       })
       let routes = dates[day].coordinates
-      // this.props.getRoutes(routes)
       this.setState({activities: dates})
     })
 
   }
+
   dateRange(day) {
     let splitDate = day.split('-')
     let newDate = [splitDate[1], splitDate[2], splitDate[0]]
