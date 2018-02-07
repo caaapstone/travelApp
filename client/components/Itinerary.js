@@ -146,7 +146,7 @@ class Itinerary extends Component {
   render(){
     const bgImage = 'https://images.unsplash.com/photo-1508669232496-137b159c1cdb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5e05e923eadbc20a00da3a1a441dd3e3&auto=format&fit=crop&w=934&q=80'
     let days = Object.keys(this.state.activities)
-    days = days.sort().slice(1)
+    days = days.sort()
           console.log(days)
     let {membership} = this.props
     if (!membership.length) return <div />
