@@ -30,6 +30,7 @@ const update = membership => ({type: UPDATE_MEMBERSHIP, membership})
     }
   }
 
+  // gets all users for one trip
   export let getMembership = tripId => dispatch => {
     axios.get(`/api/memberships/${tripId}`)
       .then(res => {
