@@ -53,8 +53,6 @@ export class CalendarBoard extends React.Component {
       this.props.getTripUsers(tripId)
     }
     this.state.drake.on('drop', (el, target, source, sibling) => {
-      // PER COLLIN: Can probably derive order based on sibling...
-      console.log('dropped!')
       let now = new Date
       let timeUpdated = now.getTime()
       let userUpdated = this.props.user.email
@@ -145,6 +143,7 @@ export class CalendarBoard extends React.Component {
               <button className="button scheduler-buttons" onClick={this.toggleAllIdeas}>All Ideas</button>
               <button className="button scheduler-buttons" onClick={this.toggleMyIdeas}>My Ideas</button>
               <div
+                id="ideas"
                 className="group-ideas-container dragula-container"
                 ref={this.dragulaDecorator}
               >
