@@ -17,7 +17,11 @@ const times = ['breakfast',
   'evening'
 ]
 
-let token = 'pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw'
+if (process.env.NODE_ENV !== 'production') require('../../secrets')
+console.log('process.env', process.env.NODE_ENV)
+
+
+let token = process.env.MAPBOX
 
 class MapBoard extends Component {
   constructor(props) {

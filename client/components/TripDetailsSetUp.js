@@ -182,6 +182,7 @@ handleCityChange = (evt) => {
               id="defaultBudget"
               name="defaultBudget"
               onChange={this.handleBudgetChange}
+              placeholder={`$${this.props.trip.defaultBudget}`}
               />
               <p>(*your friends can adjust their budget once they join the trip!)</p>
               <label>Pick your dates:</label>
@@ -197,6 +198,7 @@ handleCityChange = (evt) => {
                 type="date"
                 onChange={this.handleDepartureChange}
               />
+              <br/>
               <br/>
               <label>Where are you flying from?</label>
               <div id="airport-search-container">
