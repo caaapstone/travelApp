@@ -26,7 +26,7 @@ const Trip = db.define('trip', {
       let arrival = new Date(this.getDataValue('arrivalDate'))
       let departure = new Date(this.getDataValue('departureDate'))
 
-      return (((departure - arrival)/86400000)+1)
+      return (((departure - arrival)/86400000))
     }
   },
   lat: {
