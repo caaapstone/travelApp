@@ -73,12 +73,16 @@ class Itinerary extends Component {
   }
 
   createDate = date => {
-    let myDate = new Date(date).toDateString()
+    console.log("passed in date", date)
+    let myDate = new Date(date)
+    myDate.setDate(myDate.getDate() + 1)
+    myDate = myDate.toDateString()
     let weekday = myDate.slice(0,3)
     let month = myDate.slice(4,7)
     let day = myDate.slice(8,10) + ", "
     let year = myDate.slice(11)
 
+    console.log("myDate", myDate)
     //weekday
     if (weekday == 'Sat') {
       weekday = 'Saturday,'
