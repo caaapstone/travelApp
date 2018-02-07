@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Link} from 'react-router-dom'
-import { fetchUserTrips, deleteMembership } from '../store'
+import { fetchUserTrips, deleteMembership, postTrip } from '../store'
 import history from '../history'
 import BasicPieCart from './insights'
 
@@ -25,6 +25,12 @@ class UserDashboard extends Component {
    let splitDate = trip.split('-')
    let newDate = [splitDate[1], splitDate[2], splitDate[0]]
    return newDate.join('/')
+  }
+
+  submitTrip = (event) =>{
+    event.preventDefault()
+    const userId = this.props.user.id
+    this.props.createTrip(userId)
   }
 
 
@@ -54,7 +60,7 @@ class UserDashboard extends Component {
             <div id="adventure">
               <h1 className="raleway">Start your next adventure.</h1>
               <p>Invite your friends, set your budgets and we'll let you know where you can go and help you plan what you can do!</p>
-              <button className="button" onClick={() => history.push('/createtrip')}>Create a Trip</button>
+              <button className="button" onClick={this.submitTrip}>Create a Trip</button>
             </div>
             <div className="center-vertically">
               <img src="/images/map.png" id="map-image" />
@@ -200,6 +206,13 @@ const mapDispatch = (dispatch) => {
     },
     removeMembership (ids) {
       dispatch(deleteMembership(ids))
+    },
+    createTrip: (userId, trip) => {
+      return dispatch(postTrip(userId, trip))
+      .then(trip =>{
+        let tripId = trip.trip.id
+        history.push(`/trips/tripdetails/${tripId}`)
+      })
     }
   }
 }
