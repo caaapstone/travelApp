@@ -163,7 +163,7 @@ class IdeaBoard extends Component {
         <div id="boards">
           <div className="idea-search">
             <h2 className="purple-sub-head">Activity Search</h2>
-            <p>Click on a popular category below, or search on your own.</p>
+            <p>Click on a popular category below for a quick search, or search on your own. Then, drag your favorites over to your idea board.</p>
             <div className="search-icons">
               <img onClick={(event) => this.createIdeas(event, 'museums')} src="/001-banks.svg" className="icon" />
               <img onClick={(event) => this.createIdeas(event, 'coffee')} src="/002-coffee.svg" className="icon" />
@@ -197,7 +197,6 @@ class IdeaBoard extends Component {
           </div>
           <div id="user">
             <div className="header-and-trash">
-              <h1 className="idea-header capitalized-header">MY IDEA BOARD</h1>
               <img id="trash" className="trash" src={this.state.trashImg} ref={this.dragulaDecorator} />
             </div>
             <div id="my-ideas" className="idea-board dragula-container" ref={this.dragulaDecorator}>
@@ -211,7 +210,7 @@ class IdeaBoard extends Component {
             </div>
           </div>
           <div id="group">
-            <h1 className="purple-sub-head">GROUP IDEAS</h1>
+            <h2 className="purple-sub-head">Group Ideas</h2>
             <p>Take a look at your friends' ideas! You can even drag them into your own idea board.</p>
             <div id="friends-ideas" className="friend-ideas dragula-container" ref={this.dragulaDecorator}>
               {

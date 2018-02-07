@@ -154,28 +154,67 @@ export class CalendarBoard extends React.Component {
             </div>
 
             <div className="calendar-container-and-header">
-            <h1 className="capitalized-header">SCHEDULER</h1>
             <div className="calendar-container">
+              <div>
+                <div className="calendar-day-date" />
+                  <div className="calendar-day-time-container">
+                    <div id="breakfast" className="time-of-day-container">
+                      <div className="time-of-day">Breakfast</div>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="calendar-day-time-container">
+                    <div id="morning" className="time-of-day-container">
+                      <div className="time-of-day">Morning</div>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="calendar-day-time-container">
+                    <div id="lunch" className="time-of-day-container">
+                      <div className="time-of-day">Lunch</div>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="calendar-day-time-container">
+                    <div id="afternoon" className="time-of-day-container">
+                      <div className="time-of-day">Afternoon</div>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="calendar-day-time-container">
+                    <div id="dinner" className="time-of-day-container">
+                      <div className="time-of-day">Dinner</div>
+                    </div>
+                  </div>
+                  <br />
+                  <div className="calendar-day-time-container">
+                    <div id="evening" className="time-of-day-container">
+                      <div className="time-of-day">Evening</div>
+                    </div>
+                  </div>
+                </div>
                 {
                   dates.map(day => {
                     return (
-                      <div className="calendar-day-container">
-                        <h3 className="calendar-day date">{day}</h3>
-                        <div
-                          id="breakfast"
-                          ref={this.dragulaDecorator}
-                          title={day}
-                          className="dragula-container"
-                        >
-                          {
-                            breakfast.filter(breakfastActivity => {
-                              return breakfastActivity.date === day
-                            }).map(activity => {
-                              return (
-                                <DraggableActivity activity={activity} key={activity.id} />
-                              )
-                            })
-                          }
+                      <div>
+                        <h3 className="calendar-day date">{day.slice(5) + '-' + day.slice(0,4)}</h3>
+                        <div className="calendar-day-container">
+                          <div
+                            id="breakfast"
+                            ref={this.dragulaDecorator}
+                            title={day}
+                            className="dragula-container"
+                          >
+                            {
+                              breakfast.filter(breakfastActivity => {
+                                return breakfastActivity.date === day
+                              }).map(activity => {
+                                return (
+                                  <DraggableActivity activity={activity} key={activity.id} />
+                                )
+                              })
+                            }
+                          </div>
                         </div>
                         <br />
                         <div className="calendar-day-container">
