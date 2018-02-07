@@ -119,11 +119,11 @@ export class CalendarBoard extends React.Component {
       let ideaActivities = []
       if (this.state.ideasToggle === 'mine'){
         ideaActivities = this.props.activities.filter(activity => {
-          return activity.isActive === false && activity.users['U' + user] === true
+          return !activity.isActive === false && activity.users['U' + user] === true
         })
       } else if (this.state.ideasToggle === 'all'){
         ideaActivities = this.props.activities.filter(activity => {
-          return activity.isActive
+          return !activity.isActive
         })
       }
 
