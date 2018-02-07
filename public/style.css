@@ -1175,7 +1175,6 @@ button:focus {
 .popup-thumbnail {
   max-width: 150px;
   max-height: 100px;
-  align-items: center
 }
 .full-page-center{
   width: 90%;
@@ -1325,7 +1324,7 @@ button:focus {
   cursor: pointer;
   /* margin-left: 1px;
   margin-right: 1px; */
-  margin: 1rem, 1rem, 1rem, 1rem;
+  margin-bottom: .5rem;
   padding: .5rem 2rem;
 }
 
