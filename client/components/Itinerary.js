@@ -72,19 +72,22 @@ class Itinerary extends Component {
 
   }
 
+
+
   render(){
     const bgImage = 'https://images.unsplash.com/photo-1508669232496-137b159c1cdb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5e05e923eadbc20a00da3a1a441dd3e3&auto=format&fit=crop&w=934&q=80'
     let days = Object.keys(this.state.activities)
-    days = days.sort()
+    days = days.sort().slice(1)
+          console.log(days)
     let {membership} = this.props
     if (!membership.length) return <div />
     return (
       <Parallax
-      bgImage={bgImage}
-      bgImageAlt="plane"
-      strength={300}
-      bgStyle ={{width: '100%', opacity: .7}}
-    >
+        bgImage={bgImage}
+        bgImageAlt="plane"
+        strength={300}
+        bgStyle ={{width: '100%', opacity: .7}}
+      >
       <div className="itinerary-page">
       <h1>Itinerary</h1>
       <h2>Friends on Trip</h2>
@@ -103,14 +106,16 @@ class Itinerary extends Component {
       </div>
       <h1 className="city-title"><span>{this.props.trip.destinationCity}, {this.props.trip.destinationState}</span></h1>
       <h2>Activities Schedule</h2>
+
       {
         days.map(day => {
           let schedTimes = times.filter(time => !!this.state.activities[day][time])
           let singleDayAllActivities = this.state.activities[day]
+          console.log("day", day)
           return (
             <div key={day} className="itinerary-activities">
               <div className="itinerary-date">
-                <h3>{day}</h3>
+                <h3>{new Date(day).toDateString()}</h3>
               </div>
               <div className="activity-info-group">
             {
@@ -124,12 +129,12 @@ class Itinerary extends Component {
                   let phone = activity.yelpInfo.phone
                   return (
                       <div className="individual-activity">
-                        <span>
+                        <div className="individual-activity-div">
                         <h4 key={activity.name}>{activity.name}</h4>
                         <p key={phone}>Phone Number: {phone}</p>
                         <p key={location.address1}>{location.address1}</p>
                         <p key={location.zip_code}>{location.city}, {location.state} {location.zip_code}</p>
-                        </span>
+                        </div>
                       </div>
                       )
                   })}

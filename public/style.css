@@ -1022,8 +1022,6 @@ button:focus {
   margin: auto;
 }
 
-/*ITINERARY START */
-
 .map-container{
   border: 1px solid #C4C7D1;
   position: absolute;
@@ -1033,6 +1031,8 @@ button:focus {
   bottom: 3rem;
   left: 0;
 }
+/*ITINERARY START */
+
 
 .itinerary-page{
   display: flex;
@@ -1086,17 +1086,23 @@ button:focus {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
+
 .itinerary-date {
+  border-top: 1px solid #C4C7D1;
   width: 50%;
   align-self: flex-start;
-  background-color: rgba(174, 217, 224, 0.5);
   text-align: right;
-      padding-right: 5%;
 }
+
+.itinerary-date h3{
+  background-color: rgba(174, 217, 224, 0.5);
+  padding: 5%;
+}
+
 .activity-info-group {
   width: 50%;
   border-left: 1px solid #C4C7D1;
-  border-bottom: 1px solid #C4C7D1;
+  border-top: 1px solid #C4C7D1;
 
 }
 
@@ -1121,39 +1127,28 @@ button:focus {
   margin: 2%;
 }
 
-
-
-/*.individual-activity{
-     overflow: hidden;
-     text-align: center;
- }
-.individual-activity > span{
-    position: relative;
-    display: inline-block;
-}*/
-.individual-activity > span:before{
+/*.individual-activity > span:before{
     content: '';
     position: absolute;
     top: 50%;
     border-bottom: 4px solid #C4C7D1;
-    width: 591px; /* half of limiter*/
+    width: 591px;
     margin: 0 20px;
 }
 .individual-activity > span:before{
     right: 100%;
-}
-
-
+}*/
 
 .individual-activity h4 {
   font-weight: bold;
   font-size: 1.1rem;
 }
+
 /*ITINERARY END*/
-=======
+
 @keyframes fadeIn {
-	0% { opacity: 0 }
-	100% { opacity: 1 }
+  0% { opacity: 0 }
+  100% { opacity: 1 }
 }
 
 .landing-logo-icon{
@@ -1183,7 +1178,6 @@ button:focus {
 }
 
 /* .map-popup{
-
 } */
 
 .popup-thumbnail {
@@ -1328,6 +1322,7 @@ button:focus {
 
 .top-city-link{
   color: black;
+}
 
 .map-button {
   border: none;
@@ -1346,4 +1341,11 @@ button:focus {
   flex-direction: row;
   justify-content: center;
   display: flex;
+}
+
+#trip-dashboard-flex-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
 }
