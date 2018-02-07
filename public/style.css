@@ -4,6 +4,11 @@ a{
   text-decoration: none;
 }
 
+label {
+    display: block;
+    margin-top: 1rem;
+}
+
 .nav-links{
   color: #B7B8C6;
   height: 100%;
@@ -993,12 +998,13 @@ button:focus {
 }
 
 .trip-info {
-  border: 1px solid #C4C7D1;
-  width: 270px;
-  text-align: center;
-  padding-bottom: 1rem;
-  margin-bottom: 2rem;
-  margin-right: 2rem;
+    border: 1px solid #C4C7D1;
+    width: 271px;
+    text-align: center;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
 }
 
 .trip-info-header{
