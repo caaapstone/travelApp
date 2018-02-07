@@ -108,7 +108,7 @@ handleCityChange = (evt) => {
       this.setState({isLoading: true})
       axios.get('https://api.sandbox.amadeus.com/v1.2/airports/autocomplete', {
         params: {
-          apikey: 'oVskbtEyd75zVOEaxQ0qR5ZvpOejXExA',
+          apikey: 'lCBkNzEA1atSXjsWbDvWaIW2lvjPdwAz',
           term: airportSearch
         }
       })

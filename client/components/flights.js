@@ -114,7 +114,8 @@ class Flights extends Component {
         ZK:	'Great Lakes'
       },
       loading: false,
-      userFlightLoad: true
+      userFlightLoad: true,
+      imageCount: 1
     }
 
     this.findFlights = this.findFlights.bind(this)
@@ -238,6 +239,7 @@ class Flights extends Component {
 
   upVote(e) {
     const {getUsersOnTrip} = this.props
+    console.log(e.target)
     let city = e.target.value
     axios.post('/api/destinations/upvote', {
       airport: e.target.value,
@@ -363,6 +365,8 @@ class Flights extends Component {
       getUsersOnTrip(this.props.match.params.tripId)
     }
 
+    let counter = 0
+
     return (
       <div className="two-rem-padding">
         <div id="flight-search-header">
@@ -439,14 +443,14 @@ class Flights extends Component {
             ? <div>
               {possibleCities.map(city => (
                 <div key={city.airport} className="possible-city-container">
-                  <div>
-                    <img src="/airplane.jpg" className="possible-city-image"/>
+                  <div className="relative-container">
+                    <img src={`/images/travel-search/${counter++ % 12}.jpg`} className="possible-city-image"/>
                     <p className="possible-city-code">{city.airport}</p>
                   </div>
                   <div className="possible-city-info">
                     <div className="flex">
                       <div>
-                        <h3>{city.city + ', ' + city.state}</h3>
+                        <h3 className="raleway">{city.city + ', ' + city.state}</h3>
                       </div>
                       <div className="center-vertically">
                         {
@@ -480,6 +484,7 @@ class Flights extends Component {
                     </div>
                   </div>
                 </div>
+
               ))}
             </div>
             :  (organizer.length && organizer[0].organizer)
