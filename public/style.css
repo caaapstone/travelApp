@@ -242,19 +242,19 @@ a {
 .possible-city-image{
   width: 400px;
   position: relative;
-  transform: translate(0, -200px);
+  transform: translate(0, -10%);
 }
 
 .possible-city-code{
   position: relative;
-  transform: translate(0, -525px);
-  color: white;
-  margin: auto;
-  text-align: center;
-  font-size: 3rem;
-  font-weight: 100;
-  letter-spacing: .8rem;
-  font-family: 'Raleway', sans-serif;
+    transform: translate(0, -200px);
+    color: white;
+    margin: auto;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 100;
+    letter-spacing: .8rem;
+    font-family: 'Raleway', sans-serif;
 }
 
 .possible-city-info{
@@ -1374,4 +1374,8 @@ button:focus {
   align-items: center;
   padding: 0 1rem;
   color: #7E4E60;
+}
+
+.relative-container{
+  position: relative;
 }
