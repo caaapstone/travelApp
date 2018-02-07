@@ -145,7 +145,7 @@ class MapBoard extends Component {
       <div className="actual-map">
       <this.Map
       style="mapbox://styles/mapbox/streets-v9"
-      zoom={[5]}
+      zoom={[7]}
       center={currentDay ? this.state.activities[currentDay].coordinates[0] : [-98.35, 39.50]
       }
       containerStyle={{
