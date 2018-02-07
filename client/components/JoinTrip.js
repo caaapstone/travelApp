@@ -26,7 +26,7 @@ export class JoinTrip extends Component {
     event.preventDefault()
     let membership = {
       userCity: event.target.startingCity.value,
-      userState: event.target.startingState.value,
+      userState: '',
       flightBudget: event.target.flightBudget.value,
       userId: this.props.user.id,
       tripId: this.props.trip.id
