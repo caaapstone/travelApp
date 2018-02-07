@@ -72,7 +72,76 @@ class Itinerary extends Component {
 
   }
 
+  createDate = date => {
+    let myDate = new Date(date).toDateString()
+    let weekday = myDate.slice(0,3)
+    let month = myDate.slice(4,7)
+    let day = myDate.slice(8,10) + ", "
+    let year = myDate.slice(11)
 
+    //weekday
+    if (weekday == 'Sat') {
+      weekday = 'Saturday,'
+    }
+    if (weekday == 'Sun') {
+      weekday = 'Sunday,'
+    }
+    if (weekday == 'Mon') {
+      weekday = 'Monday,'
+    }
+    if (weekday == 'Tue') {
+      weekday = 'Tuesday,'
+    }
+    if (weekday == 'Wed') {
+      weekday = 'Wednesday,'
+    }
+    if (weekday == 'Thu') {
+      weekday = 'Thursday,'
+    }
+    if (weekday == 'Fri') {
+      weekday = 'Friday,'
+    }
+
+    //month
+    if (month == 'Jan') {
+      month = 'January'
+    }
+    if (month == 'Feb') {
+      month = 'February'
+    }
+    if (month == 'Mar') {
+      month = 'March'
+    }
+    if (month == 'Apr') {
+      month = 'April'
+    }
+    if (month == 'May') {
+      month = 'May'
+    }
+    if (month == 'Jun') {
+      month = 'June'
+    }
+    if (month == 'Jul') {
+      month = 'July'
+    }
+    if (month == 'Aug') {
+      month = 'August'
+    }
+    if (month == 'Sep') {
+      month = 'September'
+    }
+    if (month == 'Oct') {
+      month = 'October'
+    }
+    if (month == 'Nov') {
+      month = 'November'
+    }
+    if (month == 'Dec') {
+      month = 'December'
+    }
+    let fullDate = weekday + ' ' + month + ' ' + day + year
+    return fullDate
+  }
 
   render(){
     const bgImage = 'https://images.unsplash.com/photo-1508669232496-137b159c1cdb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5e05e923eadbc20a00da3a1a441dd3e3&auto=format&fit=crop&w=934&q=80'
@@ -111,11 +180,10 @@ class Itinerary extends Component {
         days.map(day => {
           let schedTimes = times.filter(time => !!this.state.activities[day][time])
           let singleDayAllActivities = this.state.activities[day]
-          console.log("day", day)
           return (
             <div key={day} className="itinerary-activities">
               <div className="itinerary-date">
-                <h3>{new Date(day).toDateString()}</h3>
+                <h3>{this.createDate(day)}</h3>
               </div>
               <div className="activity-info-group">
             {
