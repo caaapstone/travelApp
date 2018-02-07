@@ -145,7 +145,7 @@ handleCityChange = (evt) => {
     return (
             <div className="createTrip-container">
               <div className="createTrip-inner-container">
-              <h1 className="capitalized-header">Trip Details for {this.props.trip.name}</h1>
+              <h1 className="capitalized-header">Trip Details</h1>
               <form onSubmit={this.changeTrip}>
               <label>Name your trip:</label>
                 <input
@@ -198,7 +198,6 @@ handleCityChange = (evt) => {
                 type="date"
                 onChange={this.handleDepartureChange}
               />
-              <br/>
               <br/>
               <label>Where are you flying from?</label>
               <div id="airport-search-container">
