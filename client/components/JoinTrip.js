@@ -31,31 +31,28 @@ componentDidMount() {
 render(){
 console.log(this.props)
   return (
-          <div>
-            <h1>Trip Details</h1>
-            <h3>The budget for this trip is {this.props.trip.defaultBudget}</h3>
+            <div className="createTrip-container">
+              <div className="createTrip-inner-container">
+            <h1 className="capitalized-header">Trip Details</h1>
+            <h3>The budget for this trip is ${this.props.trip.defaultBudget}</h3>
             <form onSubmit={this.submitMembership}>
             <label>You can adjust your personal budget here:</label>
             <input
-              placeholder= "flight budget"
+              className="airline-input"
               id="flightBudget"
               name="flightBudget"
               required
             />
             <label>Where are you coming from?</label>
             <input
+              className="airline-input"
               id="startingCity"
               name="startingCity"
               required
             />
-            <input
-              id="startingState"
-              name="startingState"
-              required
-            />
-
-            <button>Join the trip!</button>
+            <button className="button center-loading">Join the trip!</button>
             </form>
+            </div>
           </div>
           )
         }
