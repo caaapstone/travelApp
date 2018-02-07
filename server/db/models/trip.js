@@ -21,7 +21,13 @@ const Trip = db.define('trip', {
     type: Sequelize.DATEONLY
   },
   duration: {
-    type: Sequelize.INTEGER
+    type: Sequelize.VIRTUAL,
+    get() {
+      let arrival = new Date(this.getDataValue('arrivalDate'))
+      let departure = new Date(this.getDataValue('departureDate'))
+
+      return (((departure - arrival)/86400000))
+    }
   },
   lat: {
     type: Sequelize.STRING
@@ -48,11 +54,12 @@ const Trip = db.define('trip', {
   }
 })
 
-Trip.hook('beforeValidate', (trip) => {
+Trip.hook('beforeUpdate', (trip) => {
+  console.log('trip info: ', trip)
   let arrival = new Date(trip.arrivalDate)
   let departure = new Date(trip.departureDate)
 
-  trip.duration = (((departure-arrival)/86400000)+1)
+  trip.duration = (((departure - arrival)/86400000)+1)
 })
 
 module.exports = Trip

@@ -73,12 +73,16 @@ class Itinerary extends Component {
   }
 
   createDate = date => {
-    let myDate = new Date(date).toDateString()
+    console.log("passed in date", date)
+    let myDate = new Date(date)
+    myDate.setDate(myDate.getDate() + 1)
+    myDate = myDate.toDateString()
     let weekday = myDate.slice(0,3)
     let month = myDate.slice(4,7)
     let day = myDate.slice(8,10) + ", "
     let year = myDate.slice(11)
 
+    console.log("myDate", myDate)
     //weekday
     if (weekday == 'Sat') {
       weekday = 'Saturday,'
@@ -146,7 +150,7 @@ class Itinerary extends Component {
   render(){
     const bgImage = 'https://images.unsplash.com/photo-1508669232496-137b159c1cdb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5e05e923eadbc20a00da3a1a441dd3e3&auto=format&fit=crop&w=934&q=80'
     let days = Object.keys(this.state.activities)
-    days = days.sort().slice(1)
+    days = days.sort()
           console.log(days)
     let {membership} = this.props
     if (!membership.length) return <div />
