@@ -1175,6 +1175,7 @@ button:focus {
 .popup-thumbnail {
   max-width: 150px;
   max-height: 100px;
+  align-items: center
 }
 .full-page-center{
   width: 90%;
@@ -1313,6 +1314,7 @@ button:focus {
 
 .top-city-link{
   color: black;
+}
 
 .map-button {
   border: none;
@@ -1323,14 +1325,14 @@ button:focus {
   cursor: pointer;
   /* margin-left: 1px;
   margin-right: 1px; */
-  margin: auto;
+  margin: 1rem, 1rem, 1rem, 1rem;
   padding: .5rem 2rem;
 }
 
 .whole-map-container{
   display: flex;
   flex-direction: row;
-  position: fixed
+  position: fixed;
   /* border: 1px solid #C4C7D1;
   display: flex;
   position: fixed;
@@ -1347,13 +1349,17 @@ button:focus {
   flex-direction: column;
   display: flex;
   z-index: 99;
+  justify-content: space-around;
+  padding-left: 2rem;
+  padding-top: 2rem
   /* padding: auto;
   position: fixed */
 }
 
 .actual-map {
   position: fixed;
-  align-items: center
+  align-items: center;
+  z-index: -99
   /* margin: 2.5% 2.5% 2.5% 2.5%; */
   /* z-index: -4 */
   /* height: 50%;

@@ -6,6 +6,9 @@ import mapboxgl from 'mapbox-gl'
 import firebase from '../firebase'
 import {withRouter} from 'react-router-dom'
 import axios from 'axios'
+import Gravatar from 'react-gravatar'
+import ReactTooltip from 'react-tooltip'
+import Modal from 'react-responsive-modal'
 
 const times = ['breakfast',
   'morning',
@@ -32,6 +35,7 @@ class MapBoard extends Component {
 
     this.handleButtonClick = this.handleButtonClick.bind(this)
     this.handlePopupClick = this.handlePopupClick.bind(this)
+    this.dateRange = this.dateRange.bind(this)
   }
 
   componentWillMount(){
@@ -90,6 +94,12 @@ class MapBoard extends Component {
     })
   }
 
+  dateRange(day) {
+    let splitDate = day.split('-')
+    let newDate = [splitDate[1], splitDate[2], splitDate[0]]
+    return newDate.join('/')
+   }
+
   handleButtonClick(e) {
     let selectedDay = e.target.value
     let style = e.target.style.backgroundColor
@@ -123,7 +133,7 @@ class MapBoard extends Component {
             days.map(day => {
               currentColor = colors[counter++ % colors.length]
               return (
-                <button style={{backgroundColor: currentColor}} className="map-button" value={day} onClick={this.handleButtonClick}>{day}</button>
+                <button style={{backgroundColor: currentColor}} className="map-button" value={day} onClick={this.handleButtonClick}>{this.dateRange(day)}</button>
               )
             })
           }
@@ -131,8 +141,8 @@ class MapBoard extends Component {
       <div className="actual-map">
       <this.Map
       style="mapbox://styles/mapbox/streets-v9"
-      zoom={[3]}
-      center={[-98.35, 39.50]
+      zoom={[5]}
+      center={currentDay ? this.state.activities[currentDay].coordinates[0] : [-98.35, 39.50]
       }
       containerStyle={{
         height: '100vh',
@@ -152,6 +162,7 @@ class MapBoard extends Component {
                   singleDayActivities = filteredDay[activeTime]
                   return (
                     singleDayActivities.map(singleDayActivity => {
+                      console.log('singleDayActivity', singleDayActivity)
                       return (
                         <div>
                           <Layer
@@ -170,7 +181,14 @@ class MapBoard extends Component {
                             onClick={this.handlePopupClick}
                             >
                             <div>
-                            <img className="popup-thumbnail" src={singleDayActivity.imageUrl}/>
+                            <em>{singleDayActivity.time}</em>
+                            <br />
+                            <b>{singleDayActivity.name}</b>
+                            <ReactTooltip />
+                            <br />
+                            Last updated by: <a data-tip={singleDayActivity.userUpdated}>
+                              <Gravatar className="gravatar" email={singleDayActivity.userUpdated} size={12} />
+                            </a>
                             </div>
                           </Popup>
                         </div>
