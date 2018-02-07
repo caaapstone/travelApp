@@ -11,7 +11,7 @@ const yelp = require('yelp-fusion');
 
 // Place holder for Yelp Fusion's API Key. Grab them
 // from https://www.yelp.com/developers/v3/manage_app
-let apiKey = '8z4I_13yqULHbTtL6mNePY_2n2r57MNfYDsdlQhdXBynqKxMn_E5ayFiSsh4VHF0YQaWWAi2wB1Xi01PBuc9jEX3nTHAg0Yl16kVXw0C6bxORko0RQV-cyB5xRNqWnYx';
+let apiKey = process.env.YELP_API_KEY;
 
 const client = yelp.client(apiKey);
 
