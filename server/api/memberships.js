@@ -5,12 +5,14 @@ const {isUser, isTripUser} = require('../middleware.js')
 
 module.exports = router
 
+// get all memberships
 router.get('/', (req, res, next) => {
   Membership.findAll()
     .then(memberships => res.json(memberships))
     .catch(next)
 })
 
+// get all users for one trip
 router.get('/:tripId', (req, res, next) => {
   let tripId = req.params.tripId
   console.log('tripId', tripId)
@@ -25,6 +27,7 @@ router.get('/:tripId', (req, res, next) => {
   .catch(next)
 })
 
+// create membership
 router.post('/', function (req, res, next) {
   Membership.create(req.body)
   .then(membership => res.json(membership))
