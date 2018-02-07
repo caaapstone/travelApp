@@ -26,10 +26,6 @@ let LandingPage = () => {
         </div>
       </div>
     </Parallax>
-    <Parallax>
-      <Login />
-      <Signup />
-    </Parallax>
     </div>
     </div>
   )
