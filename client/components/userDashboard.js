@@ -50,7 +50,10 @@ class UserDashboard extends Component {
 
     let invitations = userTrips.filter(trip => trip.joined === false && !trip.organizer)
     let currentDate = Date.now()
-    let trips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) > currentDate))
+    let trips = userTrips.filter(trip => {
+                      console.log("trip", trip)
+                      return trip.flightBudget && (new Date(trip.trip.arrivalDate) > currentDate) && trip.trip.arrivalDate !== null && trip.trip.departureDate !== null
+                    })
     let pastTrips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) < currentDate))
 
     if (userTrips){

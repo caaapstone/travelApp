@@ -82,7 +82,6 @@ class Itinerary extends Component {
     let day = myDate.slice(8,10) + ", "
     let year = myDate.slice(11)
 
-    console.log("myDate", myDate)
     //weekday
     if (weekday == 'Sat') {
       weekday = 'Saturday,'
