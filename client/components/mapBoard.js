@@ -130,7 +130,6 @@ class MapBoard extends Component {
     days = days.sort()
     let currentDay = this.state.currentDay
     let colors = this.state.colors
-
     return (
       <div className="whole-map-container">
         <div className="button-container">
@@ -146,8 +145,9 @@ class MapBoard extends Component {
       <div className="actual-map">
       <this.Map
       style="mapbox://styles/mapbox/streets-v9"
-      maxZoom={[7]}
-      center={[-104.9903, 39.7392]}
+      maxZoom={[5]}
+      minZoom={[3]}
+      center={currentDay ? this.state.activities[currentDay].coordinates[0] : [-99.9018, 41.4925]}
       containerStyle={{
         height: '100vh',
         width: '100vw',
