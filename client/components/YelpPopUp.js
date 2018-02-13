@@ -4,7 +4,6 @@ export default class YelpPopUp extends Component {
 
   render() {
     let idea = this.props.activity
-    console.log("yelp popup", idea)
      // the 'activity' prop is an object and includes the following:
     // activityId, date, imageUrl, link, isActive, lat, long, name, time, tripId
   if (idea.name){

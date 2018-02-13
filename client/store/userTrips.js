@@ -19,7 +19,7 @@ export const fetchUserTrips = userId =>
     axios.get(`/api/trips/user/${userId}`)
       .then(res =>
         dispatch(getUserTrips(res.data)))
-      .catch(err => console.log(err))
+      .catch(err => console.error(err))
 
   export const deleteMembership = (ids) => (dispatch) => {
   dispatch(remove(ids));

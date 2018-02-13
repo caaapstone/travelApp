@@ -28,7 +28,6 @@ const setTripActivities = activities => ({type: SET_TRIP_ACTIVITIES, activities}
 
 export const subscribeToTripThunkCreator = (component, tripId) =>
   dispatch => {
-    console.log('we made it')
     const path = `/trips/T${tripId}`
     const ref = database.ref(path)
     const listener = snapshot => {
@@ -55,8 +54,8 @@ export const unsubscribeToTripThunkCreator = (component, tripId) =>
 
 export const updateActivity = (activityObj) =>
   axios.post('/api/activities/update', activityObj)
-    .then(() => {console.log('it worked?')})
-    .catch(err => console.log(err))
+    .then(() => {console.log('it worked')})
+    .catch(err => console.error(err))
 
 export const createActivity = (activityObj) =>
   axios.post('/api/activities/create', activityObj)

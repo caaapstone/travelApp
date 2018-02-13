@@ -17,12 +17,10 @@ class DraggableYelpResult extends Component {
 
   onOpenModal(activity){
     this.setState({ ...this.state, selectedActivity: activity, open: true });
-    console.log('this.state(open): ', this.state)
   }
 
   onCloseModal(){
     this.setState({ ...this.state, selectedActivity: '', open: false });
-    console.log('this.state(close): ', this.state)
   }
 
 

@@ -26,7 +26,7 @@ export const me = () =>
     axios.get('/auth/me')
       .then(res =>
         dispatch(getUser(res.data || defaultUser)))
-      .catch(err => console.log(err))
+      .catch(err => console.error(err))
 
 export const auth = (email, password, method) =>
   dispatch =>
@@ -46,7 +46,7 @@ export const logout = () =>
         dispatch(removeUser())
         history.push('/')
       })
-      .catch(err => console.log(err))
+      .catch(err => console.error(err))
 
 
 /**

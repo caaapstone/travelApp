@@ -45,7 +45,6 @@ import Loading from 'react-loading-components'
 /*Update Trip Details*/
   changeTrip = (event) => {
     event.preventDefault()
-    console.log(event.target)
     let tripId = this.props.match.params.tripId
     let userId = this.props.user.id
     let trip = {
@@ -113,7 +112,6 @@ handleCityChange = (evt) => {
         }
       })
       .then(results => {
-        console.log(results.data.slice(0,5))
         let airportResults = results.data.slice(0,5)
         this.setState({airports: airportResults, isLoading: false})
       })
@@ -138,7 +136,6 @@ handleCityChange = (evt) => {
       city.length > 0 &&
       state.length > 0;
 
-      console.log(isEnabled)
 
     const past = {before: new Date()}
     const {friendEmails} = this.state

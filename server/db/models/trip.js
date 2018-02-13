@@ -55,7 +55,6 @@ const Trip = db.define('trip', {
 })
 
 Trip.hook('beforeUpdate', (trip) => {
-  console.log('trip info: ', trip)
   let arrival = new Date(trip.arrivalDate)
   let departure = new Date(trip.departureDate)
 

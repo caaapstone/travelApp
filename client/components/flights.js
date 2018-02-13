@@ -239,7 +239,6 @@ class Flights extends Component {
 
   upVote(e) {
     const {getUsersOnTrip} = this.props
-    console.log(e.target)
     let city = e.target.value
     axios.post('/api/destinations/upvote', {
       airport: e.target.value,
@@ -247,7 +246,6 @@ class Flights extends Component {
       tripId: this.props.match.params.tripId
     })
     .then(result => {
-      console.log(result)
       if(result.status === 401) {
         this.upVoteError()
       } else{

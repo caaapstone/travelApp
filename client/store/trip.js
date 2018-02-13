@@ -23,7 +23,7 @@ export const fetchTrip = (tripId) =>
     axios.get(`/api/trips/${tripId}`)
       .then(res =>
         dispatch(getTrip(res.data)))
-      .catch(err => console.log(err))
+      .catch(err => console.error(err))
 
 
 export function postTrip(userId, newTrip) {

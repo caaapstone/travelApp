@@ -25,7 +25,7 @@ export const fetchIdeas = (tripId, search) =>
     })
       .then(res =>
         dispatch(getIdeas(res.data)))
-      .catch(err => console.log(err))
+      .catch(err => console.error(err))
 
 
 /**

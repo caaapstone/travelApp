@@ -30,13 +30,3 @@ export default function reducer (state = defaultState, action) {
       return state
   }
 }
-//map coordinates
-//thunks
-// export const getRoutes = (coords) => dispatch => {
-//   axios.get(`https://api.mapbox.com/directions/v5/mapbox/driving/${coords}?radiuses=unlimited;;100&geometries=polyline&access_token=pk.eyJ1IjoiYW1iaWwiLCJhIjoiY2pkMHNvaXp2MzhhdTJ4cngzMzk5dTJyMSJ9.BGoNBLsg0yW4Sswk3SaLjw`)
-//   .then(res => {
-//     console.log('routes data', res.data)
-//     // dispatch(getDailyRoutesActionCreator(res.data))
-//   })
-//   .catch(err => console.error(err))
-// }

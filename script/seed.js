@@ -68,9 +68,4 @@ seed()
     console.log('db connection closed')
   })
 
-/*
- * note: everything outside of the async function is totally synchronous
- * The console.log below will occur before any of the logs that occur inside
- * of the async function
- */
 console.log('seeding...')

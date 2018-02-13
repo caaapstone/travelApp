@@ -34,8 +34,6 @@ router.get('/trip', (req, res, next) => {
     }
   }
 
-  console.log('OPTIONS: ', options)
-
   Flight.destroy({
     where: {
       $and: [
