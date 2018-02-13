@@ -1,17 +1,8 @@
 import axios from 'axios'
 
-//FLIGHT ACTION TYPES
 const GET_ACTIVE_USER_FLIGHTS = 'GET_ACTIVE_USER_FLIGHTS'
 
-/**
- * ACTION CREATORS
- */
-
  const getActiveUserFlights = flights => ({type: GET_ACTIVE_USER_FLIGHTS, flights})
-
- /**
- * THUNK CREATORS
- */
 
  export const fetchActiveUserFlights = (tripId, userId) => dispatch => {
   axios.get('/api/flights/activeusercities', {
@@ -24,10 +15,6 @@ const GET_ACTIVE_USER_FLIGHTS = 'GET_ACTIVE_USER_FLIGHTS'
     dispatch(getActiveUserFlights(results.data))
   })
  }
-
-/**
- * REDUCER
- */
 
 export default function (activeUserCities = [], action) {
   switch (action.type) {

@@ -47,7 +47,7 @@ handleCityChange = (evt) => {
 
 airportAutoComplete(str) {
   const airportSearch = str
-  if(airportSearch.length >= 3){
+  if (airportSearch.length >= 3){
     this.setState({isLoading: true})
     axios.get('https://api.sandbox.amadeus.com/v1.2/airports/autocomplete', {
       params: {

@@ -1,22 +1,12 @@
 import axios from 'axios'
 
-/**
- * ACTION TYPES
- */
 const GET_TRIP = 'GET_TRIP'
 const CREATE_TRIP = 'CREATE_TRIP'
 const UPDATE_TRIP = 'UPDATE_TRIP'
-/**
- * ACTION CREATORS
- */
 
 const addTrip = trip => ({type: CREATE_TRIP, trip})
 const getTrip = trip => ({type: GET_TRIP, trip})
 const update = trip => ({type: UPDATE_TRIP, trip})
-/**
- * THUNK CREATORS
- */
-
 
 export const fetchTrip = (tripId) =>
   dispatch =>
@@ -24,7 +14,6 @@ export const fetchTrip = (tripId) =>
       .then(res =>
         dispatch(getTrip(res.data)))
       .catch(err => console.error(err))
-
 
 export function postTrip(userId, newTrip) {
   return function thunk(dispatch) {
@@ -57,9 +46,6 @@ export const fetchTripInfo = (tripId) => dispatch => {
     .catch(err => console.error(err))
 }
 
-/**
- * REDUCER
- */
 export default function (trips = {}, action) {
   switch (action.type) {
     // do we need this to be on state? (create trip)

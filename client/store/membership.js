@@ -1,24 +1,13 @@
 import axios from 'axios'
 import history from '../history'
 
-/**
- * ACTION TYPES
- */
 const CREATE_MEMBERSHIP = 'CREATE_MEMBERSHIP'
 const GET_TRIP_MEMBERSHIP = 'GET_TRIP_MEMBERSHIP'
 const UPDATE_MEMBERSHIP = 'UPDATE_MEMBERSHIP'
 
-/**
- * ACTION CREATORS
- */
-
 const addMembership = membership => ({type: CREATE_MEMBERSHIP, membership})
 const getTripMembership = membership => ({type: GET_TRIP_MEMBERSHIP, membership})
 const update = membership => ({type: UPDATE_MEMBERSHIP, membership})
-
-/**
- * THUNK CREATORS
- */
 
   export function postOrganizerMembership(newMembership) {
     return function thunk(dispatch) {
@@ -30,7 +19,6 @@ const update = membership => ({type: UPDATE_MEMBERSHIP, membership})
     }
   }
 
-  // gets all users for one trip
   export let getMembership = tripId => dispatch => {
     axios.get(`/api/memberships/${tripId}`)
       .then(res => {
@@ -48,9 +36,7 @@ const update = membership => ({type: UPDATE_MEMBERSHIP, membership})
       .catch(err => console.error(err))
   }
 }
-/**
- * REDUCER
- */
+
 export default function (state = {}, action) {
   switch (action.type) {
     case CREATE_MEMBERSHIP:

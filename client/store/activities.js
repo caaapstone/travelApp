@@ -4,27 +4,11 @@ import firebase from 'firebase'
 const database = firebase.database()
 const activeListeners = new Map
 
-
-/**
- * ACTION TYPES
- */
 const SET_TRIP_ACTIVITIES = 'SET_TRIP_ACTIVITIES'
 
-/**
- * INITIAL STATE
- */
 const defaultActivities = []
 
-/**
- * ACTION CREATORS
- */
-
 const setTripActivities = activities => ({type: SET_TRIP_ACTIVITIES, activities})
-
-/**
- * THUNK CREATORS
- */
-
 
 export const subscribeToTripThunkCreator = (component, tripId) =>
   dispatch => {
@@ -66,9 +50,7 @@ export const updateOrDeleteActivity = (activityObj) =>
   axios.post('/api/activities/update-or-delete', activityObj)
     .then(() => console.log('success'))
     .catch(err => console.error(err))
-/**
- * REDUCER
- */
+
 export default function (state = defaultActivities, action) {
   switch (action.type) {
     case SET_TRIP_ACTIVITIES:

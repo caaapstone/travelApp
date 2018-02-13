@@ -35,8 +35,6 @@ class Itinerary extends Component {
   }
 
   componentDidMount(){
-    //if there are no activities when this mounts, we need to get the activities
-    // if(!this.props.activities.length) //dispatch something that will get the activities
     let activities = this.props.activities.filter(activity => {
       return activity.isActive
     })
