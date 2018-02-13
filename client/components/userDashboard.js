@@ -79,14 +79,14 @@ class UserDashboard extends Component {
                   return (
                     <div key={trip.id} className="trip-info">
                   <Link to={`/flights/${trip.tripId}/${user.id}`}><div className="trip-info-header"><div className="center-vertically">{trip.trip.name}</div></div></Link>
-                  <p className="no-margin">
+                  <div className="no-margin">
                   Destination:
                   {
                     trip.trip.destinationCity ?
                     <p>{trip.trip.destinationCity}, {trip.trip.destinationState}</p>
                     : ' TBD'
                   }
-                  </p>
+                  </div>
                   <p className="no-margin">{this.dateRange(trip.trip.arrivalDate)} - {this.dateRange(trip.trip.departureDate)}</p>
                   <p>Flight Budget: ${trip.flightBudget}</p>
                       <button onClick={() => history.push(`/trips/jointrip/${trip.tripId}`)} className="button-outline">Join Trip</button>
@@ -169,14 +169,14 @@ class UserDashboard extends Component {
               return (
                 <div key={trip.id} className="trip-info">
                   <Link to={`/flights/${trip.tripId}/${user.id}`}><div className="trip-info-header"><div className="center-vertically">{trip.trip.name}</div></div></Link>
-                  <p className="no-margin">
+                  <div className="no-margin">
                   Destination:
                   {
                     trip.trip.destinationCity.length
                       ? <p>{trip.trip.destinationCity}, {trip.trip.destinationState}</p>
                       : ' TBD'
                   }
-                  </p>
+                  </div>
                   <p className="no-margin">{this.dateRange(trip.trip.arrivalDate)} - {this.dateRange(trip.trip.departureDate)}</p>
                   <p>Flight Budget: ${trip.flightBudget}</p>
                   <button className="button" onClick={() => history.push(`/trip/${trip.trip.id}/itinerary`)}>See Itinerary</button>
