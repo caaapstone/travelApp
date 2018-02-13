@@ -1,20 +1,8 @@
 import axios from 'axios'
 
-/**
- * ACTION TYPES
- */
-
 const GET_DESTINATION_CITIES = 'GET_DESTINATION_CITIES'
 
-/**
- * ACTION CREATORS
- */
-
 const getDestinationCities = cities => ({type: GET_DESTINATION_CITIES, cities})
-
-/**
- * THUNK CREATORS
- */
 
  export const fetchDestinationCities = (tripId) => dispatch => {
   axios.get('/api/destinations/possiblecities', {
@@ -41,10 +29,6 @@ const getDestinationCities = cities => ({type: GET_DESTINATION_CITIES, cities})
     })
     .catch(err => console.error(err))
  }
-
- /**
- * REDUCER
- */
 
  export default function (destinationCities = [], action) {
    switch (action.type) {

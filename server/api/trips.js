@@ -28,7 +28,6 @@ router.post('/', function (req, res, next) {
   let arrivalDate = req.body.arrivalDate || null
   let departureDate = req.body.departureDate || null
   let userId = req.body.userId
-  // console.log("api user id", userId)
   let newTrip = {
     name,
     defaultBudget,

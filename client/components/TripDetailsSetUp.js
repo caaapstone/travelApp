@@ -7,9 +7,6 @@ import history from '../history'
 import axios from 'axios'
 import Loading from 'react-loading-components'
 
-/**
- * COMPONENT
- */
  export class TripDetailsSetUp extends Component {
   constructor(){
     super()
@@ -38,14 +35,12 @@ import Loading from 'react-loading-components'
 
   }
 
-/** CALENDAR PICKER **/
   handleDayClick = day => {
     this.setState({ selectedDay: day });
   }
-/*Update Trip Details*/
+
   changeTrip = (event) => {
     event.preventDefault()
-    console.log(event.target)
     let tripId = this.props.match.params.tripId
     let userId = this.props.user.id
     let trip = {
@@ -68,7 +63,6 @@ import Loading from 'react-loading-components'
       history.push(`/flights/${tripId}/${userId}`)
     }
 
-/* Prevent Submission */
 handleNameChange = (evt) => this.setState({ name: evt.target.value })
 handleBudgetChange = (evt) => this.setState({ budget: evt.target.value })
 handleArrivalChange = (evt) => this.setState({ arrival: evt.target.value })
@@ -77,11 +71,7 @@ handleCityChange = (evt) => {
   this.setState({ city: evt.target.value })
   this.airportAutoComplete(evt.target.value)
 }
-// handleStateChange = (evt) => this.setState({ state: evt.target.value })
 
-
-
-/** ADD FRIENDS **/
   handleChange = event => {
     const search = event.target.value
     this.setState({email: search})
@@ -104,7 +94,7 @@ handleCityChange = (evt) => {
 
   airportAutoComplete(str) {
     const airportSearch = str
-    if(airportSearch.length >= 3){
+    if (airportSearch.length >= 3){
       this.setState({isLoading: true})
       axios.get('https://api.sandbox.amadeus.com/v1.2/airports/autocomplete', {
         params: {
@@ -113,7 +103,6 @@ handleCityChange = (evt) => {
         }
       })
       .then(results => {
-        console.log(results.data.slice(0,5))
         let airportResults = results.data.slice(0,5)
         this.setState({airports: airportResults, isLoading: false})
       })
@@ -127,7 +116,6 @@ handleCityChange = (evt) => {
     this.setState({airports: []})
   }
 
-
   render(){
     const {name, budget, arrival, departure, city, state} = this.state
     const isEnabled =
@@ -137,8 +125,6 @@ handleCityChange = (evt) => {
       departure.length > 0 &&
       city.length > 0 &&
       state.length > 0;
-
-      console.log(isEnabled)
 
     const past = {before: new Date()}
     const {friendEmails} = this.state
@@ -198,7 +184,7 @@ handleCityChange = (evt) => {
                 type="date"
                 onChange={this.handleDepartureChange}
               />
-              <br/>
+              <br />
               <label>Where are you flying from?</label>
               <div id="airport-search-container">
               <input
@@ -238,9 +224,6 @@ handleCityChange = (evt) => {
   }
 }
 
-  /**
-  * CONTAINER
-  */
   const mapState = (state) => {
     return {
       user: state.user,

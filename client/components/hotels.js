@@ -6,10 +6,6 @@ import mapboxgl from 'mapbox-gl'
 import {fetchTripInfo, getHotels, fetchUsersOnTrip, setUserHotel, fetchUserHotel} from '../store'
 import { setTimeout } from 'timers';
 
-/**
- * COMPONENT
- */
-
 class Hotels extends Component {
   constructor(props) {
     super(props)
@@ -295,10 +291,6 @@ class Hotels extends Component {
     )
   }
 }
-
-/**
- * CONTAINER
- */
 
 const mapState = ({user, users, trip, possibleHotels, userHotel}, ownProps) => {
   return {

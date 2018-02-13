@@ -3,9 +3,6 @@ import {connect} from 'react-redux'
 import { postTrip } from '../store'
 import history from '../history'
 
-/**
- * COMPONENT
- */
  export class CreateTrip extends Component {
 
   submitTrip = (event) =>{
@@ -14,7 +11,6 @@ import history from '../history'
       name: event.target.tripName.value,
     }
     this.props.createTrip(trip)
-
   }
 
   render(){
@@ -39,9 +35,7 @@ import history from '../history'
             )
   }
 }
-/**
-* CONTAINER
-*/
+
 const mapState = (state) => {
   return {
     user: state.user

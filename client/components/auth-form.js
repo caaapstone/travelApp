@@ -7,9 +7,7 @@ import {Parallax} from 'react-parallax'
 const formStyles = {background: 'white', padding: 20, position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)'};
 const image2 = "https://images.unsplash.com/photo-1497302347632-904729bc24aa?ixlib=rb-0.3.5&s=7aedbd8f3945af053ad3f8a03e50b602&auto=format&fit=crop&w=1950&q=80";
 const image3 = "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=468a8c18f5d811cf03c654b653b5089e&auto=format&fit=crop&w=1350&q=80"
-/**
- * COMPONENT
- */
+
 const AuthForm = (props) => {
   const {name, displayName, handleSubmit, error} = props
 
@@ -67,13 +65,6 @@ const AuthForm = (props) => {
   )
 }
 
-/**
- * CONTAINER
- *   Note that we have two different sets of 'mapStateToProps' functions -
- *   one for Login, and one for Signup. However, they share the same 'mapDispatchToProps'
- *   function, and share the same Component. This is a good example of how we
- *   can stay DRY with interfaces that are very similar to each other!
- */
 const mapLogin = (state) => {
   return {
     name: 'login',
@@ -102,13 +93,9 @@ const mapDispatch = (dispatch) => {
   }
 }
 
-
 export const Login = connect(mapLogin, mapDispatch)(AuthForm)
 export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
 
-/**
- * PROP TYPES
- */
 AuthForm.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,

@@ -53,7 +53,6 @@ router.post('/', (req, res, next) => {
 })
 
 router.get('/possiblecities', (req, res, next) => {
-  console.log('tripid:', req.query.tripId)
   Destination.findAll({
     where: {
       tripId: req.query.tripId
@@ -70,9 +69,7 @@ router.post('/upvote', (req, res, next) => {
     }
   })
   .then(result => {
-    console.log('upVote results: ', result.dataValues.upVotes)
     if (result.dataValues.upVotes === 0) {
-      console.log('401 error being hit :(')
       res.status(401).send('You\'ve reached your max votes!')
     } else {
       result.update({
@@ -86,7 +83,6 @@ router.post('/upvote', (req, res, next) => {
           }
         })
         .then(result => {
-          console.log(result.dataValues)
           let newValue
           if(result.dataValues.upVote === null) {
             newValue = 1

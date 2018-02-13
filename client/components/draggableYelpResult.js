@@ -17,20 +17,15 @@ class DraggableYelpResult extends Component {
 
   onOpenModal(activity){
     this.setState({ ...this.state, selectedActivity: activity, open: true });
-    console.log('this.state(open): ', this.state)
   }
 
   onCloseModal(){
     this.setState({ ...this.state, selectedActivity: '', open: false });
-    console.log('this.state(close): ', this.state)
   }
 
 
   render() {
     const { activity, currentUser } = this.props
-    // the 'activity' prop is an object and includes the following:
-    // activityId, date, imageUrl, link, isActive, lat, long, name, time, tripId
-    //class Name "activity" has been removed if there are styling issues. add that back in first!
     let newClass = "activity"
     let now = new Date
     let time = now.getTime()
