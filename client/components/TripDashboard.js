@@ -18,10 +18,13 @@ class TripDashboard extends Component {
   }
 
   componentDidMount(){
-    const {getUsersOnTrip} = this.props
+    const {getUsersOnTrip, currentUser} = this.props
     let tripId = this.props.match.params.tripId
     if (!this.props.trip.name){
       this.props.getTripInfo(tripId)
+    }
+    if (currentUser.id === 31){
+      this.setState({...this.state, demoPopUp: true})
     }
     getUsersOnTrip(this.props.match.params.tripId)
   }
@@ -37,11 +40,7 @@ class TripDashboard extends Component {
   }
 
   render(){
-    const { trip, usersOnTrip, currentUser } = this.props;
-
-    if (currentUser.id === 31){
-      this.setState({...this.state, demoPopUp: true})
-    }
+    const { trip, usersOnTrip } = this.props;
 
     return (
       <div>
