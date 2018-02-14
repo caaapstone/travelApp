@@ -125,7 +125,7 @@ handleCityChange = (evt) => {
       departure.length > 0 &&
       city.length > 0 &&
       state.length > 0;
-
+    const isDemo = this.props.user.email === "demo@flock.com"
     const past = {before: new Date()}
     const {friendEmails} = this.state
     return (
@@ -142,6 +142,7 @@ handleCityChange = (evt) => {
                   onChange={this.handleNameChange}
                 />
                 <label htmlFor="emails">Invite your friends:</label>
+                <p style={{"color": "red"}} hidden={!isDemo}>Invite your friends is disabled for demo purposes!</p>
                 <input
                   value = {this.state.email}
                   className="airline-input"
@@ -150,7 +151,7 @@ handleCityChange = (evt) => {
                   onChange={this.handleChange}
                 />
 
-                <button onClick = {this.addFriend} className="button center-loading">+</button>
+                <button disabled={isDemo} onClick = {this.addFriend} className="button center-loading">+</button>
 
               {
                 friendEmails.map(friend =>{
