@@ -13,7 +13,6 @@ class BasicPieChart extends React.Component {
   }
 
   componentDidMount() {
-    console.log('stats props: ', this.props.data)
     const width = 600,
       height = 313,
       outerRadius = height / 2 - 20,

@@ -4,8 +4,6 @@ export default class ActivityPopUp extends Component {
 
   render() {
     let activity = this.props.activity
-     // the 'activity' prop is an object and includes the following:
-    // activityId, date, imageUrl, link, isActive, lat, long, name, time, tripId
   if (activity.yelpInfo){
     activity = this.props.activity.yelpInfo
     return (

@@ -48,10 +48,13 @@ class UserDashboard extends Component {
     let todaysDate = year + '-' + month + '-' + today
     const { user, userTrips, topCityActivities } = this.props
 
-    let invitations = userTrips.filter(trip => trip.joined === false && !trip.organizer)
+    let invitations = userTrips.filter(trip => trip.joined === false && !trip.organizer && trip.trip.arrivalDate !== null && trip.trip.departureDate !== null)
     let currentDate = Date.now()
-    let trips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) > currentDate))
-    let pastTrips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) < currentDate))
+    let trips = userTrips.filter(trip => {
+                      console.log("trip", trip)
+                      return trip.flightBudget && (new Date(trip.trip.arrivalDate) > currentDate) && trip.trip.arrivalDate !== null && trip.trip.departureDate !== null
+                    })
+    let pastTrips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) < currentDate) && trip.trip.arrivalDate !== null && trip.trip.departureDate !== null)
 
     // if(user.email === 'demo@flock.com') {
     //   history.push('/demo')
@@ -80,14 +83,14 @@ class UserDashboard extends Component {
                   return (
                     <div key={trip.id} className="trip-info">
                   <Link to={`/flights/${trip.tripId}/${user.id}`}><div className="trip-info-header"><div className="center-vertically">{trip.trip.name}</div></div></Link>
-                  <p className="no-margin">
+                  <div className="no-margin">
                   Destination:
                   {
                     trip.trip.destinationCity ?
                     <p>{trip.trip.destinationCity}, {trip.trip.destinationState}</p>
                     : ' TBD'
                   }
-                  </p>
+                  </div>
                   <p className="no-margin">{this.dateRange(trip.trip.arrivalDate)} - {this.dateRange(trip.trip.departureDate)}</p>
                   <p>Flight Budget: ${trip.flightBudget}</p>
                       <button onClick={() => history.push(`/trips/jointrip/${trip.tripId}`)} className="button-outline">Join Trip</button>
@@ -170,14 +173,14 @@ class UserDashboard extends Component {
               return (
                 <div key={trip.id} className="trip-info">
                   <Link to={`/flights/${trip.tripId}/${user.id}`}><div className="trip-info-header"><div className="center-vertically">{trip.trip.name}</div></div></Link>
-                  <p className="no-margin">
+                  <div className="no-margin">
                   Destination:
                   {
                     trip.trip.destinationCity.length
                       ? <p>{trip.trip.destinationCity}, {trip.trip.destinationState}</p>
                       : ' TBD'
                   }
-                  </p>
+                  </div>
                   <p className="no-margin">{this.dateRange(trip.trip.arrivalDate)} - {this.dateRange(trip.trip.departureDate)}</p>
                   <p>Flight Budget: ${trip.flightBudget}</p>
                   <button className="button" onClick={() => history.push(`/trip/${trip.trip.id}/itinerary`)}>See Itinerary</button>

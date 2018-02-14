@@ -1,24 +1,11 @@
 import axios from 'axios'
 import history from '../history'
 
-/**
- * ACTION TYPES
- */
-
 const GET_USERS = 'GET_USERS'
 const GET_USERS_ON_TRIP = 'GET_USERS_ON_TRIP'
 
-/**
- * ACTION CREATORS
- */
-
 const getUsers = users => ({type: GET_USERS, users})
 const getUsersOnTrip = users => ({type: GET_USERS_ON_TRIP, users})
-
-
-/**
- * THUNK CREATORS
- */
 
 export const getAllUsers = () =>
   dispatch =>
@@ -69,9 +56,6 @@ export const fetchUsersOnTrip = (tripId) => dispatch => {
   .catch(err => console.error(err))
 }
 
-/**
- * REDUCER
- */
 export default function (state = [], action) {
   switch (action.type) {
     case GET_USERS:

@@ -1,22 +1,10 @@
 import axios from 'axios'
 
-/**
- * ACTION TYPES
- */
-
 const SET_POSSIBLE_HOTELS = 'SET_POSSIBLE_HOTELS'
 const GET_POSSIBLE_HOTELS = 'GET_POSSIBLE_HOTELS'
 
-/**
- * ACTION CREATORS
- */
-
 const setPossibleHotels = hotels => ({type: SET_POSSIBLE_HOTELS, hotels})
 const getPossibleHotels = hotels => ({type: GET_POSSIBLE_HOTELS, hotels})
-
-/**
- * THUNK CREATORS
- */
 
  export const hotelSearch = (lat, long, tripId) => dispatch => {
    axios.get('/api/hotels/possible', {
@@ -49,10 +37,6 @@ const getPossibleHotels = hotels => ({type: GET_POSSIBLE_HOTELS, hotels})
      dispatch(getPossibleHotels(results.data))
    })
  }
-
- /**
- * REDUCER
- */
 
 export default function (hotels = [], action) {
   switch (action.type) {

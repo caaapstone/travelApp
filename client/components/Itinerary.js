@@ -35,8 +35,6 @@ class Itinerary extends Component {
   }
 
   componentDidMount(){
-    //if there are no activities when this mounts, we need to get the activities
-    // if(!this.props.activities.length) //dispatch something that will get the activities
     let activities = this.props.activities.filter(activity => {
       return activity.isActive
     })
@@ -73,7 +71,9 @@ class Itinerary extends Component {
   }
 
   createDate = date => {
-    let myDate = new Date(date).toDateString()
+    let myDate = new Date(date)
+    myDate.setDate(myDate.getDate() + 1)
+    myDate = myDate.toDateString()
     let weekday = myDate.slice(0,3)
     let month = myDate.slice(4,7)
     let day = myDate.slice(8,10) + ", "
@@ -147,7 +147,6 @@ class Itinerary extends Component {
     const bgImage = 'https://images.unsplash.com/photo-1508669232496-137b159c1cdb?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=5e05e923eadbc20a00da3a1a441dd3e3&auto=format&fit=crop&w=934&q=80'
     let days = Object.keys(this.state.activities)
     days = days.sort()
-          console.log(days)
     let {membership} = this.props
     if (!membership.length) return <div />
     return (

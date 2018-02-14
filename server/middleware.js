@@ -1,6 +1,5 @@
 module.exports = {
   isUser: function(req, res, next){
-    console.log('user params', req.params)
     let user = req.user
     if (user.id === +req.params.userId){
       return next()
@@ -9,7 +8,6 @@ module.exports = {
     }
   },
   isTripUser: function(req, res, next){
-  console.log('user params', req)
   let user = req.user
   if (user.id === +req.params.userId){
     return next()

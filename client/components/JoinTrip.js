@@ -47,7 +47,7 @@ handleCityChange = (evt) => {
 
 airportAutoComplete(str) {
   const airportSearch = str
-  if(airportSearch.length >= 3){
+  if (airportSearch.length >= 3){
     this.setState({isLoading: true})
     axios.get('https://api.sandbox.amadeus.com/v1.2/airports/autocomplete', {
       params: {
@@ -56,7 +56,6 @@ airportAutoComplete(str) {
       }
     })
     .then(results => {
-      console.log(results.data.slice(0,5))
       let airportResults = results.data.slice(0,5)
       this.setState({airports: airportResults, isLoading: false})
     })
@@ -71,7 +70,6 @@ airportSelected(airport) {
 }
 
 render(){
-console.log(this.props)
   return (
             <div className="createTrip-container">
               <div className="createTrip-inner-container">

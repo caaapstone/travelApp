@@ -31,7 +31,6 @@ export default class BasicPieChart extends React.Component {
             count: cities[key]
           })
         }
-        console.log('cities: ', data)
         this.setState({data: data.slice(0, 10), loading: false})
       })
   }

@@ -1,22 +1,10 @@
 import axios from 'axios'
 
-/**
- * ACTION TYPES
- */
-
 const SET_USER_HOTEL = 'SET_USER_HOTE'
 const GET_USER_HOTEL = 'GET_USER_HOTEL'
 
- /**
- * ACTION CREATORS
- */
-
 export const setUserHotel = hotel => ({type: SET_USER_HOTEL, hotel})
 const getUserHotel = hotel => ({type: GET_USER_HOTEL, hotel})
-
-/**
- * THUNK CREATORS
- */
 
 export const fetchUserHotel = (userId, tripId) => dispatch => {
   axios.get('/api/hotels/userhotel', {
@@ -33,10 +21,6 @@ export const fetchUserHotel = (userId, tripId) => dispatch => {
     }
   })
 }
-
-/**
- * REDUCER
- */
 
 export default function(userHotel = {}, action) {
   switch (action.type) {

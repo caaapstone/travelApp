@@ -15,7 +15,6 @@ router.get('/', (req, res, next) => {
 // get all users for one trip
 router.get('/:tripId', (req, res, next) => {
   let tripId = req.params.tripId
-  console.log('tripId', tripId)
   Membership.findAll({
     where: {
       tripId: tripId

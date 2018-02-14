@@ -19,10 +19,9 @@ router.post('/confirmation', (req, res, next) => {
     html: '<h3>You have been invited to join a trip with your friends!</h3><p>Click the below link to join your trip! If you do not have an account with us, you will have to create one to join the trip. LINK</p>'
   }, (error, info) => {
     if (error) {
-      console.log(error)
+      console.error(error)
       res.send(500)
     } else {
-      console.log('EMAIL SENT: ' + info.response)
       res.send(200)
     }
   })

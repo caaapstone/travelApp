@@ -57,7 +57,6 @@ class IdeaBoard extends Component {
     })
 
     this.state.drake.on('drop', (el, target, source, sibling) => {
-      console.log('dropped!')
       let now = new Date
       let time = now.getTime()
       const id = el.id
