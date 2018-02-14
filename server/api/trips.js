@@ -39,14 +39,14 @@ router.post('/', function (req, res, next) {
 
 
   let newActivity = {
-    name: "I'm an activity",
+    name: "I'm a sample activity!",
     date: '',
     time: '',
     isActive: '',
     lat: '',
     long: '',
     link: '',
-    imageUrl: '',
+    imageUrl: 'https://static.greatbigcanvas.com/images/square/pacific-art-group/low-angle-view-of-a-leaning-palm-tree-on-a-tropical-beach-trunk,1047108.jpg?max=128',
     tripId: '',
     timeUpdated: '',
     userUpdated: '',
