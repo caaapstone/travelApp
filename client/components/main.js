@@ -44,7 +44,6 @@ import history from '../history'
               ? <div>
                 {/* The navbar will show these links after you log in */}
                 <NavLink to="/home" className="nav-links">Dashboard</NavLink>
-                <NavLink onClick={this.submitTrip} to="/createtrip" className="nav-links">Create Trip</NavLink>
                 <a href="#" onClick={handleClick} className="nav-links">Logout</a>
               </div>
               : <div>

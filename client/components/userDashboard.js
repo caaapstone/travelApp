@@ -33,7 +33,6 @@ class UserDashboard extends Component {
     this.props.createTrip(userId)
   }
 
-
   render(){
     const tripDate = new Date()
     let year = tripDate.getFullYear().toString()
@@ -51,14 +50,13 @@ class UserDashboard extends Component {
     let invitations = userTrips.filter(trip => trip.joined === false && !trip.organizer && trip.trip.arrivalDate !== null && trip.trip.departureDate !== null)
     let currentDate = Date.now()
     let trips = userTrips.filter(trip => {
-                      console.log("trip", trip)
                       return trip.flightBudget && (new Date(trip.trip.arrivalDate) > currentDate) && trip.trip.arrivalDate !== null && trip.trip.departureDate !== null
                     })
     let pastTrips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) < currentDate) && trip.trip.arrivalDate !== null && trip.trip.departureDate !== null)
 
-    // if(user.email === 'demo@flock.com') {
-    //   history.push('/demo')
-    // }
+    // user.email === "demo@flock.com" &&
+    //   history.push('/trip/70/mytrip')
+
 
     if (userTrips){
       return (
@@ -67,7 +65,11 @@ class UserDashboard extends Component {
             <div id="adventure">
               <h1 className="raleway">Start your next adventure.</h1>
               <p>Invite your friends, set your budgets and we'll let you know where you can go and help you plan what you can do!</p>
-              <button className="button" onClick={this.submitTrip}>Create a Trip</button>
+              {
+                user.email === "demo@flock.com" ? <p style={{color: 'red'}}>Create a trip disabled for demo purposes.</p> :
+                <button className="button" onClick={this.submitTrip}>Create a Trip</button>
+              }
+
             </div>
             <div className="center-vertically">
               <img src="/images/map.png" id="map-image" />
