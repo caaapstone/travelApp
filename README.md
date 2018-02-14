@@ -21,8 +21,8 @@ Built as a group capstone project at Fullstack Academy.
 
 ## Team Members
 
-* **Alexa Billings** - [PurpleBooth](https://github.com/ambil)
-* **Alyssa Drobatz** - [PurpleBooth](https://github.com/adrobatz)
-* **Pat Noonan** - [PurpleBooth](https://github.com/pnoonan91)
-* **Alyssa Venere Braun** - [PurpleBooth](https://github.com/avbraun)
+* **Alexa Billings** - [GitHub](https://github.com/ambil)
+* **Alyssa Drobatz** - [GitHub](https://github.com/adrobatz)
+* **Pat Noonan** - [GitHub](https://github.com/pnoonan91)
+* **Alyssa Venere Braun** - [GitHub](https://github.com/avbraun)
 
