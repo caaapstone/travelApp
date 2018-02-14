@@ -4,7 +4,7 @@ import {Route, Switch, Router} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from './history'
 import {me} from './store'
-import {Main, Login, Signup, UserHome, Flights, CreateTrip, JoinTrip, MapBoard, CalendarBoard, IdeaBoard, TripDetailsSetUp, UserDashboard, TripDashboard, Hotels, LandingPage, Stats, Insights} from './components'
+import {Main, Login, Signup, UserHome, Flights, CreateTrip, JoinTrip, MapBoard, CalendarBoard, IdeaBoard, TripDetailsSetUp, UserDashboard, TripDashboard, Hotels, LandingPage, Stats, Insights, Demo} from './components'
 
 class Routes extends Component {
   componentDidMount () {
@@ -23,6 +23,7 @@ class Routes extends Component {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/testdata" component={Insights} />
+            <Route path="/demo" component={Demo} />
             {
               isLoggedIn &&
               <Switch>

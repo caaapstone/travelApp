@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {withRouter, NavLink, Link} from 'react-router-dom'
-import {logout, postTrip} from '../store'
+import {logout, postTrip, auth} from '../store'
 import history from '../history'
 
  export class Main extends Component {
@@ -11,9 +11,23 @@ import history from '../history'
     const userId = this.props.user.id
     this.props.createTrip(userId)
   }
-render(){
+  componentDidMount() {
+    let index = 0;
+    const colors = ['#B9CDDA', '#7E4E60']
+    let buttonNode = document.getElementById('demo-button')
+    setInterval(function () {
+      buttonNode.style.backgroundColor = colors[index]
+      if(!colors[index]) {
+        index = 0
+      } else {
+        index ++
+      }
+  }, 1100)
+  }
 
-  const {children, handleClick, isLoggedIn} = this.props
+  render(){
+
+  const {children, handleClick, isLoggedIn, logInDemoUser} = this.props
 
   return (
     <div>
@@ -37,6 +51,7 @@ render(){
                 {/* The navbar will show these links before you log in */}
                 <NavLink to="/login" className="nav-links">Login</NavLink>
                 <NavLink to="/signup" className="nav-links">Sign Up</NavLink>
+                <button id="demo-button" onClick={() => logInDemoUser('demo@flock.com', '123', 'login')}>Start a Demo!</button>
               </div>
           }
         </nav>
@@ -65,7 +80,11 @@ const mapDispatch = (dispatch) => {
         let tripId = trip.trip.id
         history.push(`/trips/tripdetails/${tripId}`)
       })
-    }
+    },
+    logInDemoUser(email, password, name) {
+      dispatch(auth(email, password, name))
+      history.push('/home')
+    },
   }
 }
 
