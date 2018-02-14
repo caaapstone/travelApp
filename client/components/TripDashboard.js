@@ -1,16 +1,22 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {CalendarBoard, MapBoard, IdeaBoard, Hotels, Itinerary} from '../components'
+import {CalendarBoard, MapBoard, IdeaBoard, Hotels, Itinerary, DemoPopUp} from '../components'
 import {fetchTrip, fetchUsersOnTrip} from '../store'
 import {Route, Switch, NavLink} from 'react-router-dom'
+import Modal from 'react-responsive-modal'
+
 
 class TripDashboard extends Component {
 
   constructor(props) {
     super(props)
-
+    this.state = {
+      demoPopUp: false
+    }
+    this.onCloseModal = this.onCloseModal.bind(this)
     this.dateRange = this.dateRange.bind(this)
   }
+
   componentDidMount(){
     const {getUsersOnTrip} = this.props
     let tripId = this.props.match.params.tripId
@@ -23,15 +29,25 @@ class TripDashboard extends Component {
   dateRange(arrival, departure) {
     arrival = arrival.split('-')
     departure = departure.split('-')
-
     return `${arrival[1]}/${arrival[2]}/${arrival[0]} - ${departure[1]}/${departure[2]}/${departure[0]}`
   }
 
+  onCloseModal(){
+    this.setState({...this.state, demoPopUp: false})
+  }
+
   render(){
-    const { trip, usersOnTrip } = this.props;
+    const { trip, usersOnTrip, currentUser } = this.props;
+
+    if (currentUser.id === 31){
+      this.setState({...this.state, demoPopUp: true})
+    }
 
     return (
       <div>
+        <Modal open={this.state.demoPopUp} onClose={this.onCloseModal} little>
+          <DemoPopUp />
+        </Modal>
       <div id="trip-dashboard-flex-header">
       {
         this.props.trip.arrivalDate
@@ -92,7 +108,8 @@ class TripDashboard extends Component {
 let mapStateToProps = state => {
   return {
     trip: state.trip,
-    usersOnTrip: state.users
+    usersOnTrip: state.users,
+    currentUser: state.user
   }
 }
 
