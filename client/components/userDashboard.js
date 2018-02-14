@@ -53,6 +53,10 @@ class UserDashboard extends Component {
     let trips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) > currentDate))
     let pastTrips = userTrips.filter(trip => trip.flightBudget && (new Date(trip.trip.arrivalDate) < currentDate))
 
+    // if(user.email === 'demo@flock.com') {
+    //   history.push('/demo')
+    // }
+
     if (userTrips){
       return (
         <div className="two-rem-padding full-page-center">

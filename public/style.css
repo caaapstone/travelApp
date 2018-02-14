@@ -1424,3 +1424,15 @@ button:focus {
 #hundred-p{
   width: 100%;
 }
+
+#demo-button {
+  transition: all 2.5s ease;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  border: 2px solid white;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #7E4E60;
+  padding: .25rem 1rem;
+}
