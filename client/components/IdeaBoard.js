@@ -210,7 +210,7 @@ class IdeaBoard extends Component {
           </div>
           <div id="group">
             <h2 className="purple-sub-head">Group Ideas</h2>
-            <p>Take a look at your friends' ideas! You can even drag them into your own idea board.</p>
+            <p>Take a look at these ideas found by your group! You can even drag them into your own idea board.</p>
             <div id="friends-ideas" className="friend-ideas dragula-container" ref={this.dragulaDecorator}>
               {
                 groupIdeas.map(activity => {
